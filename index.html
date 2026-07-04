@@ -19,12 +19,11 @@
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23E63321'/%3E%3Ctext x='32' y='42' font-family='monospace' font-size='28' fill='%23E8E6E1' text-anchor='middle'%3EOK%3C/text%3E%3C/svg%3E">
 
   <!-- ================= SCHRIFTEN =================
-       Genau 2 Familien:
+       Genau 2 Familien, selbst gehostet (siehe assets/fonts, @font-face
+       in style.css). Kein externer Request, keine Nutzerdaten an Google.
        1. Archivo (variabel, Breite bis Expanded) für Headlines und Fließtext
        2. IBM Plex Mono für Nav, Labels, Timecodes, Metadaten -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="preload" href="assets/fonts/archivo-variable.woff2" as="font" type="font/woff2" crossorigin>
 
   <link rel="stylesheet" href="style.css">
   <!-- main.js lädt anime.js dynamisch. Fällt das CDN aus, bleibt die Seite voll lesbar. -->
@@ -91,10 +90,10 @@
         <article class="project project--wide" data-animate>
           <span class="project-year" aria-hidden="true">2025</span>
           <!-- TODO: echte YouTube-ID in data-yt eintragen, dann lädt der Klick das Video (DSGVO: youtube-nocookie) -->
-          <div class="embed embed--cine" data-yt="DEINE_YOUTUBE_ID">
+          <div class="embed" data-yt="DEINE_YOUTUBE_ID">
             <img class="embed-thumb"
-                 src="https://placehold.co/1200x502/23211E/E8E6E1?text=ALLEIN+%2F+THUMBNAIL+%2F+PLATZHALTER"
-                 alt="Platzhalter für das Thumbnail des Kurzfilms ALLEIN" loading="lazy" width="1200" height="502">
+                 src="https://placehold.co/1280x720/23211E/E8E6E1?text=ALLEIN+%2F+THUMBNAIL+%2F+PLATZHALTER"
+                 alt="Platzhalter für das Thumbnail des Kurzfilms ALLEIN" loading="lazy" width="1280" height="720">
             <span class="embed-hover" aria-hidden="true">ALLEIN / 2025</span>
             <button class="embed-play" type="button">PLAY / VIDEO LADEN</button>
           </div>
@@ -108,10 +107,10 @@
         <!-- Projekt 2: Postcard-Challenge, ausgezeichnet. Zieht sich per Layout nach oben, überlappt Projekt 1. -->
         <article class="project project--pull" data-animate>
           <span class="award">SONDERPREIS DER JURY / POSTCARD-CHALLENGE 25/26</span>
-          <div class="embed embed--cine" data-yt="DEINE_YOUTUBE_ID">
+          <div class="embed" data-yt="DEINE_YOUTUBE_ID">
             <img class="embed-thumb"
-                 src="https://placehold.co/1200x502/23211E/E8E6E1?text=POSTCARD-CHALLENGE+%2F+THUMBNAIL+%2F+PLATZHALTER"
-                 alt="Platzhalter für das Thumbnail des Postcard-Challenge Kurzfilms" loading="lazy" width="1200" height="502">
+                 src="https://placehold.co/1280x720/23211E/E8E6E1?text=POSTCARD-CHALLENGE+%2F+THUMBNAIL+%2F+PLATZHALTER"
+                 alt="Platzhalter für das Thumbnail des Postcard-Challenge Kurzfilms" loading="lazy" width="1280" height="720">
             <span class="embed-hover" aria-hidden="true">POSTCARD-CHALLENGE / 2026</span>
             <button class="embed-play" type="button">PLAY / VIDEO LADEN</button>
           </div>
@@ -125,10 +124,10 @@
         <!-- Projekt 3: Aftermovies -->
         <article class="project project--left" data-animate>
           <span class="project-year project-year--low" aria-hidden="true">25/26</span>
-          <div class="embed embed--cine" data-yt="DEINE_YOUTUBE_ID">
+          <div class="embed" data-yt="DEINE_YOUTUBE_ID">
             <img class="embed-thumb"
-                 src="https://placehold.co/1200x502/23211E/E8E6E1?text=AFTERMOVIES+%2F+THUMBNAIL+%2F+PLATZHALTER"
-                 alt="Platzhalter für ein Aftermovie-Thumbnail" loading="lazy" width="1200" height="502">
+                 src="https://placehold.co/1280x720/23211E/E8E6E1?text=AFTERMOVIES+%2F+THUMBNAIL+%2F+PLATZHALTER"
+                 alt="Platzhalter für ein Aftermovie-Thumbnail" loading="lazy" width="1280" height="720">
             <span class="embed-hover" aria-hidden="true">AFTERMOVIES / 25/26</span>
             <button class="embed-play" type="button">PLAY / VIDEO LADEN</button>
           </div>
@@ -141,10 +140,10 @@
 
         <!-- Projekt 4: Kundendrehs -->
         <article class="project project--right" data-animate>
-          <div class="embed embed--cine" data-yt="DEINE_YOUTUBE_ID">
+          <div class="embed" data-yt="DEINE_YOUTUBE_ID">
             <img class="embed-thumb"
-                 src="https://placehold.co/1200x502/23211E/E8E6E1?text=KUNDENDREHS+%2F+THUMBNAIL+%2F+PLATZHALTER"
-                 alt="Platzhalter für ein Kundendreh-Thumbnail" loading="lazy" width="1200" height="502">
+                 src="https://placehold.co/1280x720/23211E/E8E6E1?text=KUNDENDREHS+%2F+THUMBNAIL+%2F+PLATZHALTER"
+                 alt="Platzhalter für ein Kundendreh-Thumbnail" loading="lazy" width="1280" height="720">
             <span class="embed-hover" aria-hidden="true">KUNDENDREHS / 25/26</span>
             <button class="embed-play" type="button">PLAY / VIDEO LADEN</button>
           </div>
@@ -237,7 +236,7 @@
         <span class="slug">SZENE 05 / INT. BESPRECHUNG / TAG</span>
         <span class="tc" data-tc="00:07:12:20">TC&nbsp;00:07:12:20</span>
       </div>
-      <h2 class="scene-title" data-split>ZUSAMMENARBEIT</h2>
+      <h2 class="scene-title scene-title--wrap" data-animate>ZUSAMMEN&shy;ARBEIT</h2>
 
       <p class="work-intro" data-animate>Neben den eigenen Filmen übernehme ich bezahlte Drehs. Kurz und ehrlich, das biete ich an:</p>
 
@@ -301,8 +300,11 @@
   <!-- ================= FOOTER / ABSPANN ================= -->
   <footer class="site-footer">
     <span>&copy; 2026 OSKAR KNAPP / MOSTVIERTEL, NIEDERÖSTERREICH</span>
-    <a href="impressum.html">IMPRESSUM</a>
-    <span>SCHNITT: ENDE / V1.4</span>
+    <span class="footer-links">
+      <a href="impressum/">IMPRESSUM</a>
+      <a href="datenschutz/">DATENSCHUTZ</a>
+    </span>
+    <span>SCHNITT: ENDE / V1.5</span>
   </footer>
 
 </body>
