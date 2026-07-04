@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ================= META / SEO ================= -->
+  <title>Oskar Knapp / Filmemacher aus dem Mostviertel</title>
+  <meta name="description" content="Oskar Knapp, 17, Filmemacher aus dem Mostviertel. Kurzfilme, Aftermovies und der Weg in die Filmbranche, dokumentiert als Doku-Serie auf YouTube.">
+  <meta property="og:title" content="Oskar Knapp / Filmemacher">
+  <meta property="og:description" content="17, Filmemacher, auf keiner Filmschule. Ich dokumentiere meinen Weg in die Filmbranche.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="de_AT">
+  <!-- TODO: og:image mit echtem Still ersetzen, sobald Material da ist -->
+  <meta property="og:image" content="https://placehold.co/1200x630/181714/E8E6E1?text=OSKAR+KNAPP+%2F+FILM">
+  <meta name="theme-color" content="#E8E6E1">
+
+  <!-- Favicon: rotes Quadrat mit OK, als Daten-URI, kein extra Request -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23E63321'/%3E%3Ctext x='32' y='42' font-family='monospace' font-size='28' fill='%23E8E6E1' text-anchor='middle'%3EOK%3C/text%3E%3C/svg%3E">
+
+  <!-- ================= SCHRIFTEN =================
+       Genau 2 Familien:
+       1. Archivo (variabel, Breite bis Expanded) für Headlines und Fließtext
+       2. IBM Plex Mono für Nav, Labels, Timecodes, Metadaten -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+  <!-- main.js lädt anime.js dynamisch. Fällt das CDN aus, bleibt die Seite voll lesbar. -->
+  <script type="module" src="main.js"></script>
+</head>
+<body>
+
+  <!-- Scroll-Fortschritt wie eine Timeline in DaVinci: dünner roter Balken ganz oben -->
+  <div class="progress" aria-hidden="true"></div>
+
+  <!-- ================= NAVIGATION: nur Textlinks ================= -->
+  <header class="site-nav">
+    <a class="nav-name" href="#start">OSKAR&nbsp;KNAPP</a>
+    <nav aria-label="Hauptnavigation">
+      <a href="#projekte">PROJEKTE</a>
+      <a href="#about">ABOUT</a>
+      <a href="#journey">JOURNEY</a>
+      <a href="#kontakt">KONTAKT</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- ================= SZENE 01 / HERO ================= -->
+    <section id="start" class="scene scene--hero">
+      <div class="scene-head">
+        <span class="slug">SZENE 01 / EXT. MOSTVIERTEL / TAG</span>
+        <span class="tc" data-tc="00:00:00:00">TC&nbsp;00:00:00:00</span>
+      </div>
+
+      <!-- Name riesig. JS teilt ihn in Buchstaben für den Stagger-Effekt. -->
+      <h1 class="hero-name" aria-label="Oskar Knapp">
+        <span class="hero-line" data-split>OSKAR</span>
+        <span class="hero-line hero-line--offset" data-split>KNAPP</span>
+      </h1>
+
+      <!-- PLATZHALTER: Showreel-Still oder Hintergrund-Video im Kinoformat 2.39:1 -->
+      <figure class="hero-frame">
+        <img src="https://placehold.co/1920x803/181714/E8E6E1?text=SHOWREEL+STILL+%2F+2.39%3A1+%2F+PLATZHALTER"
+             alt="Platzhalter für ein Showreel-Still im Kinoformat 2.39:1"
+             width="1920" height="803">
+      </figure>
+
+      <!-- Statement-Zeile: schlägt per Animation wie eine Filmklappe ein -->
+      <p class="hero-statement statement">Ich bin Oskar. 17, Filmemacher, und auf keiner Filmschule.</p>
+      <p class="hero-sub">Ich dokumentiere meinen Weg in die Filmbranche. Echte Projekte statt Theorie, alles selbst beigebracht, alles öffentlich.</p>
+
+      <a class="scroll-hint" href="#projekte">SCROLLEN <span aria-hidden="true">&darr;</span></a>
+    </section>
+
+    <!-- ================= SZENE 02 / PROJEKTE ================= -->
+    <section id="projekte" class="scene scene--projekte">
+      <div class="scene-head" data-animate>
+        <span class="slug">SZENE 02 / EXT. SET / TAG</span>
+        <span class="tc" data-tc="00:01:23:04">TC&nbsp;00:01:23:04</span>
+      </div>
+      <h2 class="scene-title" data-split>PROJEKTE</h2>
+
+      <div class="projects">
+
+        <!-- Projekt 1: Kurzfilm ALLEIN -->
+        <article class="project project--wide" data-animate>
+          <span class="project-year" aria-hidden="true">2025</span>
+          <!-- TODO: echte YouTube-ID in data-yt eintragen, dann lädt der Klick das Video (DSGVO: youtube-nocookie) -->
+          <div class="embed embed--cine" data-yt="DEINE_YOUTUBE_ID">
+            <img class="embed-thumb"
+                 src="https://placehold.co/1200x502/23211E/E8E6E1?text=ALLEIN+%2F+THUMBNAIL+%2F+PLATZHALTER"
+                 alt="Platzhalter für das Thumbnail des Kurzfilms ALLEIN" loading="lazy" width="1200" height="502">
+            <span class="embed-hover" aria-hidden="true">ALLEIN / 2025</span>
+            <button class="embed-play" type="button">PLAY / VIDEO LADEN</button>
+          </div>
+          <div class="project-info">
+            <h3 class="project-title">ALLEIN</h3>
+            <p class="project-meta">KURZFILM / DRAMA / 2025</p>
+            <p class="project-desc">Mein erster eigener Kurzfilm, ein Drama über Mobbing. Drehbuch, Regie, Kamera und Schnitt selbst gemacht.</p>
+          </div>
+        </article>
+
+        <!-- Projekt 2: Postcard-Challenge, ausgezeichnet. Zieht sich per Layout nach oben, überlappt Projekt 1. -->
+        <article class="project project--pull" data-animate>
+          <span class="award">SONDERPREIS DER JURY / POSTCARD-CHALLENGE 25/26</span>
+          <div class="embed embed--cine" data-yt="DEINE_YOUTUBE_ID">
+            <img class="embed-thumb"
+                 src="https://placehold.co/1200x502/23211E/E8E6E1?text=POSTCARD-CHALLENGE+%2F+THUMBNAIL+%2F+PLATZHALTER"
+                 alt="Platzhalter für das Thumbnail des Postcard-Challenge Kurzfilms" loading="lazy" width="1200" height="502">
+            <span class="embed-hover" aria-hidden="true">POSTCARD-CHALLENGE / 2026</span>
+            <button class="embed-play" type="button">PLAY / VIDEO LADEN</button>
+          </div>
+          <div class="project-info">
+            <h3 class="project-title">POSTCARD-CHALLENGE</h3>
+            <p class="project-meta">KURZFILM / KATEGORIE CLIP / 2026</p>
+            <p class="project-desc">Teamprojekt am SZ Ybbs. Sonderpreis der Jury in der Kategorie Clip, vergeben von der Diözese St. Pölten im Mai 2026.</p>
+          </div>
+        </article>
+
+        <!-- Projekt 3: Aftermovies -->
+        <article class="project project--left" data-animate>
+          <span class="project-year project-year--low" aria-hidden="true">25/26</span>
+          <div class="embed embed--cine" data-yt="DEINE_YOUTUBE_ID">
+            <img class="embed-thumb"
+                 src="https://placehold.co/1200x502/23211E/E8E6E1?text=AFTERMOVIES+%2F+THUMBNAIL+%2F+PLATZHALTER"
+                 alt="Platzhalter für ein Aftermovie-Thumbnail" loading="lazy" width="1200" height="502">
+            <span class="embed-hover" aria-hidden="true">AFTERMOVIES / 25/26</span>
+            <button class="embed-play" type="button">PLAY / VIDEO LADEN</button>
+          </div>
+          <div class="project-info">
+            <h3 class="project-title">AFTERMOVIES</h3>
+            <p class="project-meta">AUFTRAG / EVENTS / FORTLAUFEND</p>
+            <p class="project-desc">Events, verdichtet auf wenige Minuten. Schnitt mit Tempo, Grading mit Charakter.</p>
+          </div>
+        </article>
+
+        <!-- Projekt 4: Kundendrehs -->
+        <article class="project project--right" data-animate>
+          <div class="embed embed--cine" data-yt="DEINE_YOUTUBE_ID">
+            <img class="embed-thumb"
+                 src="https://placehold.co/1200x502/23211E/E8E6E1?text=KUNDENDREHS+%2F+THUMBNAIL+%2F+PLATZHALTER"
+                 alt="Platzhalter für ein Kundendreh-Thumbnail" loading="lazy" width="1200" height="502">
+            <span class="embed-hover" aria-hidden="true">KUNDENDREHS / 25/26</span>
+            <button class="embed-play" type="button">PLAY / VIDEO LADEN</button>
+          </div>
+          <div class="project-info">
+            <h3 class="project-title">KUNDENDREHS</h3>
+            <p class="project-meta">HOCHZEIT / IMAGEFILM / FORTLAUFEND</p>
+            <p class="project-desc">Hochzeiten und Imagefilme, abgewickelt über OK Media. Bezahlte Drehs unter echten Bedingungen.</p>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ================= SZENE 03 / ABOUT ================= -->
+    <section id="about" class="scene scene--about">
+      <div class="scene-head" data-animate>
+        <span class="slug">SZENE 03 / INT. SCHNITTPLATZ / NACHT</span>
+        <span class="tc" data-tc="00:03:41:16">TC&nbsp;00:03:41:16</span>
+      </div>
+      <h2 class="scene-title" data-split>ABOUT</h2>
+
+      <div class="about-grid">
+        <!-- Portrait überlappt bewusst ins Textraster -->
+        <figure class="about-portrait" data-animate>
+          <!-- PLATZHALTER: echtes Portrait-Foto einsetzen -->
+          <img src="https://placehold.co/900x1200/23211E/E8E6E1?text=PORTRAIT+%2F+PLATZHALTER"
+               alt="Platzhalter für ein Portrait von Oskar Knapp" loading="lazy" width="900" height="1200">
+          <figcaption class="mono-label">OSKAR KNAPP / MOSTVIERTEL, NÖ</figcaption>
+        </figure>
+
+        <div class="about-text" data-animate>
+          <p>Ich gehe auf eine IT-HTL, nicht auf eine Filmschule. Filmemachen bringe ich mir selbst bei. Kamera auf der Sony a6700, Schnitt und Color-Grading in DaVinci Resolve, dazu Regie und Drehbuch.</p>
+          <p>Statt auf einen Studienplatz zu warten, drehe ich. Mein erster Kurzfilm ALLEIN handelt von Mobbing. Geschrieben, gedreht und geschnitten mit dem, was da war.</p>
+          <p>Mit 17 kam die erste Auszeichnung. Beim Teamprojekt für die Postcard-Challenge 2025/26 gab es den Sonderpreis der Jury in der Kategorie Clip.</p>
+          <p>Der Plan ist einfach. Jedes Projekt besser machen als das letzte. Und den ganzen Weg zeigen, auch die Fehler.</p>
+        </div>
+
+        <span class="about-number" aria-hidden="true">17</span>
+      </div>
+    </section>
+
+    <!-- ================= SZENE 04 / JOURNEY ================= -->
+    <section id="journey" class="scene scene--journey">
+      <div class="scene-head" data-animate>
+        <span class="slug">SZENE 04 / EXT. UNTERWEGS / TAG</span>
+        <span class="tc" data-tc="00:05:58:08">TC&nbsp;00:05:58:08</span>
+      </div>
+      <h2 class="scene-title" data-split>JOURNEY</h2>
+
+      <p class="journey-intro" data-animate>Auf YouTube dokumentiere ich den ganzen Weg als fortlaufende Doku-Serie. Keine Tutorials, keine Tipps von oben herab. Nur was ich mache, was schiefgeht und was ich daraus lerne.</p>
+
+      <div class="journey-grid">
+        <!-- TODO: echte Folgen-IDs eintragen -->
+        <article class="journey-item" data-animate>
+          <div class="embed" data-yt="DEINE_YOUTUBE_ID">
+            <img class="embed-thumb" src="https://placehold.co/800x450/23211E/E8E6E1?text=DOKU+FOLGE+%2F+PLATZHALTER"
+                 alt="Platzhalter für eine Folge der Doku-Serie" loading="lazy" width="800" height="450">
+            <span class="embed-hover" aria-hidden="true">DOKU / FOLGE</span>
+            <button class="embed-play" type="button">PLAY</button>
+          </div>
+          <p class="mono-label">FOLGE / WARUM KEINE FILMSCHULE</p>
+        </article>
+        <article class="journey-item journey-item--down" data-animate>
+          <div class="embed" data-yt="DEINE_YOUTUBE_ID">
+            <img class="embed-thumb" src="https://placehold.co/800x450/23211E/E8E6E1?text=DOKU+FOLGE+%2F+PLATZHALTER"
+                 alt="Platzhalter für eine Folge der Doku-Serie" loading="lazy" width="800" height="450">
+            <span class="embed-hover" aria-hidden="true">DOKU / FOLGE</span>
+            <button class="embed-play" type="button">PLAY</button>
+          </div>
+          <p class="mono-label">FOLGE / HINTER DEN KULISSEN VON ALLEIN</p>
+        </article>
+        <article class="journey-item journey-item--lower" data-animate>
+          <div class="embed" data-yt="DEINE_YOUTUBE_ID">
+            <img class="embed-thumb" src="https://placehold.co/800x450/23211E/E8E6E1?text=DOKU+FOLGE+%2F+PLATZHALTER"
+                 alt="Platzhalter für eine Folge der Doku-Serie" loading="lazy" width="800" height="450">
+            <span class="embed-hover" aria-hidden="true">DOKU / FOLGE</span>
+            <button class="embed-play" type="button">PLAY</button>
+          </div>
+          <p class="mono-label">FOLGE / MEIN ERSTER BEZAHLTER DREH</p>
+        </article>
+      </div>
+
+      <a class="journey-cta" href="https://www.youtube.com/@Oskar_Knapp?sub_confirmation=1" target="_blank" rel="noopener">KANAL ABONNIEREN / @OSKAR_KNAPP</a>
+    </section>
+
+    <!-- ================= SZENE 05 / ZUSAMMENARBEIT ================= -->
+    <section id="zusammenarbeit" class="scene scene--work">
+      <div class="scene-head" data-animate>
+        <span class="slug">SZENE 05 / INT. BESPRECHUNG / TAG</span>
+        <span class="tc" data-tc="00:07:12:20">TC&nbsp;00:07:12:20</span>
+      </div>
+      <h2 class="scene-title" data-split>ZUSAMMENARBEIT</h2>
+
+      <p class="work-intro" data-animate>Neben den eigenen Filmen übernehme ich bezahlte Drehs. Kurz und ehrlich, das biete ich an:</p>
+
+      <ul class="work-list">
+        <li data-animate><span class="work-index">01</span>HOCHZEITSVIDEOS</li>
+        <li data-animate><span class="work-index">02</span>AFTERMOVIES</li>
+        <li data-animate><span class="work-index">03</span>IMAGEFILME</li>
+        <li data-animate><span class="work-index">04</span>EVENTS</li>
+      </ul>
+
+      <p class="work-note" data-animate>Business-Drehs laufen über OK Media. Anfrage genügt, den Rest klären wir direkt.</p>
+    </section>
+
+    <!-- ================= SZENE 06 / KONTAKT ================= -->
+    <section id="kontakt" class="scene scene--contact">
+      <div class="scene-head" data-animate>
+        <span class="slug">SZENE 06 / INT. POSTFACH / NACHT</span>
+        <span class="tc" data-tc="00:08:47:12">TC&nbsp;00:08:47:12</span>
+      </div>
+      <h2 class="scene-title" data-split>KONTAKT</h2>
+
+      <div class="contact-grid">
+        <p class="contact-intro" data-animate>Projekt, Frage oder einfach Hallo sagen. Schreib mir, ich antworte selbst.</p>
+
+        <!-- Formular via Web3Forms: POST auf api.web3forms.com/submit.
+             Ohne JS sendet das Formular klassisch, mit JS per fetch ohne Reload. -->
+        <form class="contact-form" action="https://api.web3forms.com/submit" method="POST" data-animate>
+          <!-- TODO: kostenlosen Access Key auf web3forms.com holen und hier eintragen -->
+          <input type="hidden" name="access_key" value="DEIN_ACCESS_KEY">
+          <input type="hidden" name="subject" value="Neue Nachricht über die Portfolio-Seite">
+          <input type="hidden" name="from_name" value="Portfolio Oskar Knapp">
+          <!-- Honeypot gegen Spam-Bots: bleibt unsichtbar und leer -->
+          <input type="checkbox" name="botcheck" class="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+          <div class="field">
+            <label for="name">NAME</label>
+            <input id="name" name="name" type="text" required autocomplete="name">
+          </div>
+          <div class="field">
+            <label for="email">E-MAIL</label>
+            <input id="email" name="email" type="email" required autocomplete="email">
+          </div>
+          <div class="field">
+            <label for="message">NACHRICHT</label>
+            <textarea id="message" name="message" rows="6" required></textarea>
+          </div>
+
+          <button class="submit" type="submit">NACHRICHT SENDEN</button>
+          <p class="form-status" role="status" aria-live="polite"></p>
+        </form>
+
+        <div class="contact-links" data-animate>
+          <!-- TODO: finale Kontakt-Mail und Instagram-Handle festlegen -->
+          <a href="mailto:raksoppank@gmail.com">E-MAIL / RAKSOPPANK@GMAIL.COM</a>
+          <a href="https://www.youtube.com/@Oskar_Knapp" target="_blank" rel="noopener">YOUTUBE / @OSKAR_KNAPP</a>
+          <a href="#" aria-disabled="true">INSTAGRAM / HANDLE FOLGT</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= FOOTER / ABSPANN ================= -->
+  <footer class="site-footer">
+    <span>&copy; 2026 OSKAR KNAPP / MOSTVIERTEL, NIEDERÖSTERREICH</span>
+    <!-- TODO: Impressum-Seite anlegen und verlinken -->
+    <a href="#">IMPRESSUM / FOLGT</a>
+    <span>SCHNITT: ENDE</span>
+  </footer>
+
+</body>
+</html>
