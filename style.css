@@ -1,0 +1,667 @@
+/* =============================================================
+   OSKAR KNAPP / PORTFOLIO
+   Farbwelt: warmes Papier-Grau, Anthrazit, Signalrot #E63321
+   Typo: Archivo (Display, Expanded) + IBM Plex Mono (Labels)
+   Layout: 12-Spalten-Raster, bewusste Brüche und Überlappungen
+   ============================================================= */
+
+/* ---------- Variablen ---------- */
+:root {
+  --paper: #E8E6E1;      /* warmer Grund */
+  --ink: #1C1B19;        /* fast schwarzes Anthrazit */
+  --red: #E63321;        /* Signalrot, EINZIGE Akzentfarbe */
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --gutter: clamp(1rem, 4vw, 4rem);   /* Seitenränder */
+}
+
+/* ---------- Basis ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem; /* Anker landen nicht unter der fixen Nav */
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  caret-color: var(--red);
+  overflow-x: hidden; /* Überlappungen dürfen nie horizontal scrollen */
+}
+
+/* Markierter Text in der Akzentfarbe */
+::selection { background: var(--red); color: var(--paper); }
+
+img { max-width: 100%; height: auto; display: block; }
+
+h1, h2, h3 { margin: 0; font-family: var(--display); }
+
+a { color: inherit; }
+
+:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
+
+/* ---------- Filmkorn-Overlay (SVG-Noise, kein Bild-Download) ---------- */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.05;
+  mix-blend-mode: multiply;
+}
+
+/* ---------- Scroll-Progress (wie eine Timeline) ---------- */
+.progress {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 3px;
+  background: var(--red);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  z-index: 9999;
+}
+
+/* ---------- Navigation ---------- */
+.site-nav {
+  position: fixed;
+  top: 3px; left: 0; right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.9rem var(--gutter);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  z-index: 100;
+  background: color-mix(in srgb, var(--paper) 82%, transparent);
+  backdrop-filter: blur(6px);
+}
+
+.site-nav a { text-decoration: none; }
+
+.site-nav nav { display: flex; gap: clamp(0.8rem, 2.5vw, 2rem); flex-wrap: wrap; }
+
+.site-nav nav a:hover,
+.site-nav nav a:focus-visible { color: var(--red); }
+
+.nav-name { font-weight: 600; }
+.nav-name:hover { color: var(--red); }
+
+/* ---------- Szenen-Grundgerüst ---------- */
+.scene {
+  position: relative;
+  padding: clamp(4rem, 12vh, 8rem) var(--gutter);
+  max-width: 90rem;
+  margin: 0 auto;
+}
+
+/* Szenen-Kopf: Drehbuch-Slug links, Timecode rechts, wie ein Schnittmarker */
+.scene-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--ink);
+  padding-top: 0.6rem;
+  margin-bottom: clamp(2rem, 5vh, 3.5rem);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+}
+
+.slug { font-weight: 500; }
+
+.tc {
+  color: var(--red);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* Szenen-Titel: groß, eng, expanded */
+.scene-title {
+  font-weight: 900;
+  font-stretch: 125%;
+  font-size: clamp(2.6rem, 8vw, 6.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  margin-bottom: clamp(2.5rem, 6vh, 5rem);
+}
+
+/* Buchstaben-Spans aus dem JS-Split */
+.char { display: inline-block; }
+
+/* Kleine Mono-Labels (Bildunterschriften, Folgen-Titel) */
+.mono-label {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  margin: 0.6rem 0 0;
+}
+
+/* =============================================================
+   SZENE 01 / HERO
+   ============================================================= */
+.scene--hero {
+  padding-top: clamp(6rem, 16vh, 10rem);
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.hero-name {
+  font-weight: 900;
+  font-stretch: 125%;
+  font-size: clamp(4rem, 16vw, 13rem);
+  line-height: 0.85;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 2; /* Name läuft über die Bildkante */
+  margin-bottom: -0.18em; /* Überlappung mit dem Hero-Bild */
+  pointer-events: none;
+}
+
+.hero-line { display: block; }
+
+/* Zweite Zeile: nur Kontur, versetzt. Der bewusste Layout-Bruch. */
+.hero-line--offset {
+  margin-left: clamp(2rem, 12vw, 12rem);
+  color: transparent;
+  -webkit-text-stroke: 2px var(--ink);
+}
+
+.hero-frame {
+  margin: 0;
+  position: relative;
+}
+
+.hero-frame img {
+  width: 100%;
+  aspect-ratio: 239 / 100; /* Kinoformat 2.39:1 */
+  object-fit: cover;
+}
+
+/* Statement wie eine Filmklappe: dunkler Balken, überlappt die Bildkante */
+.hero-statement {
+  position: relative;
+  z-index: 2;
+  display: inline-block;
+  align-self: flex-start;
+  margin: -1.6em 0 0 clamp(0.5rem, 6vw, 6rem);
+  padding: 0.55em 0.9em;
+  background: var(--ink);
+  color: var(--paper);
+  border-left: 6px solid var(--red);
+  font-weight: 700;
+  font-size: clamp(1.05rem, 2.6vw, 1.9rem);
+  line-height: 1.3;
+  transform-origin: 0% 100%; /* Drehpunkt unten links, wie eine Klappe */
+  max-width: 34ch;
+}
+
+.hero-sub {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  line-height: 1.7;
+  max-width: 46ch;
+  margin: 1.8rem 0 0 clamp(0.5rem, 6vw, 6rem);
+}
+
+.scroll-hint {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  color: var(--red);
+  text-decoration: none;
+  margin-top: auto;
+  padding-top: 3rem;
+  align-self: center;
+}
+
+.scroll-hint:hover { text-decoration: underline; }
+
+/* =============================================================
+   SZENE 02 / PROJEKTE: asymmetrisches Raster mit Überlappungen
+   ============================================================= */
+.projects {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: clamp(2rem, 6vh, 4rem) 2vw;
+}
+
+.project { position: relative; }
+
+/* Vier Einträge, bewusst versetzt statt Card-Grid */
+.project--wide  { grid-column: 1 / 8; }
+.project--pull  { grid-column: 7 / 13; margin-top: clamp(3rem, 10vh, 7rem); }
+.project--left  { grid-column: 2 / 8; margin-top: clamp(-4rem, -6vh, -2rem); }
+.project--right { grid-column: 8 / 13; margin-top: clamp(2rem, 8vh, 5rem); }
+
+/* Jahreszahl riesig am Rand, nur Kontur in Rot */
+.project-year {
+  position: absolute;
+  top: -0.55em;
+  right: -0.1em;
+  z-index: 3;
+  font-family: var(--display);
+  font-weight: 900;
+  font-stretch: 125%;
+  font-size: clamp(3rem, 7vw, 6rem);
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 2px var(--red);
+  pointer-events: none;
+}
+
+.project-year--low { top: auto; bottom: 4.5rem; right: auto; left: -0.35em; }
+
+/* Award-Label in Signalrot, Monospace, kein Icon */
+.award {
+  position: absolute;
+  top: -0.9rem;
+  left: 1rem;
+  z-index: 3;
+  background: var(--red);
+  color: var(--paper);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  padding: 0.4em 0.8em;
+}
+
+/* ---------- Embeds: Klick lädt das Video (DSGVO) ---------- */
+.embed {
+  position: relative;
+  overflow: hidden;
+  background: var(--ink);
+  aspect-ratio: 16 / 9;
+}
+
+.embed--cine { aspect-ratio: 239 / 100; }
+
+.embed-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 400ms ease-out;
+}
+
+/* Hover: Bild minimal skalieren, Titel/Jahr in Akzentfarbe einblenden */
+.project:hover .embed-thumb,
+.journey-item:hover .embed-thumb { transform: scale(1.03); }
+
+.embed-hover {
+  position: absolute;
+  top: 0.8rem;
+  left: 0.8rem;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  color: var(--red);
+  background: var(--ink);
+  padding: 0.3em 0.6em;
+  opacity: 0;
+  transition: opacity 300ms ease-out;
+  pointer-events: none;
+}
+
+.project:hover .embed-hover,
+.journey-item:hover .embed-hover { opacity: 1; }
+
+.embed-play {
+  position: absolute;
+  bottom: 0.8rem;
+  left: 0.8rem;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--paper);
+  background: var(--red);
+  border: 0;
+  padding: 0.6em 1em;
+  cursor: pointer;
+  transition: background 200ms ease-out, color 200ms ease-out;
+}
+
+.embed-play:hover {
+  background: var(--paper);
+  color: var(--red);
+}
+
+.embed iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.project-info { margin-top: 1.1rem; }
+
+.project-title {
+  font-weight: 900;
+  font-stretch: 125%;
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+
+.project-meta {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  color: var(--red);
+  margin: 0.4rem 0 0.6rem;
+}
+
+.project-desc {
+  margin: 0;
+  max-width: 44ch;
+  font-size: 0.95rem;
+}
+
+/* =============================================================
+   SZENE 03 / ABOUT
+   ============================================================= */
+.about-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 2rem 2vw;
+  position: relative;
+}
+
+.about-portrait {
+  grid-column: 1 / 6;
+  margin: 0;
+  margin-top: -4.5rem; /* Portrait schiebt sich über die Titelzeile */
+  position: relative;
+  z-index: 2;
+}
+
+.about-portrait img { aspect-ratio: 3 / 4; object-fit: cover; }
+
+.about-text {
+  grid-column: 6 / 12;
+  margin-left: -3vw; /* Text läuft über die Bildkante */
+  position: relative;
+  z-index: 3;
+  padding-top: 1rem;
+}
+
+.about-text p {
+  max-width: 52ch;
+  margin: 0 0 1.2em;
+  background: var(--paper); /* bleibt lesbar, wo er das Portrait überlappt */
+  box-decoration-break: clone;
+}
+
+/* Riesige 17 am rechten Rand, nur Kontur */
+.about-number {
+  position: absolute;
+  right: -0.06em;
+  bottom: -0.2em;
+  font-weight: 900;
+  font-stretch: 125%;
+  font-size: clamp(6rem, 18vw, 16rem);
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 2px var(--red);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* =============================================================
+   SZENE 04 / JOURNEY
+   ============================================================= */
+.journey-intro {
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
+  max-width: 52ch;
+  margin: 0 0 3rem;
+}
+
+.journey-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 2rem 2vw;
+}
+
+.journey-item { grid-column: span 4; margin: 0; }
+.journey-item--down { margin-top: 3rem; }
+.journey-item--lower { margin-top: 6rem; }
+
+.journey-cta {
+  display: inline-block;
+  margin-top: 3rem;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--paper);
+  background: var(--red);
+  padding: 0.9em 1.4em;
+  text-decoration: none;
+  transition: background 200ms ease-out;
+}
+
+.journey-cta:hover { background: var(--ink); }
+
+/* =============================================================
+   SZENE 05 / ZUSAMMENARBEIT
+   ============================================================= */
+.work-intro { max-width: 48ch; margin: 0 0 2.5rem; }
+
+.work-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-width: 44rem;
+}
+
+.work-list li {
+  display: flex;
+  align-items: baseline;
+  gap: 1.5rem;
+  padding: 1rem 0;
+  border-top: 1px solid var(--ink);
+  font-weight: 900;
+  font-stretch: 125%;
+  font-size: clamp(1.2rem, 3vw, 2rem);
+  letter-spacing: -0.01em;
+}
+
+.work-list li:last-child { border-bottom: 1px solid var(--ink); }
+
+.work-index {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--red);
+  letter-spacing: 0.1em;
+}
+
+.work-note {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  margin: 2.5rem 0 0;
+  max-width: 52ch;
+}
+
+/* =============================================================
+   SZENE 06 / KONTAKT
+   ============================================================= */
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 2rem 2vw;
+}
+
+.contact-intro {
+  grid-column: 1 / 5;
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
+  margin: 0;
+}
+
+.contact-form { grid-column: 5 / 12; }
+
+/* Honeypot unsichtbar für Menschen */
+.botcheck { display: none; }
+
+.field { margin-bottom: 1.4rem; }
+
+.field label {
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  margin-bottom: 0.4rem;
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  background: transparent;
+  border: 1px solid var(--ink);
+  border-radius: 0;
+  padding: 0.8em;
+  font-family: var(--mono);
+  font-size: 0.9rem;
+  color: var(--ink);
+}
+
+.field input:focus-visible,
+.field textarea:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 0;
+  border-color: var(--red);
+}
+
+.submit {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--paper);
+  background: var(--red);
+  border: 0;
+  padding: 0.9em 1.6em;
+  cursor: pointer;
+  transition: background 200ms ease-out;
+}
+
+.submit:hover { background: var(--ink); }
+.submit:disabled { opacity: 0.6; cursor: wait; }
+
+.form-status {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  margin: 1rem 0 0;
+  min-height: 1.2em;
+}
+
+.form-status[data-state="error"] { color: var(--red); }
+
+.contact-links {
+  grid-column: 1 / 12;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 3rem;
+  margin-top: 3rem;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+}
+
+.contact-links a {
+  text-decoration: none;
+  border-bottom: 2px solid var(--red);
+  padding-bottom: 0.2em;
+}
+
+.contact-links a:hover { color: var(--red); }
+
+/* =============================================================
+   FOOTER / ABSPANN
+   ============================================================= */
+.site-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem 2rem;
+  flex-wrap: wrap;
+  padding: 2rem var(--gutter) 2.5rem;
+  border-top: 1px solid var(--ink);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+}
+
+.site-footer a { text-decoration: none; }
+.site-footer a:hover { color: var(--red); }
+
+/* =============================================================
+   MOBILE: einspaltig, gleiche Formensprache
+   ============================================================= */
+@media (max-width: 800px) {
+  .project--wide,
+  .project--pull,
+  .project--left,
+  .project--right {
+    grid-column: 1 / -1;
+    margin-top: 0;
+  }
+
+  .project--pull { margin-top: 2.5rem; }
+
+  .project-year { font-size: 3rem; top: -0.5em; right: 0; }
+  .project-year--low { bottom: 5rem; left: -0.2em; }
+
+  .about-portrait {
+    grid-column: 1 / -1;
+    margin-top: 0;
+    max-width: 22rem;
+  }
+
+  .about-text { grid-column: 1 / -1; margin-left: 0; }
+
+  .about-number { font-size: 6rem; bottom: -0.4em; }
+
+  .journey-item,
+  .journey-item--down,
+  .journey-item--lower {
+    grid-column: 1 / -1;
+    margin-top: 0;
+  }
+
+  .contact-intro,
+  .contact-form,
+  .contact-links { grid-column: 1 / -1; }
+
+  .hero-statement { margin-left: 0; }
+  .hero-sub { margin-left: 0; }
+}
+
+/* =============================================================
+   REDUZIERTE BEWEGUNG: alles aus
+   ============================================================= */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
