@@ -535,6 +535,38 @@ body::after {
   max-width: 52ch;
 }
 
+/* Kompakte FAQ im Schnitt-Stil: Frage im Mono-Label, Antwort im Fließtext */
+.faq {
+  margin-top: clamp(2.5rem, 6vh, 4rem);
+  max-width: 60ch;
+}
+
+.faq-item {
+  padding: 1.2rem 0;
+  border-top: 1px solid var(--ink);
+}
+
+.faq-item:last-child { border-bottom: 1px solid var(--ink); }
+
+.faq-q {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  margin: 0 0 0.5rem;
+}
+
+.faq-q::before {
+  content: "F / ";
+  color: var(--red);
+}
+
+.faq-a {
+  margin: 0;
+  font-size: 0.98rem;
+  max-width: 54ch;
+}
+
 /* =============================================================
    SZENE 06 / KONTAKT
    ============================================================= */

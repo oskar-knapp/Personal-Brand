@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://oskar-knapp.github.io/Personal-Brand/sitemap.xml

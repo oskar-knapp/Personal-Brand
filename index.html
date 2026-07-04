@@ -5,15 +5,110 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- ================= META / SEO ================= -->
-  <title>Oskar Knapp / Filmemacher aus dem Mostviertel</title>
-  <meta name="description" content="Oskar Knapp, Filmemacher aus dem Mostviertel. Kurzfilme, Aftermovies und der Weg in die Filmbranche, dokumentiert als Doku-Serie auf YouTube.">
-  <meta property="og:title" content="Oskar Knapp / Filmemacher">
-  <meta property="og:description" content="Filmemacher, auf keiner Filmschule. Ich dokumentiere meinen Weg in die Filmbranche.">
+  <title>Oskar Knapp / Videograf & Filmemacher Mostviertel</title>
+  <meta name="description" content="Oskar Knapp, Videograf und Filmemacher aus dem Mostviertel. Aftermovies, Imagefilme und Eventvideos in ganz Niederösterreich. Jetzt anfragen.">
+  <link rel="canonical" href="https://oskar-knapp.github.io/Personal-Brand/">
+  <meta name="author" content="Oskar Knapp">
+
+  <!-- Open Graph / Social -->
+  <meta property="og:title" content="Oskar Knapp / Videograf & Filmemacher aus dem Mostviertel">
+  <meta property="og:description" content="Aftermovies, Imagefilme und Eventvideos in Niederösterreich. Junger Filmemacher, alles selbst gedreht und geschnitten.">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="de_AT">
+  <meta property="og:url" content="https://oskar-knapp.github.io/Personal-Brand/">
+  <meta property="og:site_name" content="Oskar Knapp">
   <!-- TODO: og:image mit echtem Still ersetzen, sobald Material da ist -->
   <meta property="og:image" content="https://placehold.co/1200x630/181714/E8E6E1?text=OSKAR+KNAPP+%2F+FILM">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#E8E6E1">
+
+  <!-- ================= STRUKTURIERTE DATEN (Schema.org) =================
+       Macht die Person, die Leistungen und die FAQ für Google und
+       KI-Suchen eindeutig verständlich. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://oskar-knapp.github.io/Personal-Brand/#oskar",
+        "name": "Oskar Knapp",
+        "jobTitle": "Filmemacher und Videograf",
+        "url": "https://oskar-knapp.github.io/Personal-Brand/",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Loosdorf",
+          "postalCode": "3382",
+          "addressRegion": "Niederösterreich",
+          "addressCountry": "AT"
+        },
+        "sameAs": [
+          "https://www.youtube.com/@Oskar_Knapp",
+          "https://www.instagram.com/oskar.knapp/"
+        ],
+        "knowsAbout": ["Videoproduktion", "Filmemachen", "Videoschnitt", "Color Grading", "Aftermovie", "Imagefilm", "Eventvideo"]
+      },
+      {
+        "@type": "Service",
+        "@id": "https://oskar-knapp.github.io/Personal-Brand/#leistungen",
+        "serviceType": "Videoproduktion",
+        "provider": { "@id": "https://oskar-knapp.github.io/Personal-Brand/#oskar" },
+        "url": "https://oskar-knapp.github.io/Personal-Brand/",
+        "areaServed": [
+          { "@type": "AdministrativeArea", "name": "Mostviertel" },
+          { "@type": "AdministrativeArea", "name": "Niederösterreich" }
+        ],
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Videoproduktion",
+          "itemListElement": [
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Aftermovie" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Imagefilm" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Eventvideo" } }
+          ]
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://oskar-knapp.github.io/Personal-Brand/#website",
+        "url": "https://oskar-knapp.github.io/Personal-Brand/",
+        "name": "Oskar Knapp",
+        "inLanguage": "de-AT",
+        "about": { "@id": "https://oskar-knapp.github.io/Personal-Brand/#oskar" }
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://oskar-knapp.github.io/Personal-Brand/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Was kostet ein Video?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Das hängt von Länge, Drehzeit und Schnitt ab. Sag mir kurz, was du vorhast, dann bekommst du ein faires, unverbindliches Angebot."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "In welcher Region drehst du?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Im ganzen Mostviertel und in Niederösterreich, rund um Loosdorf, Melk, Ybbs, Amstetten und St. Pölten."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Wie läuft ein Dreh ab?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Kurze Anfrage, gemeinsames Konzept, Dreh vor Ort, danach Schnitt und Color Grading, fertige Übergabe im passenden Format."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
 
   <!-- Favicon: rotes Quadrat mit OK, als Daten-URI, kein extra Request -->
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23E63321'/%3E%3Ctext x='32' y='42' font-family='monospace' font-size='28' fill='%23E8E6E1' text-anchor='middle'%3EOK%3C/text%3E%3C/svg%3E">
@@ -238,15 +333,31 @@
       </div>
       <h2 class="scene-title scene-title--wrap" data-animate>ZUSAMMEN&shy;ARBEIT</h2>
 
-      <p class="work-intro" data-animate>Neben den eigenen Filmen übernehme ich bezahlte Drehs. Kurz und ehrlich, das biete ich an:</p>
+      <p class="work-intro" data-animate>Neben den eigenen Filmen arbeite ich als Videograf im Mostviertel und in ganz Niederösterreich. Kurz und ehrlich, das biete ich an:</p>
 
       <ul class="work-list">
         <li data-animate><span class="work-index">01</span>AFTERMOVIES</li>
         <li data-animate><span class="work-index">02</span>IMAGEFILME</li>
-        <li data-animate><span class="work-index">03</span>EVENTS</li>
+        <li data-animate><span class="work-index">03</span>EVENTVIDEOS</li>
       </ul>
 
       <p class="work-note" data-animate>Kein Agentur-Zwischenschritt, du redest direkt mit mir. Anfrage genügt, den Rest klären wir gemeinsam.</p>
+
+      <!-- Kompakte FAQ: bedient Nutzerfragen und liefert Inhalt für FAQ-Schema und KI-Suchen -->
+      <div class="faq">
+        <div class="faq-item" data-animate>
+          <h3 class="faq-q">Was kostet ein Video?</h3>
+          <p class="faq-a">Das hängt von Länge, Drehzeit und Schnitt ab. Sag mir kurz, was du vorhast, dann bekommst du ein faires, unverbindliches Angebot.</p>
+        </div>
+        <div class="faq-item" data-animate>
+          <h3 class="faq-q">In welcher Region drehst du?</h3>
+          <p class="faq-a">Im ganzen Mostviertel und in Niederösterreich, rund um Loosdorf, Melk, Ybbs, Amstetten und St. Pölten.</p>
+        </div>
+        <div class="faq-item" data-animate>
+          <h3 class="faq-q">Wie läuft ein Dreh ab?</h3>
+          <p class="faq-a">Kurze Anfrage, gemeinsames Konzept, Dreh vor Ort, danach Schnitt und Color Grading, fertige Übergabe im passenden Format.</p>
+        </div>
+      </div>
     </section>
 
     <!-- ================= SZENE 06 / KONTAKT ================= -->
@@ -304,7 +415,7 @@
       <a href="impressum/">IMPRESSUM</a>
       <a href="datenschutz/">DATENSCHUTZ</a>
     </span>
-    <span>SCHNITT: ENDE / V1.5</span>
+    <span>SCHNITT: ENDE / V1.6</span>
   </footer>
 
 </body>
