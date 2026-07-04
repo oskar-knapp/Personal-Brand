@@ -39,14 +39,15 @@ function setupAge() {
    Läuft ohne Library, rAF-gedrosselt.
    ------------------------------------------------------------- */
 function setupProgress() {
-  const bar = $(".progress");
-  if (!bar) return;
+  const fill = $(".progress-fill");
+  if (!fill) return;
 
   let ticking = false;
   const update = () => {
     const doc = document.documentElement;
     const max = doc.scrollHeight - window.innerHeight;
-    bar.style.transform = `scaleX(${max > 0 ? window.scrollY / max : 0})`;
+    const ratio = max > 0 ? window.scrollY / max : 0;
+    fill.style.width = `${(ratio * 100).toFixed(2)}%`;
     ticking = false;
   };
 
