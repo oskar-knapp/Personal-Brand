@@ -12,7 +12,30 @@ const $$ = (selector, context = document) => [...context.querySelectorAll(select
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 /* -------------------------------------------------------------
-   1. Scroll-Progress: roter Balken oben, wie eine Timeline.
+   1. Alter automatisch berechnen.
+   Geburtstag: 27. August 2010. Alle Elemente mit data-age zeigen
+   immer das aktuelle Alter, ohne dass jemand die Seite anfassen
+   muss. Der Wert im HTML ist nur der Fallback ohne JS.
+   ------------------------------------------------------------- */
+function setupAge() {
+  const BIRTH_YEAR = 2010;
+  const BIRTH_MONTH = 8; // August
+  const BIRTH_DAY = 27;
+
+  const now = new Date();
+  let age = now.getFullYear() - BIRTH_YEAR;
+  const beforeBirthday =
+    now.getMonth() + 1 < BIRTH_MONTH ||
+    (now.getMonth() + 1 === BIRTH_MONTH && now.getDate() < BIRTH_DAY);
+  if (beforeBirthday) age -= 1;
+
+  $$("[data-age]").forEach((el) => {
+    el.textContent = String(age);
+  });
+}
+
+/* -------------------------------------------------------------
+   2. Scroll-Progress: roter Balken oben, wie eine Timeline.
    Läuft ohne Library, rAF-gedrosselt.
    ------------------------------------------------------------- */
 function setupProgress() {
@@ -38,7 +61,7 @@ function setupProgress() {
 }
 
 /* -------------------------------------------------------------
-   2. YouTube-Embeds: DSGVO-freundlich.
+   3. YouTube-Embeds: DSGVO-freundlich.
    Erst der Klick lädt das iframe, und zwar via youtube-nocookie.
    ------------------------------------------------------------- */
 function setupEmbeds() {
@@ -72,7 +95,7 @@ function setupEmbeds() {
 }
 
 /* -------------------------------------------------------------
-   3. Kontaktformular: Web3Forms per fetch, ohne Reload.
+   4. Kontaktformular: Web3Forms per fetch, ohne Reload.
    ------------------------------------------------------------- */
 function setupForm() {
   const form = $(".contact-form");
@@ -116,7 +139,7 @@ function setupForm() {
 }
 
 /* -------------------------------------------------------------
-   4. Timecode-Werkzeuge: 24 Bilder pro Sekunde, Format HH:MM:SS:FF
+   5. Timecode-Werkzeuge: 24 Bilder pro Sekunde, Format HH:MM:SS:FF
    ------------------------------------------------------------- */
 const FPS = 24;
 
@@ -137,7 +160,7 @@ function framesToTc(total) {
 }
 
 /* -------------------------------------------------------------
-   5. Animationen mit anime.js v4.
+   6. Animationen mit anime.js v4.
    Startzustände werden erst HIER gesetzt (utils.set). Ohne JS
    ist also nichts versteckt. Alle Animationen max. 600ms.
    ------------------------------------------------------------- */
@@ -236,6 +259,7 @@ function initMotion({ animate, createTimeline, onScroll, stagger, utils }) {
 /* -------------------------------------------------------------
    Start
    ------------------------------------------------------------- */
+setupAge();
 setupProgress();
 setupEmbeds();
 setupForm();

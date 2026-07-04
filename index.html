@@ -6,9 +6,9 @@
 
   <!-- ================= META / SEO ================= -->
   <title>Oskar Knapp / Filmemacher aus dem Mostviertel</title>
-  <meta name="description" content="Oskar Knapp, 17, Filmemacher aus dem Mostviertel. Kurzfilme, Aftermovies und der Weg in die Filmbranche, dokumentiert als Doku-Serie auf YouTube.">
+  <meta name="description" content="Oskar Knapp, Filmemacher aus dem Mostviertel. Kurzfilme, Aftermovies und der Weg in die Filmbranche, dokumentiert als Doku-Serie auf YouTube.">
   <meta property="og:title" content="Oskar Knapp / Filmemacher">
-  <meta property="og:description" content="17, Filmemacher, auf keiner Filmschule. Ich dokumentiere meinen Weg in die Filmbranche.">
+  <meta property="og:description" content="Filmemacher, auf keiner Filmschule. Ich dokumentiere meinen Weg in die Filmbranche.">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="de_AT">
   <!-- TODO: og:image mit echtem Still ersetzen, sobald Material da ist -->
@@ -68,8 +68,10 @@
              width="1920" height="803">
       </figure>
 
-      <!-- Statement-Zeile: schlägt per Animation wie eine Filmklappe ein -->
-      <p class="hero-statement statement">Ich bin Oskar. 17, Filmemacher, und auf keiner Filmschule.</p>
+      <!-- Statement-Zeile: schlägt per Animation wie eine Filmklappe ein.
+           data-age wird per JS aus dem Geburtsdatum berechnet und
+           aktualisiert sich am Geburtstag automatisch. -->
+      <p class="hero-statement statement">Ich bin Oskar. <span data-age>15</span>, Filmemacher, und auf keiner Filmschule.</p>
       <p class="hero-sub">Ich dokumentiere meinen Weg in die Filmbranche. Echte Projekte statt Theorie, alles selbst beigebracht, alles öffentlich.</p>
 
       <a class="scroll-hint" href="#projekte">SCROLLEN <span aria-hidden="true">&darr;</span></a>
@@ -148,8 +150,8 @@
           </div>
           <div class="project-info">
             <h3 class="project-title">KUNDENDREHS</h3>
-            <p class="project-meta">HOCHZEIT / IMAGEFILM / FORTLAUFEND</p>
-            <p class="project-desc">Hochzeiten und Imagefilme, abgewickelt über OK Media. Bezahlte Drehs unter echten Bedingungen.</p>
+            <p class="project-meta">IMAGEFILM / EVENT / FORTLAUFEND</p>
+            <p class="project-desc">Imagefilme und Eventvideos. Bezahlte Drehs unter echten Bedingungen.</p>
           </div>
         </article>
 
@@ -176,11 +178,12 @@
         <div class="about-text" data-animate>
           <p>Ich gehe auf eine IT-HTL, nicht auf eine Filmschule. Filmemachen bringe ich mir selbst bei. Kamera auf der Sony a6700, Schnitt und Color-Grading in DaVinci Resolve, dazu Regie und Drehbuch.</p>
           <p>Statt auf einen Studienplatz zu warten, drehe ich. Mein erster Kurzfilm ALLEIN handelt von Mobbing. Geschrieben, gedreht und geschnitten mit dem, was da war.</p>
-          <p>Mit 17 kam die erste Auszeichnung. Beim Teamprojekt für die Postcard-Challenge 2025/26 gab es den Sonderpreis der Jury in der Kategorie Clip.</p>
+          <p>Mit 15 kam die erste Auszeichnung. Beim Teamprojekt für die Postcard-Challenge 2025/26 gab es den Sonderpreis der Jury in der Kategorie Clip.</p>
           <p>Der Plan ist einfach. Jedes Projekt besser machen als das letzte. Und den ganzen Weg zeigen, auch die Fehler.</p>
         </div>
 
-        <span class="about-number" aria-hidden="true">17</span>
+        <!-- Alter als große Randzahl, per JS immer aktuell -->
+        <span class="about-number" data-age aria-hidden="true">15</span>
       </div>
     </section>
 
@@ -239,13 +242,12 @@
       <p class="work-intro" data-animate>Neben den eigenen Filmen übernehme ich bezahlte Drehs. Kurz und ehrlich, das biete ich an:</p>
 
       <ul class="work-list">
-        <li data-animate><span class="work-index">01</span>HOCHZEITSVIDEOS</li>
-        <li data-animate><span class="work-index">02</span>AFTERMOVIES</li>
-        <li data-animate><span class="work-index">03</span>IMAGEFILME</li>
-        <li data-animate><span class="work-index">04</span>EVENTS</li>
+        <li data-animate><span class="work-index">01</span>AFTERMOVIES</li>
+        <li data-animate><span class="work-index">02</span>IMAGEFILME</li>
+        <li data-animate><span class="work-index">03</span>EVENTS</li>
       </ul>
 
-      <p class="work-note" data-animate>Business-Drehs laufen über OK Media. Anfrage genügt, den Rest klären wir direkt.</p>
+      <p class="work-note" data-animate>Kein Agentur-Zwischenschritt, du redest direkt mit mir. Anfrage genügt, den Rest klären wir gemeinsam.</p>
     </section>
 
     <!-- ================= SZENE 06 / KONTAKT ================= -->
@@ -262,8 +264,8 @@
         <!-- Formular via Web3Forms: POST auf api.web3forms.com/submit.
              Ohne JS sendet das Formular klassisch, mit JS per fetch ohne Reload. -->
         <form class="contact-form" action="https://api.web3forms.com/submit" method="POST" data-animate>
-          <!-- TODO: kostenlosen Access Key auf web3forms.com holen und hier eintragen -->
-          <input type="hidden" name="access_key" value="DEIN_ACCESS_KEY">
+          <!-- Web3Forms Access Key: öffentlicher Schlüssel, darf im Client stehen -->
+          <input type="hidden" name="access_key" value="2bedd721-f9a0-4fb2-8b85-1e246366e8d5">
           <input type="hidden" name="subject" value="Neue Nachricht über die Portfolio-Seite">
           <input type="hidden" name="from_name" value="Portfolio Oskar Knapp">
           <!-- Honeypot gegen Spam-Bots: bleibt unsichtbar und leer -->
@@ -287,10 +289,9 @@
         </form>
 
         <div class="contact-links" data-animate>
-          <!-- TODO: finale Kontakt-Mail und Instagram-Handle festlegen -->
-          <a href="mailto:raksoppank@gmail.com">E-MAIL / RAKSOPPANK@GMAIL.COM</a>
+          <a href="mailto:oskar.knapp@aon.at">E-MAIL / OSKAR.KNAPP@AON.AT</a>
           <a href="https://www.youtube.com/@Oskar_Knapp" target="_blank" rel="noopener">YOUTUBE / @OSKAR_KNAPP</a>
-          <a href="#" aria-disabled="true">INSTAGRAM / HANDLE FOLGT</a>
+          <a href="https://www.instagram.com/oskar.knapp/" target="_blank" rel="noopener">INSTAGRAM / @OSKAR.KNAPP</a>
         </div>
       </div>
     </section>
