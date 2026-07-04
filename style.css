@@ -5,6 +5,38 @@
    Layout: 12-Spalten-Raster, bewusste Brüche und Überlappungen
    ============================================================= */
 
+/* ---------- Schriften: selbst gehostet (kein externer Request,
+   damit keine Nutzerdaten an Google Fonts gehen) ---------- */
+@font-face {
+  font-family: "Archivo";
+  font-style: normal;
+  font-weight: 100 900;
+  font-stretch: 62.5% 125%; /* variable Breite bis Expanded */
+  font-display: swap;
+  src: url("assets/fonts/archivo-variable.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/fonts/ibm-plex-mono-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("assets/fonts/ibm-plex-mono-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("assets/fonts/ibm-plex-mono-600.woff2") format("woff2");
+}
+
 /* ---------- Variablen ---------- */
 :root {
   --paper: #E8E6E1;      /* warmer Grund */
@@ -138,6 +170,13 @@ body::after {
   margin-bottom: clamp(2.5rem, 6vh, 5rem);
 }
 
+/* Lange Wörter (ZUSAMMENARBEIT) brechen sauber mit Bindestrich statt
+   mitten im Wort. Fällt der Umbruch weg, bleibt es einzeilig. */
+.scene-title--wrap {
+  hyphens: manual;
+  overflow-wrap: break-word;
+}
+
 /* Buchstaben-Spans aus dem JS-Split */
 .char { display: inline-block; }
 
@@ -168,8 +207,8 @@ body::after {
   letter-spacing: -0.03em;
   text-transform: uppercase;
   position: relative;
-  z-index: 2; /* Name läuft über die Bildkante */
-  margin-bottom: -0.18em; /* Überlappung mit dem Hero-Bild */
+  z-index: 2;
+  margin-bottom: 0.15em; /* KNAPP steht klar über dem Bild, kein Hineinragen */
   pointer-events: none;
 }
 
@@ -246,7 +285,7 @@ body::after {
 /* Vier Einträge, bewusst versetzt statt Card-Grid */
 .project--wide  { grid-column: 1 / 8; }
 .project--pull  { grid-column: 7 / 13; margin-top: clamp(3rem, 10vh, 7rem); }
-.project--left  { grid-column: 2 / 8; margin-top: clamp(-4rem, -6vh, -2rem); }
+.project--left  { grid-column: 2 / 8; margin-top: clamp(2rem, 6vh, 4rem); }
 .project--right { grid-column: 8 / 13; margin-top: clamp(2rem, 8vh, 5rem); }
 
 /* Jahreszahl riesig am Rand, nur Kontur in Rot */
@@ -265,7 +304,8 @@ body::after {
   pointer-events: none;
 }
 
-.project-year--low { top: auto; bottom: 4.5rem; right: auto; left: -0.35em; }
+/* linke Spalte: Jahr oben rechts über dem Bild, klar von den Texten getrennt */
+.project-year--low { top: -0.55em; right: -0.1em; left: auto; bottom: auto; }
 
 /* Award-Label in Signalrot, Monospace, kein Icon */
 .award {
@@ -289,8 +329,6 @@ body::after {
   background: var(--ink);
   aspect-ratio: 16 / 9;
 }
-
-.embed--cine { aspect-ratio: 239 / 100; }
 
 .embed-thumb {
   width: 100%;
@@ -611,10 +649,20 @@ body::after {
 .site-footer a { text-decoration: none; }
 .site-footer a:hover { color: var(--red); }
 
+/* Rechtslinks als Gruppe in der Mitte des Footers */
+.footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+
 /* =============================================================
    IMPRESSUM
    ============================================================= */
 .scene--legal { padding-top: clamp(7rem, 16vh, 10rem); }
+
+/* Ein-Wort-Titel wie DATENSCHUTZ dürfen nicht überlaufen: kleinerer
+   Rahmen und Notbruch, falls es auf schmalen Screens eng wird */
+.scene--legal .scene-title {
+  font-size: clamp(1.8rem, 8vw, 5rem);
+  overflow-wrap: break-word;
+}
 
 .legal-text { max-width: 62ch; }
 
@@ -664,9 +712,8 @@ body::after {
 
   html { scroll-padding-top: 6.5rem; } /* Anker unter der höheren Nav */
 
-  /* Name überlappt das Hero-Bild mobil kaum noch: die dunkle Kontur
-     von KNAPP würde sonst im dunklen Bild verschwinden */
-  .hero-name { margin-bottom: 0.05em; }
+  /* KNAPP steht auch mobil klar über dem Bild, keine Kontur im Dunkeln */
+  .hero-name { margin-bottom: 0.15em; }
   .project--wide,
   .project--pull,
   .project--left,
