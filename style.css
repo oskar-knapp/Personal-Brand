@@ -535,9 +535,11 @@ body::after {
   border-radius: 0;
   padding: 0.8em;
   font-family: var(--mono);
-  font-size: 0.9rem;
+  font-size: 1rem; /* mind. 16px, sonst zoomt iOS beim Fokus in die Seite */
   color: var(--ink);
 }
+
+.field textarea { resize: none; }
 
 .field input:focus-visible,
 .field textarea:focus-visible {
@@ -610,9 +612,61 @@ body::after {
 .site-footer a:hover { color: var(--red); }
 
 /* =============================================================
+   IMPRESSUM
+   ============================================================= */
+.scene--legal { padding-top: clamp(7rem, 16vh, 10rem); }
+
+.legal-text { max-width: 62ch; }
+
+.legal-text h2 {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin: 2.2rem 0 0.6rem;
+}
+
+.legal-text p { margin: 0 0 1em; }
+
+.legal-text a {
+  text-decoration-color: var(--red);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.2em;
+  word-break: break-word;
+}
+
+.legal-text a:hover { color: var(--red); }
+
+/* =============================================================
    MOBILE: einspaltig, gleiche Formensprache
    ============================================================= */
 @media (max-width: 800px) {
+  /* Nav in zwei ruhigen Zeilen: Name oben, Links darunter
+     gleichmäßig verteilt, statt unkontrolliertem Umbruch */
+  .site-nav {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.55rem;
+    padding: 0.8rem 1rem;
+    font-size: 0.7rem;
+  }
+
+  .site-nav nav {
+    width: 100%;
+    justify-content: space-between;
+    gap: 0.5rem;
+    flex-wrap: nowrap;
+  }
+
+  .site-nav a { padding: 0.15em 0; } /* größere Tap-Flächen */
+
+  html { scroll-padding-top: 6.5rem; } /* Anker unter der höheren Nav */
+
+  /* Name überlappt das Hero-Bild mobil kaum noch: die dunkle Kontur
+     von KNAPP würde sonst im dunklen Bild verschwinden */
+  .hero-name { margin-bottom: 0.05em; }
   .project--wide,
   .project--pull,
   .project--left,
