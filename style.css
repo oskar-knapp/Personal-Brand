@@ -93,7 +93,7 @@ body::after {
 /* ---------- Scroll-Progress: Glas-Track mit Liquid-Glass-Fortschritt ---------- */
 .progress {
   position: fixed;
-  top: 0; left: 0;
+  top: env(safe-area-inset-top, 0px); left: 0;
   width: 100%; height: 6px;
   z-index: 9999;
   overflow: hidden;
@@ -138,17 +138,20 @@ body::after {
 /* ---------- Navigation ---------- */
 .site-nav {
   position: fixed;
-  top: 5px; left: 0; right: 0;
+  /* Bis ganz nach oben: das Glas reicht auf dem iPhone unter die
+     Statusleiste (safe-area), kein durchscheinender Streifen mehr. */
+  top: 0; left: 0; right: 0;
   display: flex;
   justify-content: space-between;
   align-items: baseline;
   gap: 1rem;
-  padding: 0.9rem var(--gutter);
+  padding: calc(0.9rem + env(safe-area-inset-top, 0px)) var(--gutter) 0.9rem;
   font-family: var(--mono);
   font-size: 0.75rem;
   letter-spacing: 0.08em;
   z-index: 100;
   background: color-mix(in srgb, var(--paper) 82%, transparent);
+  -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
 }
 
@@ -165,7 +168,7 @@ body::after {
 /* ---------- Szenen-Grundgerüst ---------- */
 .scene {
   position: relative;
-  padding: clamp(4rem, 12vh, 8rem) var(--gutter);
+  padding: clamp(2.5rem, 7vh, 4.5rem) var(--gutter);
   max-width: 90rem;
   margin: 0 auto;
 }
@@ -265,7 +268,7 @@ body::after {
 
 .hero-frame img {
   width: 100%;
-  aspect-ratio: 239 / 100; /* Kinoformat 2.39:1 */
+  aspect-ratio: 16 / 9; /* Showreel im 16:9-Format */
   object-fit: cover;
 }
 
@@ -426,7 +429,36 @@ body::after {
 }
 
 /* =============================================================
-   SZENE 03 / ABOUT
+   FOTOGRAFIE: 3x3-Raster.
+   Jede Zelle ist ein exaktes Quadrat, das Bild füllt sie per
+   object-fit: cover. So bleibt das Raster sauber, egal ob die
+   Fotos hoch, quer oder quadratisch sind.
+   ============================================================= */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(0.4rem, 1.2vw, 0.9rem);
+}
+
+.gallery-item {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 1 / 1;   /* gleiche Quadrate, unabhängig vom Bildformat */
+  overflow: hidden;
+  background: var(--ink);
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;     /* verschiedene Seitenverhältnisse sauber zugeschnitten */
+  transition: transform 400ms ease-out;
+}
+
+.gallery-item:hover img { transform: scale(1.04); }
+
+/* =============================================================
+   SZENE 04 / ABOUT
    ============================================================= */
 .about-grid {
   display: grid;
@@ -438,7 +470,7 @@ body::after {
 .about-portrait {
   grid-column: 1 / 6;
   margin: 0;
-  margin-top: -4.5rem; /* Portrait schiebt sich über die Titelzeile */
+  /* Abstand Titel -> Portrait genauso groß wie Titel -> Projekt-Cards */
   position: relative;
   z-index: 2;
 }
@@ -696,7 +728,7 @@ body::after {
   justify-content: space-between;
   gap: 1rem 2rem;
   flex-wrap: wrap;
-  padding: 2rem var(--gutter) 2.5rem;
+  padding: 2rem var(--gutter) calc(2.5rem + env(safe-area-inset-bottom, 0px));
   border-top: 1px solid var(--ink);
   font-family: var(--mono);
   font-size: 0.68rem;
@@ -754,15 +786,18 @@ body::after {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.55rem;
-    padding: 0.8rem 1rem;
-    font-size: 0.7rem;
+    /* Glas reicht bis unter die iPhone-Statusleiste (safe-area) */
+    padding: calc(0.8rem + env(safe-area-inset-top, 0px)) 1rem 0.8rem;
+    font-size: 0.66rem;
   }
 
+  /* Fünf Links passen auch auf schmale Handys ohne Gedränge */
   .site-nav nav {
     width: 100%;
     justify-content: space-between;
-    gap: 0.5rem;
+    gap: 0.4rem;
     flex-wrap: nowrap;
+    letter-spacing: 0.04em;
   }
 
   .site-nav a { padding: 0.15em 0; } /* größere Tap-Flächen */

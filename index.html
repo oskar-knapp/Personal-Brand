@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
   <!-- ================= META / SEO ================= -->
   <title>Oskar Knapp / Videograf & Filmemacher Mostviertel</title>
@@ -44,7 +44,8 @@
         },
         "sameAs": [
           "https://www.youtube.com/@Oskar_Knapp",
-          "https://www.instagram.com/oskar.knapp/"
+          "https://www.instagram.com/oskarknapp.at/",
+          "https://www.tiktok.com/@oskarknapp.at"
         ],
         "knowsAbout": ["Videoproduktion", "Filmemachen", "Videoschnitt", "Color Grading", "Aftermovie", "Imagefilm", "Eventvideo"]
       },
@@ -134,6 +135,7 @@
     <a class="nav-name" href="#start">OSKAR&nbsp;KNAPP</a>
     <nav aria-label="Hauptnavigation">
       <a href="#projekte">PROJEKTE</a>
+      <a href="#fotos">FOTOS</a>
       <a href="#about">ABOUT</a>
       <a href="#journey">JOURNEY</a>
       <a href="#kontakt">KONTAKT</a>
@@ -155,11 +157,11 @@
         <span class="hero-line hero-line--offset" data-split>KNAPP</span>
       </h1>
 
-      <!-- PLATZHALTER: Showreel-Still oder Hintergrund-Video im Kinoformat 2.39:1 -->
+      <!-- PLATZHALTER: Showreel-Still oder Hintergrund-Video im 16:9-Format -->
       <figure class="hero-frame">
-        <img src="https://placehold.co/1920x803/181714/E8E6E1?text=SHOWREEL+STILL+%2F+2.39%3A1+%2F+PLATZHALTER"
-             alt="Platzhalter für ein Showreel-Still im Kinoformat 2.39:1"
-             width="1920" height="803">
+        <img src="https://placehold.co/1920x1080/181714/E8E6E1?text=SHOWREEL+STILL+%2F+16%3A9+%2F+PLATZHALTER"
+             alt="Platzhalter für ein Showreel-Still im 16:9-Format"
+             width="1920" height="1080">
       </figure>
 
       <!-- Statement-Zeile: schlägt per Animation wie eine Filmklappe ein.
@@ -250,10 +252,64 @@
       </div>
     </section>
 
-    <!-- ================= SZENE 03 / ABOUT ================= -->
+    <!-- ================= SZENE 03 / FOTOGRAFIE ================= -->
+    <section id="fotos" class="scene scene--fotos">
+      <div class="scene-head" data-animate>
+        <span class="slug">SZENE 03 / EXT. FOTOSET / TAG</span>
+        <span class="tc" data-tc="00:02:30:00">TC&nbsp;00:02:30:00</span>
+      </div>
+      <h2 class="scene-title" data-split>FOTOS</h2>
+
+      <p class="journey-intro" data-animate>Stills von Drehs und eigene Fotoarbeiten. Ein Ausschnitt, laufend ergänzt.</p>
+
+      <!-- 3x3-Raster. Alle Zellen sind gleiche Quadrate, die Fotos werden
+           per object-fit: cover eingepasst. So bleibt das Raster sauber,
+           egal ob die Bilder hoch, quer oder quadratisch sind.
+           TODO: echte Fotos einsetzen. -->
+      <div class="gallery-grid">
+        <figure class="gallery-item" data-animate>
+          <img src="https://placehold.co/1200x800/23211E/E8E6E1?text=FOTO+01+%2F+QUER"
+               alt="Platzhalter für ein Foto im Querformat" loading="lazy" width="1200" height="800">
+        </figure>
+        <figure class="gallery-item" data-animate>
+          <img src="https://placehold.co/800x1200/23211E/E8E6E1?text=FOTO+02+%2F+HOCH"
+               alt="Platzhalter für ein Foto im Hochformat" loading="lazy" width="800" height="1200">
+        </figure>
+        <figure class="gallery-item" data-animate>
+          <img src="https://placehold.co/1000x1000/23211E/E8E6E1?text=FOTO+03+%2F+QUADRAT"
+               alt="Platzhalter für ein quadratisches Foto" loading="lazy" width="1000" height="1000">
+        </figure>
+        <figure class="gallery-item" data-animate>
+          <img src="https://placehold.co/900x1350/23211E/E8E6E1?text=FOTO+04+%2F+HOCH"
+               alt="Platzhalter für ein Foto im Hochformat" loading="lazy" width="900" height="1350">
+        </figure>
+        <figure class="gallery-item" data-animate>
+          <img src="https://placehold.co/1600x900/23211E/E8E6E1?text=FOTO+05+%2F+QUER"
+               alt="Platzhalter für ein Foto im Breitformat" loading="lazy" width="1600" height="900">
+        </figure>
+        <figure class="gallery-item" data-animate>
+          <img src="https://placehold.co/1080x1080/23211E/E8E6E1?text=FOTO+06+%2F+QUADRAT"
+               alt="Platzhalter für ein quadratisches Foto" loading="lazy" width="1080" height="1080">
+        </figure>
+        <figure class="gallery-item" data-animate>
+          <img src="https://placehold.co/1500x1000/23211E/E8E6E1?text=FOTO+07+%2F+QUER"
+               alt="Platzhalter für ein Foto im Querformat" loading="lazy" width="1500" height="1000">
+        </figure>
+        <figure class="gallery-item" data-animate>
+          <img src="https://placehold.co/720x1280/23211E/E8E6E1?text=FOTO+08+%2F+HOCH"
+               alt="Platzhalter für ein Foto im Hochformat" loading="lazy" width="720" height="1280">
+        </figure>
+        <figure class="gallery-item" data-animate>
+          <img src="https://placehold.co/1200x1200/23211E/E8E6E1?text=FOTO+09+%2F+QUADRAT"
+               alt="Platzhalter für ein quadratisches Foto" loading="lazy" width="1200" height="1200">
+        </figure>
+      </div>
+    </section>
+
+    <!-- ================= SZENE 04 / ABOUT ================= -->
     <section id="about" class="scene scene--about">
       <div class="scene-head" data-animate>
-        <span class="slug">SZENE 03 / INT. SCHNITTPLATZ / NACHT</span>
+        <span class="slug">SZENE 04 / INT. SCHNITTPLATZ / NACHT</span>
         <span class="tc" data-tc="00:03:41:16">TC&nbsp;00:03:41:16</span>
       </div>
       <h2 class="scene-title" data-split>ABOUT</h2>
@@ -279,10 +335,10 @@
       </div>
     </section>
 
-    <!-- ================= SZENE 04 / JOURNEY ================= -->
+    <!-- ================= SZENE 05 / JOURNEY ================= -->
     <section id="journey" class="scene scene--journey">
       <div class="scene-head" data-animate>
-        <span class="slug">SZENE 04 / EXT. UNTERWEGS / TAG</span>
+        <span class="slug">SZENE 05 / EXT. UNTERWEGS / TAG</span>
         <span class="tc" data-tc="00:05:58:08">TC&nbsp;00:05:58:08</span>
       </div>
       <h2 class="scene-title" data-split>JOURNEY</h2>
@@ -323,10 +379,10 @@
       <a class="journey-cta" href="https://www.youtube.com/@Oskar_Knapp?sub_confirmation=1" target="_blank" rel="noopener">KANAL ABONNIEREN / @OSKAR_KNAPP</a>
     </section>
 
-    <!-- ================= SZENE 05 / ZUSAMMENARBEIT ================= -->
+    <!-- ================= SZENE 06 / ZUSAMMENARBEIT ================= -->
     <section id="zusammenarbeit" class="scene scene--work">
       <div class="scene-head" data-animate>
-        <span class="slug">SZENE 05 / INT. BESPRECHUNG / TAG</span>
+        <span class="slug">SZENE 06 / INT. BESPRECHUNG / TAG</span>
         <span class="tc" data-tc="00:07:12:20">TC&nbsp;00:07:12:20</span>
       </div>
       <h2 class="scene-title scene-title--wrap" data-animate>ZUSAMMEN&shy;ARBEIT</h2>
@@ -342,10 +398,10 @@
       <p class="work-note" data-animate>Kein Agentur-Zwischenschritt, du redest direkt mit mir. Anfrage genügt, den Rest klären wir gemeinsam.</p>
     </section>
 
-    <!-- ================= SZENE 06 / KONTAKT ================= -->
+    <!-- ================= SZENE 07 / KONTAKT ================= -->
     <section id="kontakt" class="scene scene--contact">
       <div class="scene-head" data-animate>
-        <span class="slug">SZENE 06 / INT. POSTFACH / NACHT</span>
+        <span class="slug">SZENE 07 / INT. POSTFACH / NACHT</span>
         <span class="tc" data-tc="00:08:47:12">TC&nbsp;00:08:47:12</span>
       </div>
       <h2 class="scene-title" data-split>KONTAKT</h2>
@@ -383,7 +439,7 @@
         <div class="contact-links" data-animate>
           <a href="mailto:oskar.knapp@aon.at">
             <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><path d="M3 6l9 6.5L21 6"/></svg>
-            <span>E-MAIL / oskar.knapp@aont.at</span>
+            <span>E-MAIL / oskar.knapp@aon.at</span>
           </a>
           <a href="https://www.youtube.com/@Oskar_Knapp" target="_blank" rel="noopener">
             <svg class="contact-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23 12s0-3.2-.4-4.7a2.5 2.5 0 0 0-1.8-1.8C19.3 5 12 5 12 5s-7.3 0-8.8.5A2.5 2.5 0 0 0 1.4 7.3C1 8.8 1 12 1 12s0 3.2.4 4.7a2.5 2.5 0 0 0 1.8 1.8C4.7 19 12 19 12 19s7.3 0 8.8-.5a2.5 2.5 0 0 0 1.8-1.8C23 15.2 23 12 23 12zM9.8 15.3V8.7l6 3.3z"/></svg>
@@ -392,6 +448,10 @@
           <a href="https://www.instagram.com/oskarknapp.at/" target="_blank" rel="noopener">
             <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none"/></svg>
             <span>INSTAGRAM / @oskarknapp.at</span>
+          </a>
+          <a href="https://www.tiktok.com/@oskarknapp.at" target="_blank" rel="noopener">
+            <svg class="contact-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.5 3h-3v12.1a2.6 2.6 0 1 1-2-2.5V9.5a5.6 5.6 0 1 0 5 5.6V9.2a6.8 6.8 0 0 0 4 1.3V7.4a3.9 3.9 0 0 1-4-3.9V3z"/></svg>
+            <span>TIKTOK / @oskarknapp.at</span>
           </a>
         </div>
       </div>
@@ -406,7 +466,7 @@
       <a href="impressum/">IMPRESSUM</a>
       <a href="datenschutz/">DATENSCHUTZ</a>
     </span>
-    <span>SCHNITT: ENDE / V1.7</span>
+    <span>SCHNITT: ENDE / V1.8</span>
   </footer>
 
 </body>
