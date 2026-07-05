@@ -90,49 +90,23 @@ body::after {
   mix-blend-mode: multiply;
 }
 
-/* ---------- Scroll-Progress: Glas-Track mit Liquid-Glass-Fortschritt ---------- */
+/* ---------- Scroll-Progress: schlichter roter Fortschrittsbalken ---------- */
 .progress {
   position: fixed;
   top: env(safe-area-inset-top, 0px); left: 0;
-  width: 100%; height: 6px;
+  width: 100%; height: 4px;
   z-index: 9999;
   overflow: hidden;
-  /* Frosted-Glass-Track: der noch nicht gefüllte Teil wird milchig,
-     statt den blanken Seiteninhalt durchscheinen zu lassen */
-  background: color-mix(in srgb, var(--paper) 55%, transparent);
-  -webkit-backdrop-filter: blur(14px) saturate(180%);
-  backdrop-filter: blur(14px) saturate(180%);
-  box-shadow:
-    inset 0 1px 0 color-mix(in srgb, #fff 55%, transparent),
-    inset 0 -1px 0 color-mix(in srgb, var(--ink) 18%, transparent);
+  background: transparent; /* kein Track, keine Kontur */
 }
 
-/* Roter Fortschritt mit Glanz und Leuchten (Liquid Glass) */
+/* Flacher roter Fortschritt, ohne Glanz und Schatten */
 .progress-fill {
   display: block;
-  position: relative;
   height: 100%;
   width: 0;
-  background: linear-gradient(90deg, color-mix(in srgb, var(--red) 82%, #7d1810), var(--red));
-  box-shadow: 0 0 10px 1px color-mix(in srgb, var(--red) 60%, transparent);
+  background: var(--red);
   transition: width 120ms linear;
-}
-
-/* Glanzstreifen oben */
-.progress-fill::after {
-  content: "";
-  position: absolute;
-  inset: 0 0 55% 0;
-  background: linear-gradient(180deg, color-mix(in srgb, #fff 55%, transparent), transparent);
-}
-
-/* helle Vorderkante, wie ein flüssiger Meniskus */
-.progress-fill::before {
-  content: "";
-  position: absolute;
-  top: 0; bottom: 0; right: 0;
-  width: 16px;
-  background: linear-gradient(90deg, transparent, color-mix(in srgb, #fff 45%, transparent));
 }
 
 /* ---------- Navigation ---------- */
@@ -150,9 +124,9 @@ body::after {
   font-size: 0.75rem;
   letter-spacing: 0.08em;
   z-index: 100;
-  background: color-mix(in srgb, var(--paper) 82%, transparent);
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
+  background: color-mix(in srgb, var(--paper) 86%, transparent);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
 }
 
 .site-nav a { text-decoration: none; }
@@ -168,7 +142,7 @@ body::after {
 /* ---------- Szenen-Grundgerüst ---------- */
 .scene {
   position: relative;
-  padding: clamp(2.5rem, 7vh, 4.5rem) var(--gutter);
+  padding: clamp(1.25rem, 3.5vh, 2.5rem) var(--gutter);
   max-width: 90rem;
   margin: 0 auto;
 }
@@ -429,29 +403,33 @@ body::after {
 }
 
 /* =============================================================
-   FOTOGRAFIE: 3x3-Raster.
-   Jede Zelle ist ein exaktes Quadrat, das Bild füllt sie per
-   object-fit: cover. So bleibt das Raster sauber, egal ob die
-   Fotos hoch, quer oder quadratisch sind.
+   FOTOGRAFIE: automatisches Masonry über CSS-Spalten.
+   Jedes Foto behält sein echtes Seitenverhältnis. Neue Fotos
+   einfach als weiteres <figure class="gallery-item"> einfügen,
+   der Rest ordnet sich von allein an. Die Spaltenzahl passt
+   sich an die Breite an, damit die Kacheln nie zu groß werden.
    ============================================================= */
 .gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: clamp(0.4rem, 1.2vw, 0.9rem);
+  column-count: 5;
+  column-gap: clamp(0.5rem, 1vw, 0.8rem);
 }
 
+@media (max-width: 1200px) { .gallery-grid { column-count: 4; } }
+@media (max-width: 900px)  { .gallery-grid { column-count: 3; } }
+@media (max-width: 560px)  { .gallery-grid { column-count: 2; } }
+
 .gallery-item {
-  position: relative;
-  margin: 0;
-  aspect-ratio: 1 / 1;   /* gleiche Quadrate, unabhängig vom Bildformat */
+  margin: 0 0 clamp(0.5rem, 1vw, 0.8rem);
+  break-inside: avoid;      /* ein Foto wird nie über zwei Spalten getrennt */
   overflow: hidden;
   background: var(--ink);
+  line-height: 0;           /* kein Leerraum unter dem Bild */
 }
 
 .gallery-item img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;     /* verschiedene Seitenverhältnisse sauber zugeschnitten */
+  height: auto;             /* echtes Seitenverhältnis bleibt erhalten */
+  display: block;
   transition: transform 400ms ease-out;
 }
 

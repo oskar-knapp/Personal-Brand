@@ -255,53 +255,64 @@
     <!-- ================= SZENE 03 / FOTOGRAFIE ================= -->
     <section id="fotos" class="scene scene--fotos">
       <div class="scene-head" data-animate>
-        <span class="slug">SZENE 03 / EXT. FOTOSET / TAG</span>
+        <span class="slug">SZENE 03 / EXT. AUF REISEN / TAG</span>
         <span class="tc" data-tc="00:02:30:00">TC&nbsp;00:02:30:00</span>
       </div>
       <h2 class="scene-title" data-split>FOTOS</h2>
 
-      <p class="journey-intro" data-animate>Stills von Drehs und eigene Fotoarbeiten. Ein Ausschnitt, laufend ergänzt.</p>
+      <p class="journey-intro" data-animate>Meine liebsten Aufnahmen, unterwegs und auf Reisen entstanden. Keine Auftragsdrehs, einfach Momente die mir gefallen.</p>
 
-      <!-- 3x3-Raster. Alle Zellen sind gleiche Quadrate, die Fotos werden
-           per object-fit: cover eingepasst. So bleibt das Raster sauber,
-           egal ob die Bilder hoch, quer oder quadratisch sind.
-           TODO: echte Fotos einsetzen. -->
+      <!-- Foto-Galerie als automatisches Masonry (siehe .gallery-grid in style.css).
+           NEUES FOTO HINZUFÜGEN: einfach einen weiteren Block wie diesen einfügen,
+           die Anordnung passiert von selbst. width/height auf die echten Maße
+           setzen (verhindert Springen beim Laden), sonst nichts nötig:
+
+             <figure class="gallery-item" data-animate>
+               <img src="assets/fotos/DEIN-FOTO.jpg" alt="Kurze Beschreibung"
+                    loading="lazy" width="BREITE" height="HÖHE">
+             </figure>
+
+           TODO: Platzhalter durch echte Fotos ersetzen. -->
       <div class="gallery-grid">
         <figure class="gallery-item" data-animate>
-          <img src="https://placehold.co/1200x800/23211E/E8E6E1?text=FOTO+01+%2F+QUER"
+          <img src="https://placehold.co/1200x800/23211E/E8E6E1?text=FOTO+%2F+QUER"
                alt="Platzhalter für ein Foto im Querformat" loading="lazy" width="1200" height="800">
         </figure>
         <figure class="gallery-item" data-animate>
-          <img src="https://placehold.co/800x1200/23211E/E8E6E1?text=FOTO+02+%2F+HOCH"
+          <img src="https://placehold.co/800x1200/23211E/E8E6E1?text=FOTO+%2F+HOCH"
                alt="Platzhalter für ein Foto im Hochformat" loading="lazy" width="800" height="1200">
         </figure>
         <figure class="gallery-item" data-animate>
-          <img src="https://placehold.co/1000x1000/23211E/E8E6E1?text=FOTO+03+%2F+QUADRAT"
+          <img src="https://placehold.co/1000x1000/23211E/E8E6E1?text=FOTO+%2F+QUADRAT"
                alt="Platzhalter für ein quadratisches Foto" loading="lazy" width="1000" height="1000">
         </figure>
         <figure class="gallery-item" data-animate>
-          <img src="https://placehold.co/900x1350/23211E/E8E6E1?text=FOTO+04+%2F+HOCH"
-               alt="Platzhalter für ein Foto im Hochformat" loading="lazy" width="900" height="1350">
-        </figure>
-        <figure class="gallery-item" data-animate>
-          <img src="https://placehold.co/1600x900/23211E/E8E6E1?text=FOTO+05+%2F+QUER"
+          <img src="https://placehold.co/1600x900/23211E/E8E6E1?text=FOTO+%2F+BREIT"
                alt="Platzhalter für ein Foto im Breitformat" loading="lazy" width="1600" height="900">
         </figure>
         <figure class="gallery-item" data-animate>
-          <img src="https://placehold.co/1080x1080/23211E/E8E6E1?text=FOTO+06+%2F+QUADRAT"
+          <img src="https://placehold.co/900x1350/23211E/E8E6E1?text=FOTO+%2F+HOCH"
+               alt="Platzhalter für ein Foto im Hochformat" loading="lazy" width="900" height="1350">
+        </figure>
+        <figure class="gallery-item" data-animate>
+          <img src="https://placehold.co/1080x1080/23211E/E8E6E1?text=FOTO+%2F+QUADRAT"
                alt="Platzhalter für ein quadratisches Foto" loading="lazy" width="1080" height="1080">
         </figure>
         <figure class="gallery-item" data-animate>
-          <img src="https://placehold.co/1500x1000/23211E/E8E6E1?text=FOTO+07+%2F+QUER"
+          <img src="https://placehold.co/1500x1000/23211E/E8E6E1?text=FOTO+%2F+QUER"
                alt="Platzhalter für ein Foto im Querformat" loading="lazy" width="1500" height="1000">
         </figure>
         <figure class="gallery-item" data-animate>
-          <img src="https://placehold.co/720x1280/23211E/E8E6E1?text=FOTO+08+%2F+HOCH"
+          <img src="https://placehold.co/720x1280/23211E/E8E6E1?text=FOTO+%2F+HOCH"
                alt="Platzhalter für ein Foto im Hochformat" loading="lazy" width="720" height="1280">
         </figure>
         <figure class="gallery-item" data-animate>
-          <img src="https://placehold.co/1200x1200/23211E/E8E6E1?text=FOTO+09+%2F+QUADRAT"
-               alt="Platzhalter für ein quadratisches Foto" loading="lazy" width="1200" height="1200">
+          <img src="https://placehold.co/1280x860/23211E/E8E6E1?text=FOTO+%2F+QUER"
+               alt="Platzhalter für ein Foto im Querformat" loading="lazy" width="1280" height="860">
+        </figure>
+        <figure class="gallery-item" data-animate>
+          <img src="https://placehold.co/1000x1250/23211E/E8E6E1?text=FOTO+%2F+HOCH"
+               alt="Platzhalter für ein Foto im Hochformat" loading="lazy" width="1000" height="1250">
         </figure>
       </div>
     </section>
