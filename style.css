@@ -331,14 +331,16 @@ body::after {
 .project:hover .embed-thumb,
 .journey-item:hover .embed-thumb { transform: scale(1.03); }
 
-/* Play-Button: zentriertes YouTube-Dreieck, sonst nichts */
+/* Play-Button: deckt das ganze Bild ab (überall klickbar),
+   das YouTube-Dreieck sitzt zentriert. */
 .embed-play {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: clamp(48px, 13%, 68px);
-  aspect-ratio: 68 / 48;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 0;
   border: 0;
   background: none;
@@ -348,9 +350,8 @@ body::after {
 }
 
 .embed-play svg {
-  width: 100%;
-  height: 100%;
-  display: block;
+  width: clamp(48px, 12%, 68px);
+  height: auto;
   filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.35));
   transition: transform 200ms ease-out;
 }
@@ -361,18 +362,14 @@ body::after {
 .embed-play:hover svg,
 .embed-play:focus-visible svg { transform: scale(1.08); }
 
-/* Kurzer Hinweis, falls ein Video noch fehlt (ersetzt das Icon kurz) */
+/* Hinweis-Overlay, falls ein Video noch fehlt */
 .embed-play--msg {
-  width: auto;
-  aspect-ratio: auto;
-  padding: 0.55em 0.9em;
-  background: var(--red);
+  background: color-mix(in srgb, var(--ink) 72%, transparent);
   color: var(--paper);
   font-family: var(--mono);
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.1em;
-  white-space: nowrap;
 }
 
 .embed iframe {
@@ -408,44 +405,49 @@ body::after {
 }
 
 /* =============================================================
-   FOTOGRAFIE: justiertes Raster (wie eine Foto-Galerie).
-   Jede Reihe ist gleich hoch und füllt die volle Breite, die
-   Fotos behalten ihr Seitenverhältnis (Breite variiert). Egal
-   ob hoch, quer oder quadratisch, es bleibt ausgewogen.
-   Neues Foto: <figure class="gallery-item" style="--ar: BREITE/HÖHE">.
+   FOTOGRAFIE: Foto-Galerie ohne Zuschnitt.
+   Fallback ohne JS: Spalten-Masonry, Fotos in voller Höhe.
+   Mit JS (main.js, setupGallery): justierte Reihen, gleich hoch
+   und volle Breite, aber ebenfalls OHNE Zuschnitt.
    ============================================================= */
 .gallery-grid {
-  --row: clamp(155px, 19vw, 250px); /* Reihenhöhe */
-  display: flex;
-  flex-wrap: wrap;
-  gap: clamp(0.4rem, 1vw, 0.7rem);
+  columns: clamp(220px, 24vw, 300px);
+  column-gap: clamp(0.4rem, 1vw, 0.7rem);
 }
 
 .gallery-item {
-  --ar: 1.5;                 /* Seitenverhältnis Breite/Höhe, pro Foto gesetzt */
-  position: relative;
-  margin: 0;
-  height: var(--row);
-  /* Breite proportional zum Seitenverhältnis, Reihe füllt sich voll */
-  flex: var(--ar) 1 calc(var(--ar) * var(--row));
+  margin: 0 0 clamp(0.4rem, 1vw, 0.7rem);
+  break-inside: avoid;
   overflow: hidden;
   background: var(--ink);
+  line-height: 0;
 }
 
 .gallery-item img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;             /* volles Bild, kein Zuschnitt */
   display: block;
   transition: transform 400ms ease-out;
 }
 
 .gallery-item:hover img { transform: scale(1.04); }
 
-/* fängt den Rest der letzten Reihe ab, damit sie nicht überdehnt wird */
-.gallery-grid::after {
-  content: "";
-  flex: 999 1 0;
+/* Mit JS: justierte Reihen. JS setzt Breite und Höhe je Foto passend
+   zum Seitenverhältnis, daher füllt das Bild die Kachel ohne Zuschnitt. */
+.gallery-grid.is-justified {
+  columns: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(0.4rem, 1vw, 0.7rem);
+}
+
+.gallery-grid.is-justified .gallery-item {
+  margin: 0;
+  break-inside: auto;
+}
+
+.gallery-grid.is-justified .gallery-item img {
+  height: 100%;
 }
 
 /* =============================================================

@@ -121,9 +121,11 @@
        2. IBM Plex Mono für Nav, Labels, Timecodes, Metadaten -->
   <link rel="preload" href="assets/fonts/archivo-variable.woff2" as="font" type="font/woff2" crossorigin>
 
-  <link rel="stylesheet" href="style.css">
+  <!-- ?v Cache-Buster: bei Änderungen an CSS/JS hochzählen, damit Browser
+       (auch iPhone) sicher die neue Version laden statt der gecachten. -->
+  <link rel="stylesheet" href="style.css?v=2">
   <!-- main.js lädt anime.js dynamisch. Fällt das CDN aus, bleibt die Seite voll lesbar. -->
-  <script type="module" src="main.js"></script>
+  <script type="module" src="main.js?v=2"></script>
 </head>
 <body>
 
@@ -266,46 +268,45 @@
 
       <p class="journey-intro" data-animate>Meine liebsten Aufnahmen, unterwegs und auf Reisen entstanden. Keine Auftragsdrehs, einfach Momente die mir gefallen.</p>
 
-      <!-- Foto-Galerie als justiertes Raster (siehe .gallery-grid in style.css).
-           NEUES FOTO HINZUFÜGEN: Bild nach assets/ legen und einen Block wie unten
-           einfügen. Anordnung passiert von selbst. Wichtig: --ar = Breite/Höhe als
-           Dezimalzahl (z. B. quer 1.5, hoch 0.67), damit die Reihe stimmt.
-           width/height auf die echten Bildmaße setzen (kein Springen beim Laden):
+      <!-- Foto-Galerie (siehe .gallery-grid in style.css). Fotos werden NICHT
+           zugeschnitten. NEUES FOTO HINZUFÜGEN: Bild nach assets/ legen und einen
+           Block wie unten einfügen. Wichtig nur: width und height auf die echten
+           Bildmaße setzen, das Seitenverhältnis ergibt sich daraus automatisch.
 
-             <figure class="gallery-item" data-animate style="--ar: 1.5">
+             <figure class="gallery-item" data-animate>
                <img src="assets/DEIN-FOTO.jpg" alt="Kurze Beschreibung"
                     loading="lazy" width="BREITE" height="HÖHE">
              </figure> -->
       <div class="gallery-grid">
-        <figure class="gallery-item" data-animate style="--ar: 1.5">
+        <figure class="gallery-item" data-animate>
           <img src="assets/DSC02220.jpg" alt="Ort am See in der Abenddämmerung"
                loading="lazy" width="1500" height="1000">
         </figure>
-        <figure class="gallery-item" data-animate style="--ar: 1.33">
+        <figure class="gallery-item" data-animate>
           <img src="assets/DSC02292.jpg" alt="Affe im Wald"
                loading="lazy" width="1500" height="1125">
         </figure>
-        <figure class="gallery-item" data-animate style="--ar: 1.5">
+        <figure class="gallery-item" data-animate>
           <img src="assets/DSC02961.jpg" alt="Sportflugzeug über dem Wald"
                loading="lazy" width="1500" height="1000">
         </figure>
-        <figure class="gallery-item" data-animate style="--ar: 0.67">
+        <figure class="gallery-item" data-animate>
           <img src="assets/DSC02104.jpg" alt="Storchennest im Abendlicht"
                loading="lazy" width="1000" height="1500">
         </figure>
-        <figure class="gallery-item" data-animate style="--ar: 0.75">
+        <figure class="gallery-item" data-animate>
           <img src="assets/DSC02730.jpg" alt="Historisches Gebäude an einem Stadtplatz"
                loading="lazy" width="1125" height="1500">
         </figure>
-        <figure class="gallery-item" data-animate style="--ar: 1.5">
+        <figure class="gallery-item" data-animate>
           <img src="assets/DSC03603.jpg" alt="Biene auf einer Blüte"
                loading="lazy" width="1500" height="1000">
         </figure>
-        <figure class="gallery-item" data-animate style="--ar: 1.4">
+        <figure class="gallery-item" data-animate>
           <img src="assets/IMG_1269.jpg" alt="Zwei Smaragdeidechsen auf Holz"
                loading="lazy" width="1500" height="1072">
         </figure>
-        <figure class="gallery-item" data-animate style="--ar: 2">
+        <figure class="gallery-item" data-animate>
           <img src="assets/IMG_1286.jpg" alt="Moderne Architektur, im Wasser gespiegelt"
                loading="lazy" width="1500" height="750">
         </figure>

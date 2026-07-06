@@ -99,6 +99,70 @@ function setupEmbeds() {
 }
 
 /* -------------------------------------------------------------
+   3b. Foto-Galerie: justiertes Reihen-Layout.
+   Jede Reihe wird gleich hoch skaliert und füllt die volle Breite,
+   die Fotos behalten ihr Seitenverhältnis und werden NICHT
+   zugeschnitten. Ohne JS bleibt das Spalten-Masonry aus dem CSS
+   (ebenfalls ohne Zuschnitt).
+   ------------------------------------------------------------- */
+function setupGallery() {
+  const grid = $(".gallery-grid");
+  if (!grid) return;
+  const items = $$(".gallery-item", grid);
+  if (!items.length) return;
+
+  // Seitenverhältnis aus width/height der Bilder ableiten
+  items.forEach((item) => {
+    const img = $("img", item);
+    const w = parseFloat(img?.getAttribute("width"));
+    const h = parseFloat(img?.getAttribute("height"));
+    item._ar = w > 0 && h > 0 ? w / h : 1.5;
+  });
+
+  const layout = () => {
+    const containerW = grid.clientWidth;
+    if (!containerW) return;
+    const gap = parseFloat(getComputedStyle(grid).gap) || 8;
+    const target = containerW < 560 ? 190 : containerW < 900 ? 225 : 260;
+
+    const flush = (row, arSum, isLast) => {
+      const avail = containerW - gap * (row.length - 1);
+      let h = avail / arSum;
+      // letzte, nicht volle Reihe nicht überdehnen
+      if (isLast && h > target * 1.3) h = target;
+      h = Math.floor(h);
+      row.forEach((item) => {
+        item.style.height = `${h}px`;
+        item.style.width = `${Math.floor(h * item._ar)}px`;
+      });
+    };
+
+    let row = [];
+    let arSum = 0;
+    items.forEach((item) => {
+      row.push(item);
+      arSum += item._ar;
+      const avail = containerW - gap * (row.length - 1);
+      if (avail / arSum <= target) {
+        flush(row, arSum, false);
+        row = [];
+        arSum = 0;
+      }
+    });
+    if (row.length) flush(row, arSum, true);
+  };
+
+  grid.classList.add("is-justified");
+  layout();
+
+  let raf = 0;
+  window.addEventListener("resize", () => {
+    cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(layout);
+  }, { passive: true });
+}
+
+/* -------------------------------------------------------------
    4. Kontaktformular: Web3Forms per fetch, ohne Reload.
    ------------------------------------------------------------- */
 function setupForm() {
@@ -266,6 +330,7 @@ function initMotion({ animate, createTimeline, onScroll, stagger, utils }) {
 setupAge();
 setupProgress();
 setupEmbeds();
+setupGallery();
 setupForm();
 
 /* anime.js nur laden, wenn Bewegung erwünscht ist.
