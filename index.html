@@ -190,8 +190,9 @@
             <img class="embed-thumb"
                  src="assets/thumbnails/was-kommt-danach.jpg"
                  alt="Standbild aus dem Kurzfilm Was kommt danach?" loading="lazy" width="640" height="344">
-            <span class="embed-hover" aria-hidden="true">POSTCARD-CHALLENGE</span>
-            <button class="embed-play" type="button">PLAY / VIDEO LADEN</button>
+            <button class="embed-play" type="button" aria-label="Video abspielen">
+              <svg viewBox="0 0 68 48" aria-hidden="true"><path class="yt-bg" d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z"/><path class="yt-tri" d="M45 24 27 14v20z"/></svg>
+            </button>
           </div>
           <div class="project-info">
             <h3 class="project-title">POSTCARD-CHALLENGE</h3>
@@ -206,10 +207,11 @@
                Thumbnail ist selbst gehostet, kein Kontakt zu YouTube vor dem Klick. -->
           <div class="embed" data-yt="QDq6b3w08eM">
             <img class="embed-thumb"
-                 src="assets/thumbnails/allein.jpg"
+                 src="assets/thumbnails/thumbnail_allein.jpg"
                  alt="Standbild aus dem Kurzfilm ALLEIN" loading="lazy" width="1280" height="720">
-            <span class="embed-hover" aria-hidden="true">ALLEIN</span>
-            <button class="embed-play" type="button">PLAY / VIDEO LADEN</button>
+            <button class="embed-play" type="button" aria-label="Video abspielen">
+              <svg viewBox="0 0 68 48" aria-hidden="true"><path class="yt-bg" d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z"/><path class="yt-tri" d="M45 24 27 14v20z"/></svg>
+            </button>
           </div>
           <div class="project-info">
             <h3 class="project-title">ALLEIN</h3>
@@ -264,57 +266,48 @@
 
       <p class="journey-intro" data-animate>Meine liebsten Aufnahmen, unterwegs und auf Reisen entstanden. Keine Auftragsdrehs, einfach Momente die mir gefallen.</p>
 
-      <!-- Foto-Galerie als automatisches Masonry (siehe .gallery-grid in style.css).
-           NEUES FOTO HINZUFÜGEN: einfach einen weiteren Block wie diesen einfügen,
-           die Anordnung passiert von selbst. width/height auf die echten Maße
-           setzen (verhindert Springen beim Laden), sonst nichts nötig:
+      <!-- Foto-Galerie als justiertes Raster (siehe .gallery-grid in style.css).
+           NEUES FOTO HINZUFÜGEN: Bild nach assets/ legen und einen Block wie unten
+           einfügen. Anordnung passiert von selbst. Wichtig: --ar = Breite/Höhe als
+           Dezimalzahl (z. B. quer 1.5, hoch 0.67), damit die Reihe stimmt.
+           width/height auf die echten Bildmaße setzen (kein Springen beim Laden):
 
-             <figure class="gallery-item" data-animate>
-               <img src="assets/fotos/DEIN-FOTO.jpg" alt="Kurze Beschreibung"
+             <figure class="gallery-item" data-animate style="--ar: 1.5">
+               <img src="assets/DEIN-FOTO.jpg" alt="Kurze Beschreibung"
                     loading="lazy" width="BREITE" height="HÖHE">
-             </figure>
-
-           TODO: Platzhalter durch echte Fotos ersetzen. -->
+             </figure> -->
       <div class="gallery-grid">
-        <figure class="gallery-item" data-animate>
-          <img src="https://placehold.co/1200x800/23211E/E8E6E1?text=FOTO+%2F+QUER"
-               alt="Platzhalter für ein Foto im Querformat" loading="lazy" width="1200" height="800">
+        <figure class="gallery-item" data-animate style="--ar: 1.5">
+          <img src="assets/DSC02220.jpg" alt="Ort am See in der Abenddämmerung"
+               loading="lazy" width="1500" height="1000">
         </figure>
-        <figure class="gallery-item" data-animate>
-          <img src="https://placehold.co/800x1200/23211E/E8E6E1?text=FOTO+%2F+HOCH"
-               alt="Platzhalter für ein Foto im Hochformat" loading="lazy" width="800" height="1200">
+        <figure class="gallery-item" data-animate style="--ar: 1.33">
+          <img src="assets/DSC02292.jpg" alt="Affe im Wald"
+               loading="lazy" width="1500" height="1125">
         </figure>
-        <figure class="gallery-item" data-animate>
-          <img src="https://placehold.co/1000x1000/23211E/E8E6E1?text=FOTO+%2F+QUADRAT"
-               alt="Platzhalter für ein quadratisches Foto" loading="lazy" width="1000" height="1000">
+        <figure class="gallery-item" data-animate style="--ar: 1.5">
+          <img src="assets/DSC02961.jpg" alt="Sportflugzeug über dem Wald"
+               loading="lazy" width="1500" height="1000">
         </figure>
-        <figure class="gallery-item" data-animate>
-          <img src="https://placehold.co/1600x900/23211E/E8E6E1?text=FOTO+%2F+BREIT"
-               alt="Platzhalter für ein Foto im Breitformat" loading="lazy" width="1600" height="900">
+        <figure class="gallery-item" data-animate style="--ar: 0.67">
+          <img src="assets/DSC02104.jpg" alt="Storchennest im Abendlicht"
+               loading="lazy" width="1000" height="1500">
         </figure>
-        <figure class="gallery-item" data-animate>
-          <img src="https://placehold.co/900x1350/23211E/E8E6E1?text=FOTO+%2F+HOCH"
-               alt="Platzhalter für ein Foto im Hochformat" loading="lazy" width="900" height="1350">
+        <figure class="gallery-item" data-animate style="--ar: 0.75">
+          <img src="assets/DSC02730.jpg" alt="Historisches Gebäude an einem Stadtplatz"
+               loading="lazy" width="1125" height="1500">
         </figure>
-        <figure class="gallery-item" data-animate>
-          <img src="https://placehold.co/1080x1080/23211E/E8E6E1?text=FOTO+%2F+QUADRAT"
-               alt="Platzhalter für ein quadratisches Foto" loading="lazy" width="1080" height="1080">
+        <figure class="gallery-item" data-animate style="--ar: 1.5">
+          <img src="assets/DSC03603.jpg" alt="Biene auf einer Blüte"
+               loading="lazy" width="1500" height="1000">
         </figure>
-        <figure class="gallery-item" data-animate>
-          <img src="https://placehold.co/1500x1000/23211E/E8E6E1?text=FOTO+%2F+QUER"
-               alt="Platzhalter für ein Foto im Querformat" loading="lazy" width="1500" height="1000">
+        <figure class="gallery-item" data-animate style="--ar: 1.4">
+          <img src="assets/IMG_1269.jpg" alt="Zwei Smaragdeidechsen auf Holz"
+               loading="lazy" width="1500" height="1072">
         </figure>
-        <figure class="gallery-item" data-animate>
-          <img src="https://placehold.co/720x1280/23211E/E8E6E1?text=FOTO+%2F+HOCH"
-               alt="Platzhalter für ein Foto im Hochformat" loading="lazy" width="720" height="1280">
-        </figure>
-        <figure class="gallery-item" data-animate>
-          <img src="https://placehold.co/1280x860/23211E/E8E6E1?text=FOTO+%2F+QUER"
-               alt="Platzhalter für ein Foto im Querformat" loading="lazy" width="1280" height="860">
-        </figure>
-        <figure class="gallery-item" data-animate>
-          <img src="https://placehold.co/1000x1250/23211E/E8E6E1?text=FOTO+%2F+HOCH"
-               alt="Platzhalter für ein Foto im Hochformat" loading="lazy" width="1000" height="1250">
+        <figure class="gallery-item" data-animate style="--ar: 2">
+          <img src="assets/IMG_1286.jpg" alt="Moderne Architektur, im Wasser gespiegelt"
+               loading="lazy" width="1500" height="750">
         </figure>
       </div>
     </section>
@@ -364,8 +357,9 @@
           <div class="embed" data-yt="DEINE_YOUTUBE_ID">
             <img class="embed-thumb" src="https://placehold.co/800x450/23211E/E8E6E1?text=DOKU+FOLGE+%2F+PLATZHALTER"
                  alt="Platzhalter für eine Folge der Doku-Serie" loading="lazy" width="800" height="450">
-            <span class="embed-hover" aria-hidden="true">DOKU / FOLGE</span>
-            <button class="embed-play" type="button">PLAY</button>
+            <button class="embed-play" type="button" aria-label="Video abspielen">
+              <svg viewBox="0 0 68 48" aria-hidden="true"><path class="yt-bg" d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z"/><path class="yt-tri" d="M45 24 27 14v20z"/></svg>
+            </button>
           </div>
           <p class="mono-label">FOLGE / WARUM KEINE FILMSCHULE</p>
         </article>
@@ -373,8 +367,9 @@
           <div class="embed" data-yt="DEINE_YOUTUBE_ID">
             <img class="embed-thumb" src="https://placehold.co/800x450/23211E/E8E6E1?text=DOKU+FOLGE+%2F+PLATZHALTER"
                  alt="Platzhalter für eine Folge der Doku-Serie" loading="lazy" width="800" height="450">
-            <span class="embed-hover" aria-hidden="true">DOKU / FOLGE</span>
-            <button class="embed-play" type="button">PLAY</button>
+            <button class="embed-play" type="button" aria-label="Video abspielen">
+              <svg viewBox="0 0 68 48" aria-hidden="true"><path class="yt-bg" d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z"/><path class="yt-tri" d="M45 24 27 14v20z"/></svg>
+            </button>
           </div>
           <p class="mono-label">FOLGE / HINTER DEN KULISSEN VON ALLEIN</p>
         </article>
@@ -382,8 +377,9 @@
           <div class="embed" data-yt="DEINE_YOUTUBE_ID">
             <img class="embed-thumb" src="https://placehold.co/800x450/23211E/E8E6E1?text=DOKU+FOLGE+%2F+PLATZHALTER"
                  alt="Platzhalter für eine Folge der Doku-Serie" loading="lazy" width="800" height="450">
-            <span class="embed-hover" aria-hidden="true">DOKU / FOLGE</span>
-            <button class="embed-play" type="button">PLAY</button>
+            <button class="embed-play" type="button" aria-label="Video abspielen">
+              <svg viewBox="0 0 68 48" aria-hidden="true"><path class="yt-bg" d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z"/><path class="yt-tri" d="M45 24 27 14v20z"/></svg>
+            </button>
           </div>
           <p class="mono-label">FOLGE / MEIN ERSTER DREH</p>
         </article>

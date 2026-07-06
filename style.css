@@ -327,47 +327,52 @@ body::after {
   transition: transform 400ms ease-out;
 }
 
-/* Hover: Bild minimal skalieren, Titel/Jahr in Akzentfarbe einblenden */
+/* Hover: Bild minimal skalieren (nur der Zoom, keine Texteinblendung) */
 .project:hover .embed-thumb,
 .journey-item:hover .embed-thumb { transform: scale(1.03); }
 
-.embed-hover {
-  position: absolute;
-  top: 0.8rem;
-  left: 0.8rem;
-  font-family: var(--mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.12em;
-  color: var(--red);
-  background: var(--ink);
-  padding: 0.3em 0.6em;
-  opacity: 0;
-  transition: opacity 300ms ease-out;
-  pointer-events: none;
-}
-
-.project:hover .embed-hover,
-.journey-item:hover .embed-hover { opacity: 1; }
-
+/* Play-Button: zentriertes YouTube-Dreieck, sonst nichts */
 .embed-play {
   position: absolute;
-  bottom: 0.8rem;
-  left: 0.8rem;
-  font-family: var(--mono);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  color: var(--paper);
-  background: var(--red);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: clamp(48px, 13%, 68px);
+  aspect-ratio: 68 / 48;
+  padding: 0;
   border: 0;
-  padding: 0.6em 1em;
+  background: none;
   cursor: pointer;
-  transition: background 200ms ease-out, color 200ms ease-out;
+  z-index: 3;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.embed-play:hover {
-  background: var(--paper);
-  color: var(--red);
+.embed-play svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.35));
+  transition: transform 200ms ease-out;
+}
+
+.embed-play .yt-bg { fill: var(--red); }
+.embed-play .yt-tri { fill: var(--paper); }
+
+.embed-play:hover svg,
+.embed-play:focus-visible svg { transform: scale(1.08); }
+
+/* Kurzer Hinweis, falls ein Video noch fehlt (ersetzt das Icon kurz) */
+.embed-play--msg {
+  width: auto;
+  aspect-ratio: auto;
+  padding: 0.55em 0.9em;
+  background: var(--red);
+  color: var(--paper);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
 }
 
 .embed iframe {
@@ -403,37 +408,45 @@ body::after {
 }
 
 /* =============================================================
-   FOTOGRAFIE: automatisches Masonry über CSS-Spalten.
-   Jedes Foto behält sein echtes Seitenverhältnis. Neue Fotos
-   einfach als weiteres <figure class="gallery-item"> einfügen,
-   der Rest ordnet sich von allein an. Die Spaltenzahl passt
-   sich an die Breite an, damit die Kacheln nie zu groß werden.
+   FOTOGRAFIE: justiertes Raster (wie eine Foto-Galerie).
+   Jede Reihe ist gleich hoch und füllt die volle Breite, die
+   Fotos behalten ihr Seitenverhältnis (Breite variiert). Egal
+   ob hoch, quer oder quadratisch, es bleibt ausgewogen.
+   Neues Foto: <figure class="gallery-item" style="--ar: BREITE/HÖHE">.
    ============================================================= */
 .gallery-grid {
-  column-count: 5;
-  column-gap: clamp(0.5rem, 1vw, 0.8rem);
+  --row: clamp(155px, 19vw, 250px); /* Reihenhöhe */
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(0.4rem, 1vw, 0.7rem);
 }
 
-@media (max-width: 1200px) { .gallery-grid { column-count: 4; } }
-@media (max-width: 900px)  { .gallery-grid { column-count: 3; } }
-@media (max-width: 560px)  { .gallery-grid { column-count: 2; } }
-
 .gallery-item {
-  margin: 0 0 clamp(0.5rem, 1vw, 0.8rem);
-  break-inside: avoid;      /* ein Foto wird nie über zwei Spalten getrennt */
+  --ar: 1.5;                 /* Seitenverhältnis Breite/Höhe, pro Foto gesetzt */
+  position: relative;
+  margin: 0;
+  height: var(--row);
+  /* Breite proportional zum Seitenverhältnis, Reihe füllt sich voll */
+  flex: var(--ar) 1 calc(var(--ar) * var(--row));
   overflow: hidden;
   background: var(--ink);
-  line-height: 0;           /* kein Leerraum unter dem Bild */
 }
 
 .gallery-item img {
   width: 100%;
-  height: auto;             /* echtes Seitenverhältnis bleibt erhalten */
+  height: 100%;
+  object-fit: cover;
   display: block;
   transition: transform 400ms ease-out;
 }
 
 .gallery-item:hover img { transform: scale(1.04); }
+
+/* fängt den Rest der letzten Reihe ab, damit sie nicht überdehnt wird */
+.gallery-grid::after {
+  content: "";
+  flex: 999 1 0;
+}
 
 /* =============================================================
    SZENE 04 / ABOUT

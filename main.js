@@ -73,15 +73,18 @@ function setupEmbeds() {
     button.addEventListener("click", () => {
       const id = embed.dataset.yt || "";
 
-      // Platzhalter-ID: freundlich melden statt kaputtes Video laden
+      // Platzhalter-ID: freundlich melden statt kaputtes Video laden.
+      // Das Icon (SVG) wird gesichert und danach wiederhergestellt.
       if (!id || id.startsWith("DEINE_")) {
-        const original = button.textContent;
-        button.textContent = "VIDEO FOLGT / ID FEHLT NOCH";
+        const original = button.innerHTML;
+        button.classList.add("embed-play--msg");
+        button.textContent = "VIDEO FOLGT";
         button.disabled = true;
         setTimeout(() => {
-          button.textContent = original;
+          button.classList.remove("embed-play--msg");
+          button.innerHTML = original;
           button.disabled = false;
-        }, 2500);
+        }, 2000);
         return;
       }
 
