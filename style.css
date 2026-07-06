@@ -112,7 +112,7 @@ body::after {
 /* ---------- Navigation ---------- */
 .site-nav {
   position: fixed;
-  /* Bis ganz nach oben: das Glas reicht auf dem iPhone unter die
+  /* Bis ganz nach oben: der Balken reicht auf dem iPhone unter die
      Statusleiste (safe-area), kein durchscheinender Streifen mehr. */
   top: 0; left: 0; right: 0;
   display: flex;
@@ -124,9 +124,11 @@ body::after {
   font-size: 0.75rem;
   letter-spacing: 0.08em;
   z-index: 100;
-  background: color-mix(in srgb, var(--paper) 86%, transparent);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
+  /* Voll deckend, kein Glas. Eine halbtransparente Nav ließ große
+     Titel (z. B. das riesige KONTAKT) durchscheinen, sobald sie beim
+     Scrollen unter die Nav liefen. Auf dem iPhone war das besonders
+     stark. Deckend deckt den Inhalt sauber ab. */
+  background: var(--paper);
 }
 
 .site-nav a { text-decoration: none; }
