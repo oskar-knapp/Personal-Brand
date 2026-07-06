@@ -129,6 +129,10 @@ body::after {
      Scrollen unter die Nav liefen. Auf dem iPhone war das besonders
      stark. Deckend deckt den Inhalt sauber ab. */
   background: var(--paper);
+  /* Auf Mobile schiebt sich die Nav beim Runterscrollen aus dem Bild
+     und kommt beim Hochscrollen zurück (setupNav in main.js). Am
+     Desktop passiert das nicht, dort bleibt sie immer sichtbar. */
+  transition: transform 280ms ease;
 }
 
 .site-nav a { text-decoration: none; }
@@ -796,6 +800,10 @@ body::after {
   }
 
   .site-nav a { padding: 0.15em 0; } /* größere Tap-Flächen */
+
+  /* Weggeschoben beim Runterscrollen. Nur Mobile: am Desktop wird die
+     Klasse gar nicht erst gesetzt (siehe setupNav in main.js). */
+  .site-nav--hidden { transform: translateY(-100%); }
 
   html { scroll-padding-top: 6.5rem; } /* Anker unter der höheren Nav */
 

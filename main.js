@@ -62,6 +62,58 @@ function setupProgress() {
 }
 
 /* -------------------------------------------------------------
+   2b. Mobile: Nav versteckt sich beim Runterscrollen und kommt beim
+   Hochscrollen zurück, damit sie auf kleinen Screens nicht dauerhaft
+   Platz wegnimmt. Sie bleibt oben angepinnt (position: fixed), fährt
+   nur aus dem Bild. Am Desktop und bei reduzierter Bewegung bleibt sie
+   immer sichtbar. Läuft unabhängig von anime.js (Progressive Enhancement).
+   ------------------------------------------------------------- */
+function setupNav() {
+  const nav = $(".site-nav");
+  if (!nav) return;
+
+  const mq = window.matchMedia("(max-width: 800px)");
+  let lastY = window.scrollY;
+  let ticking = false;
+
+  const show = () => nav.classList.remove("site-nav--hidden");
+
+  const update = () => {
+    ticking = false;
+    const y = window.scrollY;
+
+    // Desktop oder reduzierte Bewegung: immer sichtbar, nie verstecken
+    if (!mq.matches || reducedMotion) {
+      show();
+      lastY = y;
+      return;
+    }
+
+    // Ganz oben immer zeigen (kein Flackern nahe dem Seitenanfang)
+    if (y <= nav.offsetHeight) {
+      show();
+      lastY = y;
+      return;
+    }
+
+    const delta = y - lastY;
+    if (delta > 6) nav.classList.add("site-nav--hidden");   // runter: wegschieben
+    else if (delta < -6) show();                             // hoch: zurückholen
+    lastY = y;
+  };
+
+  window.addEventListener("scroll", () => {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(update);
+    }
+  }, { passive: true });
+
+  // Wechsel zwischen Mobile und Desktop: Zustand zurücksetzen
+  mq.addEventListener("change", show);
+}
+
+/* -------------------------------------------------------------
    3. YouTube-Embeds: DSGVO-freundlich.
    Erst der Klick lädt das iframe, und zwar via youtube-nocookie.
    ------------------------------------------------------------- */
@@ -329,6 +381,7 @@ function initMotion({ animate, createTimeline, onScroll, stagger, utils }) {
    ------------------------------------------------------------- */
 setupAge();
 setupProgress();
+setupNav();
 setupEmbeds();
 setupGallery();
 setupForm();
