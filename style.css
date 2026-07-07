@@ -114,23 +114,23 @@ body::after {
 
 /* ---------- Navigation ---------- */
 .site-nav {
-  position: fixed;
-  /* Bis ganz nach oben: der Balken reicht auf dem iPhone unter die
-     Statusleiste (safe-area), kein durchscheinender Streifen mehr. */
-  top: 0; left: 0; right: 0;
+  /* STICKY statt fixed, wie auf okmedia.at (dort nachweislich sauber auf
+     iOS): Der Header ist Teil des Inhaltsflusses und klebt beim Scrollen
+     an der Oberkante. iOS clippt fixe Elemente an der Viewport-Kante und
+     malt scrollenden Inhalt in den Statusleisten-Streifen; mit sticky
+     plus Canvas-Hintergrund (html) passiert das nicht. */
+  position: sticky;
+  top: 0;
   display: flex;
   justify-content: space-between;
   align-items: baseline;
   gap: 1rem;
-  padding: calc(0.9rem + env(safe-area-inset-top, 0px)) var(--gutter) 0.9rem;
+  padding: 0.9rem var(--gutter);
   font-family: var(--mono);
   font-size: 0.75rem;
   letter-spacing: 0.08em;
   z-index: 100;
-  /* Voll deckend, kein Glas. Eine halbtransparente Nav ließ große
-     Titel (z. B. das riesige KONTAKT) durchscheinen, sobald sie beim
-     Scrollen unter die Nav liefen. Auf dem iPhone war das besonders
-     stark. Deckend deckt den Inhalt sauber ab. */
+  /* Voll deckend, kein Glas: darunter durchlaufende Titel bleiben unsichtbar */
   background: var(--paper);
 }
 
@@ -235,7 +235,9 @@ body.menu-open { overflow: hidden; }
    SZENE 01 / HERO
    ============================================================= */
 .scene--hero {
-  padding-top: clamp(6rem, 16vh, 10rem);
+  /* Nav ist sticky und damit Teil des Flusses: sie schiebt den Hero schon
+     um ihre eigene Höhe nach unten, daher hier weniger Eigenabstand */
+  padding-top: clamp(3rem, 9vh, 6rem);
   min-height: 100svh;
   display: flex;
   flex-direction: column;
@@ -766,7 +768,7 @@ body.menu-open { overflow: hidden; }
 /* =============================================================
    IMPRESSUM
    ============================================================= */
-.scene--legal { padding-top: clamp(7rem, 16vh, 10rem); }
+.scene--legal { padding-top: clamp(3rem, 9vh, 6rem); }
 
 /* Ein-Wort-Titel wie DATENSCHUTZ dürfen nicht überlaufen: kleinerer
    Rahmen und Notbruch, falls es auf schmalen Screens eng wird */
@@ -808,8 +810,7 @@ body.menu-open { overflow: hidden; }
     flex-direction: column;
     align-items: flex-start;
     gap: 0.55rem;
-    /* Glas reicht bis unter die iPhone-Statusleiste (safe-area) */
-    padding: calc(0.8rem + env(safe-area-inset-top, 0px)) 1rem 0.8rem;
+    padding: 0.8rem 1rem;
     font-size: 0.66rem;
   }
 
