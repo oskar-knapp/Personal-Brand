@@ -123,9 +123,9 @@
 
   <!-- ?v Cache-Buster: bei Änderungen an CSS/JS hochzählen, damit Browser
        (auch iPhone) sicher die neue Version laden statt der gecachten. -->
-  <link rel="stylesheet" href="style.css?v=4">
+  <link rel="stylesheet" href="style.css?v=5">
   <!-- main.js lädt anime.js dynamisch. Fällt das CDN aus, bleibt die Seite voll lesbar. -->
-  <script type="module" src="main.js?v=4"></script>
+  <script type="module" src="main.js?v=5"></script>
 </head>
 <body>
 
@@ -135,7 +135,14 @@
   <!-- ================= NAVIGATION: nur Textlinks ================= -->
   <header class="site-nav">
     <a class="nav-name" href="#start">OSKAR&nbsp;KNAPP</a>
-    <nav aria-label="Hauptnavigation">
+    <!-- Burger nur auf Mobile und nur mit JS (setupBurger blendet ihn ein).
+         Ohne JS bleibt die normale Linkzeile stehen, nichts ist versteckt. -->
+    <button class="nav-burger" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Menü öffnen" hidden>
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <nav id="site-menu" aria-label="Hauptnavigation">
       <a href="#projekte">PROJEKTE</a>
       <a href="#fotos">FOTOS</a>
       <a href="#about">ABOUT</a>

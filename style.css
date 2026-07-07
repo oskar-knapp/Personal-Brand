@@ -129,10 +129,6 @@ body::after {
      Scrollen unter die Nav liefen. Auf dem iPhone war das besonders
      stark. Deckend deckt den Inhalt sauber ab. */
   background: var(--paper);
-  /* Auf Mobile schiebt sich die Nav beim Runterscrollen aus dem Bild
-     und kommt beim Hochscrollen zurück (setupNav in main.js). Am
-     Desktop passiert das nicht, dort bleibt sie immer sichtbar. */
-  transition: transform 280ms ease;
 }
 
 .site-nav a { text-decoration: none; }
@@ -144,6 +140,13 @@ body::after {
 
 .nav-name { font-weight: 600; }
 .nav-name:hover { color: var(--red); }
+
+/* Burger-Knopf: nur auf Mobile sichtbar (siehe Media Query unten),
+   am Desktop und ohne JS bleibt er komplett weg. */
+.nav-burger { display: none; }
+
+/* Menü offen: Seite dahinter scrollt nicht mit */
+body.menu-open { overflow: hidden; }
 
 /* ---------- Szenen-Grundgerüst ---------- */
 .scene {
@@ -801,9 +804,86 @@ body::after {
 
   .site-nav a { padding: 0.15em 0; } /* größere Tap-Flächen */
 
-  /* Weggeschoben beim Runterscrollen. Nur Mobile: am Desktop wird die
-     Klasse gar nicht erst gesetzt (siehe setupNav in main.js). */
-  .site-nav--hidden { transform: translateY(-100%); }
+  /* ----- Burger-Menü (nur mit JS, setupBurger setzt .has-burger) -----
+     Nav-Balken wird eine ruhige Zeile: Name links, Burger rechts.
+     Ohne JS bleibt die zweizeilige Linkliste oben erhalten. */
+  .site-nav.has-burger {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  /* Name und Burger liegen über dem Overlay (eigene Ebene im Header) */
+  .site-nav.has-burger .nav-name { position: relative; z-index: 2; }
+
+  .nav-burger {
+    display: block;
+    position: relative;
+    z-index: 2;
+    padding: 12px;
+    margin: -12px -12px -12px 0; /* große Tap-Fläche ohne Layout-Versatz */
+    background: none;
+    border: 0;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .nav-burger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--ink);
+    transition: transform 200ms ease, opacity 150ms ease;
+  }
+
+  .nav-burger span + span { margin-top: 5px; }
+
+  /* Offen: Burger wird zum X */
+  .site-nav.is-open .nav-burger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .site-nav.is-open .nav-burger span:nth-child(2) { opacity: 0; }
+  .site-nav.is-open .nav-burger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* Vollbild-Overlay: deckt alles ab, Papier-Grund, Links mittig.
+     Tippen auf die freie Fläche schließt (setupBurger in main.js). */
+  .site-nav.has-burger nav {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: clamp(1.6rem, 5.5vh, 2.6rem);
+    width: auto;
+    flex-wrap: nowrap;
+    background: var(--paper);
+    padding: calc(4.5rem + env(safe-area-inset-top, 0px)) 1.5rem calc(3rem + env(safe-area-inset-bottom, 0px));
+    counter-reset: navi;
+  }
+
+  .site-nav.is-open nav { display: flex; }
+
+  .site-nav.has-burger nav a {
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    padding: 0.5em 1em;
+  }
+
+  /* Szenen-Nummern vor den Links, in Rot, wie die Timecode-Marker */
+  .site-nav.has-burger nav a::before {
+    counter-increment: navi;
+    content: "0" counter(navi) " / ";
+    color: var(--red);
+    font-weight: 500;
+  }
+
+  /* KONTAKT als gerahmter Abschluss, wie ein Call-to-Action */
+  .site-nav.has-burger nav a:last-child {
+    border: 1px solid var(--red);
+    margin-top: 0.5rem;
+  }
 
   html { scroll-padding-top: 6.5rem; } /* Anker unter der höheren Nav */
 

@@ -62,55 +62,51 @@ function setupProgress() {
 }
 
 /* -------------------------------------------------------------
-   2b. Mobile: Nav versteckt sich beim Runterscrollen und kommt beim
-   Hochscrollen zurück, damit sie auf kleinen Screens nicht dauerhaft
-   Platz wegnimmt. Sie bleibt oben angepinnt (position: fixed), fährt
-   nur aus dem Bild. Am Desktop und bei reduzierter Bewegung bleibt sie
-   immer sichtbar. Läuft unabhängig von anime.js (Progressive Enhancement).
+   2b. Burger-Menü auf Mobile. Der Balken oben bleibt immer stehen
+   (Name links, Burger rechts), das Menü öffnet als Vollbild-Overlay
+   im Papier-Look. Schließen: Burger (X), Tippen auf die freie Fläche,
+   Linkwahl oder Escape. Ohne JS bleibt die normale Linkzeile sichtbar,
+   der Burger-Knopf bleibt hidden (Progressive Enhancement). Desktop
+   ist unberührt, dort greift das Burger-CSS gar nicht.
    ------------------------------------------------------------- */
-function setupNav() {
+function setupBurger() {
   const nav = $(".site-nav");
-  if (!nav) return;
+  const menu = $("#site-menu");
+  const burger = $(".nav-burger");
+  if (!nav || !menu || !burger) return;
 
-  const mq = window.matchMedia("(max-width: 800px)");
-  let lastY = window.scrollY;
-  let ticking = false;
+  burger.hidden = false;
+  nav.classList.add("has-burger");
 
-  const show = () => nav.classList.remove("site-nav--hidden");
+  const isOpen = () => nav.classList.contains("is-open");
 
-  const update = () => {
-    ticking = false;
-    const y = window.scrollY;
-
-    // Desktop oder reduzierte Bewegung: immer sichtbar, nie verstecken
-    if (!mq.matches || reducedMotion) {
-      show();
-      lastY = y;
-      return;
-    }
-
-    // Ganz oben immer zeigen (kein Flackern nahe dem Seitenanfang)
-    if (y <= nav.offsetHeight) {
-      show();
-      lastY = y;
-      return;
-    }
-
-    const delta = y - lastY;
-    if (delta > 6) nav.classList.add("site-nav--hidden");   // runter: wegschieben
-    else if (delta < -6) show();                             // hoch: zurückholen
-    lastY = y;
+  const setOpen = (open) => {
+    nav.classList.toggle("is-open", open);
+    document.body.classList.toggle("menu-open", open);
+    burger.setAttribute("aria-expanded", String(open));
+    burger.setAttribute("aria-label", open ? "Menü schließen" : "Menü öffnen");
   };
 
-  window.addEventListener("scroll", () => {
-    if (!ticking) {
-      ticking = true;
-      requestAnimationFrame(update);
-    }
-  }, { passive: true });
+  burger.addEventListener("click", () => setOpen(!isOpen()));
 
-  // Wechsel zwischen Mobile und Desktop: Zustand zurücksetzen
-  mq.addEventListener("change", show);
+  // Tippen auf die freie Fläche (nicht auf einen Link) schließt
+  menu.addEventListener("click", (event) => {
+    if (event.target === menu) setOpen(false);
+  });
+
+  // Link gewählt: Menü zu, danach scrollt der Anker
+  $$("a", menu).forEach((link) => {
+    link.addEventListener("click", () => setOpen(false));
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && isOpen()) setOpen(false);
+  });
+
+  // Dreht jemand aufs Desktop-Layout, geht das Menü sauber zu
+  window.matchMedia("(min-width: 801px)").addEventListener("change", (event) => {
+    if (event.matches) setOpen(false);
+  });
 }
 
 /* -------------------------------------------------------------
@@ -381,7 +377,7 @@ function initMotion({ animate, createTimeline, onScroll, stagger, utils }) {
    ------------------------------------------------------------- */
 setupAge();
 setupProgress();
-setupNav();
+setupBurger();
 setupEmbeds();
 setupGallery();
 setupForm();
