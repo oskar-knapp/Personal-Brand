@@ -131,6 +131,23 @@ body::after {
   background: var(--paper);
 }
 
+/* Deckt den Streifen ÜBER der Nav ab (iPhone-Statusleiste/Notch).
+   iOS Safari malt beim Scrollen Seiteninhalt in den Bereich oberhalb
+   des Viewports, ein fixes Element bei top:0 endet aber genau an der
+   Viewport-Kante, env(safe-area-inset-top) hin oder her. Dieses
+   Pseudo-Element malt einfach einen Bildschirm weit in Papierfarbe
+   nach oben weiter, damit dort nie wieder ein Titel durchblitzt. */
+.site-nav::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 100%;
+  height: 100vh;
+  background: var(--paper);
+  pointer-events: none;
+}
+
 .site-nav a { text-decoration: none; }
 
 .site-nav nav { display: flex; gap: clamp(0.8rem, 2.5vw, 2rem); flex-wrap: wrap; }
