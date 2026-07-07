@@ -870,6 +870,12 @@ body.menu-open { overflow: hidden; }
   .site-nav.has-burger nav {
     position: fixed;
     inset: 0;
+    /* iOS bemisst bottom:0 an der kleinen Viewport-Höhe (Safari-Leiste
+       ausgeklappt); ist die Leiste eingeklappt, bliebe unten ein Streifen
+       mit durchscheinendem Inhalt. Explizite Höhe in dvh deckt immer den
+       ganzen sichtbaren Bereich ab (vh als Fallback für alte Browser). */
+    height: 100vh;
+    height: 100dvh;
     z-index: 1;
     display: none;
     flex-direction: column;
