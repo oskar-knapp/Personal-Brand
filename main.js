@@ -172,11 +172,38 @@ function setupEmbeds() {
       if (embed.dataset.loading === "1") return;
       embed.dataset.loading = "1";
 
+      // Ladezustand: Thumbnail bleibt sichtbar, der Button zeigt
+      // "LÄDT …" statt einer schwarzen Fläche. Das iframe wird erst
+      // eingeblendet, wenn der Player wirklich bereit ist.
+      const thumb = $(".embed-thumb", embed);
+      const originalIcon = button.innerHTML;
+      button.classList.add("embed-play--msg");
+      button.textContent = "LÄDT …";
+      button.disabled = true;
+      embed.classList.add("embed--loading");
+
       // Mount-Punkt: Die API ersetzt diesen <div> durch das iframe.
       const mount = document.createElement("div");
-      embed.replaceChildren(mount);
+      embed.appendChild(mount);
+
+      // Falls YouTube nicht erreichbar ist (Blocker, Netz weg):
+      // nach 10 s zurück zum Ausgangszustand statt ewig "LÄDT …".
+      let settled = false;
+      const fail = () => {
+        if (settled) return;
+        settled = true;
+        $("iframe", embed)?.remove();
+        mount.remove();
+        embed.classList.remove("embed--loading");
+        delete embed.dataset.loading;
+        button.classList.remove("embed-play--msg");
+        button.innerHTML = originalIcon;
+        button.disabled = false;
+      };
+      const timer = setTimeout(fail, 10000);
 
       loadYouTubeApi().then((YT) => {
+        if (settled) return;
         new YT.Player(mount, {
           host: "https://www.youtube-nocookie.com",
           videoId: id,
@@ -186,10 +213,20 @@ function setupEmbeds() {
             rel: 0,
           },
           events: {
-            // Sobald der Player bereit ist, sofort abspielen. Da der
-            // Aufruf aus der Nutzer-Interaktion (Klick) heraus erfolgt,
-            // erlaubt der Browser das Autoplay mit Ton.
-            onReady: (event) => event.target.playVideo(),
+            // Sobald der Player bereit ist, sofort abspielen.
+            // Chrome/Firefox/Edge starten damit direkt mit Ton.
+            // Safari blockiert nachgeladenes Autoplay grundsätzlich;
+            // dort zeigt der Player seinen Play-Button, und der Klick
+            // darauf (im iframe) startet mit Ton.
+            onReady: (event) => {
+              if (settled) return;
+              settled = true;
+              clearTimeout(timer);
+              event.target.playVideo();
+              embed.classList.remove("embed--loading");
+              if (thumb) thumb.remove();
+              button.remove();
+            },
           },
         });
       });
