@@ -53,7 +53,7 @@ Alle `setup*()` werden am Dateiende aufgerufen; `initMotion()` nur bei erwünsch
 ## Konventionen
 - **Cache-Buster:** CSS/JS werden als `style.css?v=N` / `main.js?v=N` eingebunden. Bei jeder
   Änderung an CSS/JS die Zahl **in allen** HTML-Dateien (`index.html`, `impressum/`, `datenschutz/`)
-  hochzählen, sonst laden Browser die alte Version. Aktuell `v=9`.
+  hochzählen, sonst laden Browser die alte Version. Aktuell `v=10`.
 - Kommentare & Commit-/PR-Sprache: **Deutsch** (wie im bestehenden Code).
 - Neue Videos: echte 11-stellige YouTube-ID in `data-yt` eintragen, `DEINE_YOUTUBE_ID` ersetzen.
 
