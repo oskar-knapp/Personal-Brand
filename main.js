@@ -111,8 +111,40 @@ function setupBurger() {
 
 /* -------------------------------------------------------------
    3. YouTube-Embeds: DSGVO-freundlich.
-   Erst der Klick lädt das iframe, und zwar via youtube-nocookie.
+   Erst der Klick lädt YouTube, und zwar via youtube-nocookie.
+   Statt eines rohen iframe wird die YouTube-IFrame-Player-API
+   genutzt: So kann direkt playVideo() ausgelöst werden, sodass
+   das Video mit demselben Klick sofort startet – ohne den sonst
+   nötigen zweiten Klick auf den YouTube-eigenen Play-Button.
    ------------------------------------------------------------- */
+
+/* Lädt das IFrame-API-Script genau einmal (erst nach dem Klick,
+   also weiterhin DSGVO-konform) und liefert ein Promise auf window.YT. */
+let ytApiPromise = null;
+function loadYouTubeApi() {
+  if (ytApiPromise) return ytApiPromise;
+
+  ytApiPromise = new Promise((resolve) => {
+    if (window.YT && window.YT.Player) {
+      resolve(window.YT);
+      return;
+    }
+
+    // YouTube ruft diese globale Funktion auf, sobald die API bereit ist.
+    const previous = window.onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady = () => {
+      if (typeof previous === "function") previous();
+      resolve(window.YT);
+    };
+
+    const tag = document.createElement("script");
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.head.appendChild(tag);
+  });
+
+  return ytApiPromise;
+}
+
 function setupEmbeds() {
   $$(".embed").forEach((embed) => {
     const button = $(".embed-play", embed);
@@ -136,12 +168,31 @@ function setupEmbeds() {
         return;
       }
 
-      const iframe = document.createElement("iframe");
-      iframe.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?autoplay=1`;
-      iframe.title = "YouTube Video";
-      iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
-      iframe.allowFullscreen = true;
-      embed.replaceChildren(iframe);
+      // Doppelklicks während des Ladens ignorieren.
+      if (embed.dataset.loading === "1") return;
+      embed.dataset.loading = "1";
+
+      // Mount-Punkt: Die API ersetzt diesen <div> durch das iframe.
+      const mount = document.createElement("div");
+      embed.replaceChildren(mount);
+
+      loadYouTubeApi().then((YT) => {
+        new YT.Player(mount, {
+          host: "https://www.youtube-nocookie.com",
+          videoId: id,
+          playerVars: {
+            autoplay: 1,
+            playsinline: 1,
+            rel: 0,
+          },
+          events: {
+            // Sobald der Player bereit ist, sofort abspielen. Da der
+            // Aufruf aus der Nutzer-Interaktion (Klick) heraus erfolgt,
+            // erlaubt der Browser das Autoplay mit Ton.
+            onReady: (event) => event.target.playVideo(),
+          },
+        });
+      });
     });
   });
 }
