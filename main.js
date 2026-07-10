@@ -111,8 +111,40 @@ function setupBurger() {
 
 /* -------------------------------------------------------------
    3. YouTube-Embeds: DSGVO-freundlich.
-   Erst der Klick lädt das iframe, und zwar via youtube-nocookie.
+   Erst der Klick lädt YouTube, und zwar via youtube-nocookie.
+   Statt eines rohen iframe wird die YouTube-IFrame-Player-API
+   genutzt: So kann direkt playVideo() ausgelöst werden, sodass
+   das Video mit demselben Klick sofort startet – ohne den sonst
+   nötigen zweiten Klick auf den YouTube-eigenen Play-Button.
    ------------------------------------------------------------- */
+
+/* Lädt das IFrame-API-Script genau einmal (erst nach dem Klick,
+   also weiterhin DSGVO-konform) und liefert ein Promise auf window.YT. */
+let ytApiPromise = null;
+function loadYouTubeApi() {
+  if (ytApiPromise) return ytApiPromise;
+
+  ytApiPromise = new Promise((resolve) => {
+    if (window.YT && window.YT.Player) {
+      resolve(window.YT);
+      return;
+    }
+
+    // YouTube ruft diese globale Funktion auf, sobald die API bereit ist.
+    const previous = window.onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady = () => {
+      if (typeof previous === "function") previous();
+      resolve(window.YT);
+    };
+
+    const tag = document.createElement("script");
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.head.appendChild(tag);
+  });
+
+  return ytApiPromise;
+}
+
 function setupEmbeds() {
   $$(".embed").forEach((embed) => {
     const button = $(".embed-play", embed);
@@ -136,12 +168,68 @@ function setupEmbeds() {
         return;
       }
 
-      const iframe = document.createElement("iframe");
-      iframe.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?autoplay=1`;
-      iframe.title = "YouTube Video";
-      iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
-      iframe.allowFullscreen = true;
-      embed.replaceChildren(iframe);
+      // Doppelklicks während des Ladens ignorieren.
+      if (embed.dataset.loading === "1") return;
+      embed.dataset.loading = "1";
+
+      // Ladezustand: Thumbnail bleibt sichtbar, der Button zeigt
+      // "LÄDT …" statt einer schwarzen Fläche. Das iframe wird erst
+      // eingeblendet, wenn der Player wirklich bereit ist.
+      const thumb = $(".embed-thumb", embed);
+      const originalIcon = button.innerHTML;
+      button.classList.add("embed-play--msg");
+      button.textContent = "LÄDT …";
+      button.disabled = true;
+      embed.classList.add("embed--loading");
+
+      // Mount-Punkt: Die API ersetzt diesen <div> durch das iframe.
+      const mount = document.createElement("div");
+      embed.appendChild(mount);
+
+      // Falls YouTube nicht erreichbar ist (Blocker, Netz weg):
+      // nach 10 s zurück zum Ausgangszustand statt ewig "LÄDT …".
+      let settled = false;
+      const fail = () => {
+        if (settled) return;
+        settled = true;
+        $("iframe", embed)?.remove();
+        mount.remove();
+        embed.classList.remove("embed--loading");
+        delete embed.dataset.loading;
+        button.classList.remove("embed-play--msg");
+        button.innerHTML = originalIcon;
+        button.disabled = false;
+      };
+      const timer = setTimeout(fail, 10000);
+
+      loadYouTubeApi().then((YT) => {
+        if (settled) return;
+        new YT.Player(mount, {
+          host: "https://www.youtube-nocookie.com",
+          videoId: id,
+          playerVars: {
+            autoplay: 1,
+            playsinline: 1,
+            rel: 0,
+          },
+          events: {
+            // Sobald der Player bereit ist, sofort abspielen.
+            // Chrome/Firefox/Edge starten damit direkt mit Ton.
+            // Safari blockiert nachgeladenes Autoplay grundsätzlich;
+            // dort zeigt der Player seinen Play-Button, und der Klick
+            // darauf (im iframe) startet mit Ton.
+            onReady: (event) => {
+              if (settled) return;
+              settled = true;
+              clearTimeout(timer);
+              event.target.playVideo();
+              embed.classList.remove("embed--loading");
+              if (thumb) thumb.remove();
+              button.remove();
+            },
+          },
+        });
+      });
     });
   });
 }

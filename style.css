@@ -411,6 +411,10 @@ body.menu-open { overflow: hidden; }
   border: 0;
 }
 
+/* Während der Player lädt, bleibt das Thumbnail sichtbar –
+   das iframe wird erst mit onReady eingeblendet (kein schwarzes Loch). */
+.embed--loading iframe { visibility: hidden; }
+
 .project-info { margin-top: 1.1rem; }
 
 .project-title {
