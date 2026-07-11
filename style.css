@@ -874,18 +874,17 @@ body.menu-open { overflow: hidden; }
   .site-nav.is-open .nav-burger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
   /* Vollbild-Overlay: deckt alles ab, Papier-Grund, Links mittig.
-     Tippen auf die freie Fläche schließt (setupBurger in main.js). */
+     Tippen auf die freie Fläche schließt (setupBurger in main.js).
+     Die Höhe (svh) bestimmt nur, wo die Links sitzen: im IMMER sichtbaren
+     Bereich, also nie hinter der Nav oben oder der iOS-Leiste unten.
+     Der deckende Papier-Grund kommt vom ::before (siehe unten) und reicht
+     bewusst über den Bildschirmrand hinaus – damit unten NIE Inhalt
+     durchscheint, egal wie iOS die Viewport-Höhe gerade misst. */
   .site-nav.has-burger nav {
     position: fixed;
     inset: 0;
-    /* Höhe MUSS die volle Bildschirmhöhe sein – inklusive des Bereichs
-       HINTER der schwebenden iOS-Safari-Leiste unten. dvh/svh messen nur
-       den Bereich ÜBER der Leiste, dadurch blieb unten ein Streifen, durch
-       den Seiteninhalt (z. B. Galerie-Fotos) durchschien. lvh = large
-       viewport height = ganzer Screen, deckt auch hinter der Leiste ab.
-       vh als Fallback für Browser ohne lvh-Unterstützung. */
-    height: 100vh;
-    height: 100lvh;
+    height: 100vh;   /* Fallback für Browser ohne svh */
+    height: 100svh;
     z-index: 1;
     display: none;
     flex-direction: column;
@@ -894,9 +893,24 @@ body.menu-open { overflow: hidden; }
     gap: clamp(1.6rem, 5.5vh, 2.6rem);
     width: auto;
     flex-wrap: nowrap;
-    background: var(--paper);
+    background: transparent;
     padding: calc(4.5rem + env(safe-area-inset-top, 0px)) 1.5rem calc(3rem + env(safe-area-inset-bottom, 0px));
     counter-reset: navi;
+  }
+
+  /* Deckender Papier-Grund, entkoppelt vom Inhalt. top:0 + bottom:-25vh
+     zieht die Fläche klar unter den physischen Bildschirmrand (hinter die
+     schwebende iOS-Safari-Leiste), sodass dort garantiert kein Seiteninhalt
+     mehr durchscheint. z-index:-1 hält ihn hinter den Menü-Links. */
+  .site-nav.has-burger nav::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: -25vh;
+    background: var(--paper);
+    z-index: -1;
   }
 
   .site-nav.is-open nav { display: flex; }
