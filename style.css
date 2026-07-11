@@ -878,12 +878,14 @@ body.menu-open { overflow: hidden; }
   .site-nav.has-burger nav {
     position: fixed;
     inset: 0;
-    /* iOS bemisst bottom:0 an der kleinen Viewport-Höhe (Safari-Leiste
-       ausgeklappt); ist die Leiste eingeklappt, bliebe unten ein Streifen
-       mit durchscheinendem Inhalt. Explizite Höhe in dvh deckt immer den
-       ganzen sichtbaren Bereich ab (vh als Fallback für alte Browser). */
+    /* Höhe MUSS die volle Bildschirmhöhe sein – inklusive des Bereichs
+       HINTER der schwebenden iOS-Safari-Leiste unten. dvh/svh messen nur
+       den Bereich ÜBER der Leiste, dadurch blieb unten ein Streifen, durch
+       den Seiteninhalt (z. B. Galerie-Fotos) durchschien. lvh = large
+       viewport height = ganzer Screen, deckt auch hinter der Leiste ab.
+       vh als Fallback für Browser ohne lvh-Unterstützung. */
     height: 100vh;
-    height: 100dvh;
+    height: 100lvh;
     z-index: 1;
     display: none;
     flex-direction: column;
