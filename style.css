@@ -328,12 +328,16 @@ body.menu-open { overflow: hidden; }
 
 .project { position: relative; }
 
-/* Award-Label in Signalrot, Monospace, kein Icon */
+/* Award-Label in Signalrot, Monospace, kein Icon.
+   z-index 4: muss ÜBER dem Play-Button (z-index 3) liegen, sonst deckt
+   dessen dunkles "LÄDT …"-Overlay das Label ab. pointer-events: none,
+   damit Klicks auf das Label trotzdem den Play-Button treffen. */
 .award {
   position: absolute;
   top: -0.9rem;
   left: 1rem;
-  z-index: 3;
+  z-index: 4;
+  pointer-events: none;
   background: var(--red);
   color: var(--paper);
   font-family: var(--mono);
