@@ -55,7 +55,11 @@ html {
      der Statusleiste (ohne viewport-fit=cover) und den Overscroll-Bereich. */
   background: var(--paper);
   scroll-behavior: smooth;
-  scroll-padding-top: 5rem; /* Anker landen nicht unter der fixen Nav */
+  /* Anker landen direkt unter der sticky Nav (48px hoch). Nur Fallback:
+     mit JS misst setupAnchorOffset() die echte Nav-Höhe und setzt den
+     Wert exakt – ein zu großer Offset lässt beim Sprung einen Streifen
+     der vorherigen Szene über dem Ziel stehen. */
+  scroll-padding-top: 3.25rem;
 }
 
 body {
@@ -936,7 +940,10 @@ body.menu-open { overflow: hidden; }
     margin-top: 0.5rem;
   }
 
-  html { scroll-padding-top: 6.5rem; } /* Anker unter der höheren Nav */
+  /* Fallback ohne JS: Mobile zeigt dann die ungekürzte Linkliste (~100px
+     hohe Nav). Mit JS (Burger, flache Nav) überschreibt setupAnchorOffset()
+     diesen Wert mit der echten Höhe (~46px). */
+  html { scroll-padding-top: 6.5rem; }
 
   /* KNAPP steht auch mobil klar über dem Bild, keine Kontur im Dunkeln */
   .hero-name { margin-bottom: 0.15em; }

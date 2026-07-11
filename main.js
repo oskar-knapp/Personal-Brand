@@ -110,6 +110,32 @@ function setupBurger() {
 }
 
 /* -------------------------------------------------------------
+   2c. Anker-Offset: setzt scroll-padding-top exakt auf die echte
+   Höhe der sticky Nav. Die festen CSS-Werte sind nur Fallback ohne
+   JS (dort zeigt Mobile die ungekürzte Linkliste, die Nav ist hoch).
+   Mit Burger ist die Nav deutlich flacher – ohne diese Korrektur
+   landet jeder Anker-Sprung zu hoch, und über dem Szenenanfang
+   bleibt ein Streifen der vorherigen Szene sichtbar.
+   ------------------------------------------------------------- */
+function setupAnchorOffset() {
+  const nav = $(".site-nav");
+  if (!nav) return;
+
+  const update = () => {
+    // Offenes Overlay-Menü macht die Nav aufgeklappt hoch: nicht messen,
+    // beim Linkklick ist das Menü ohnehin schon wieder zu.
+    if (document.body.classList.contains("menu-open")) return;
+    const hoehe = Math.ceil(nav.getBoundingClientRect().height);
+    document.documentElement.style.scrollPaddingTop = `${hoehe}px`;
+  };
+
+  update();
+  window.addEventListener("resize", update, { passive: true });
+  // Nach dem Laden der Schriften kann sich die Nav-Höhe minimal ändern
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(update);
+}
+
+/* -------------------------------------------------------------
    3. YouTube-Embeds: DSGVO-freundlich.
    Erst der Klick lädt YouTube, und zwar via youtube-nocookie.
    Statt eines rohen iframe wird die YouTube-IFrame-Player-API
@@ -466,6 +492,7 @@ function initMotion({ animate, createTimeline, onScroll, stagger, utils }) {
 setupAge();
 setupProgress();
 setupBurger();
+setupAnchorOffset(); // nach setupBurger: erst dann hat die Nav ihre flache Form
 setupEmbeds();
 setupGallery();
 setupForm();

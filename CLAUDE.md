@@ -46,6 +46,8 @@ Alle `setup*()` werden am Dateiende aufgerufen; `initMotion()` nur bei erwünsch
 1. `setupAge()` – Alter aus Geburtsdatum (27.08.2010), füllt `[data-age]`.
 2. `setupProgress()` – roter Scroll-Fortschrittsbalken oben.
    2b. `setupBurger()` – Mobile-Burger-Menü (≤ 800px).
+   2c. `setupAnchorOffset()` – setzt `scroll-padding-top` auf die echte Nav-Höhe
+   (CSS-Werte sind nur No-JS-Fallback), damit Anker-Sprünge direkt unter der Nav landen.
 3. `loadYouTubeApi()` + `setupEmbeds()` – Klick-zu-Laden-YouTube via **IFrame-Player-API**,
    `onReady → playVideo()`. Ladezustand („LÄDT …", Thumbnail bleibt), 10-s-Timeout-Fallback.
    Platzhalter-IDs (`DEINE_…`) zeigen „VIDEO FOLGT".
@@ -70,7 +72,7 @@ Alle `setup*()` werden am Dateiende aufgerufen; `initMotion()` nur bei erwünsch
   - Sichtbare Footer-Version: `<span>SCHNITT: ENDE / VN</span>` (Deploy-Marker für den Betreiber).
   Bei **jeder** Änderung, die live geht, `N` in **allen drei** HTML-Dateien (`index.html`,
   `impressum/`, `datenschutz/`) um 1 erhöhen — auch bei reinen HTML-Änderungen, damit der sichtbare
-  Marker mitwandert und Betreiber + Claude denselben Stand ablesen. **Aktuell `N=15` (V15 / `v=15`).**
+  Marker mitwandert und Betreiber + Claude denselben Stand ablesen. **Aktuell `N=16` (V16 / `v=16`).**
 - Kommentare & Commit-/PR-Sprache: **Deutsch** (wie im bestehenden Code).
 - Neue Videos: echte 11-stellige YouTube-ID in `data-yt` eintragen, `DEINE_YOUTUBE_ID` ersetzen.
 
