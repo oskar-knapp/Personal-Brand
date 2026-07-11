@@ -16,9 +16,15 @@ Kein Framework, kein Build-Step, kein `package.json`. Reines HTML/CSS/Vanilla-JS
   keine externen Requests beim Seitenaufbau (Schriften & Icons sind selbst gehostet / Daten-URIs).
 - Schriften selbst gehostet in `assets/fonts/` (Archivo variable, IBM Plex Mono 400/500/600).
 - **Alle Animationen ≤ 600 ms.**
-- **⚠️ CACHE-BUSTER — BEI JEDER CSS/JS-ÄNDERUNG PFLICHT:** `?v=N` in **allen drei** HTML-Dateien
-  (`index.html`, `impressum/index.html`, `datenschutz/index.html`) hochzählen. Wird das vergessen,
-  bekommen wiederkehrende Besucher die alte gecachte Version und sehen die Änderung nicht.
+- **⚠️ VERSION — BEI JEDEM DEPLOY PFLICHT (EINE Zahl `N`, überall gleich):** Bei **jeder**
+  Änderung, die live geht, `N` um 1 erhöhen und **in allen drei** HTML-Dateien
+  (`index.html`, `impressum/index.html`, `datenschutz/index.html`) an **beiden** Stellen setzen:
+  1. **Cache-Buster** `style.css?v=N` / `main.js?v=N` (zwingt Browser, neue Dateien zu laden).
+  2. **Sichtbare Footer-Version** `<span>SCHNITT: ENDE / VN</span>` — dient dem Betreiber als
+     **Deploy-Marker**: Er sieht an der Live-Seite sofort, welche Version online ist, und kann
+     bestätigen, dass sein Stand mit dem besprochenen übereinstimmt.
+  Beide Zahlen sind **immer identisch**. Wird das vergessen, sehen wiederkehrende Besucher die
+  alte gecachte Version, und der Betreiber kann den Live-Stand nicht mehr verlässlich ablesen.
   Details unter „Konventionen".
 - **Kein Gewerbe angemeldet:** Es dürfen derzeit **keine kommerziellen Angebote** auf der Seite
   stehen — weder sichtbar noch als HTML-Kommentar noch in Meta-/Schema.org-Daten. Ausgebaute
@@ -58,10 +64,13 @@ Alle `setup*()` werden am Dateiende aufgerufen; `initMotion()` nur bei erwünsch
 `--display` (Archivo), `--gutter` (Seitenränder). Rot sparsam einsetzen.
 
 ## Konventionen
-- **Cache-Buster (JEDES MAL!):** CSS/JS werden als `style.css?v=N` / `main.js?v=N` eingebunden.
-  Bei **jeder** Änderung an CSS/JS die Zahl **in allen** HTML-Dateien (`index.html`, `impressum/`,
-  `datenschutz/`) hochzählen, sonst laden Browser die alte Version. Diese Regel gilt ausnahmslos
-  für jeden Commit, der `style.css` oder `main.js` anfasst. Aktuell `v=11`.
+- **Version `N` (JEDES MAL beim Deploy!):** Es gibt **eine** Versionszahl, die an drei Stellen pro
+  HTML-Datei steht und **immer identisch** ist:
+  - Cache-Buster: `style.css?v=N`, `main.js?v=N` (im `<head>`).
+  - Sichtbare Footer-Version: `<span>SCHNITT: ENDE / VN</span>` (Deploy-Marker für den Betreiber).
+  Bei **jeder** Änderung, die live geht, `N` in **allen drei** HTML-Dateien (`index.html`,
+  `impressum/`, `datenschutz/`) um 1 erhöhen — auch bei reinen HTML-Änderungen, damit der sichtbare
+  Marker mitwandert und Betreiber + Claude denselben Stand ablesen. **Aktuell `N=12` (V12 / `v=12`).**
 - Kommentare & Commit-/PR-Sprache: **Deutsch** (wie im bestehenden Code).
 - Neue Videos: echte 11-stellige YouTube-ID in `data-yt` eintragen, `DEINE_YOUTUBE_ID` ersetzen.
 
