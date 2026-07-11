@@ -38,7 +38,7 @@ Kein Framework, kein Build-Step, kein `package.json`. Reines HTML/CSS/Vanilla-JS
 | `style.css` | Gesamtes Styling. Abschnitte per `/* ---------- … ---------- */`. Design-Tokens in `:root`. |
 | `impressum/`, `datenschutz/` | Rechtstexte, eigene `index.html`, teilen sich `../style.css`. |
 | `assets/` | Fotos (`DSC*`, `IMG*`), `thumbnails/` (YouTube-Standbilder), `fonts/`. |
-| `robots.txt`, `sitemap.xml` | SEO. |
+| `robots.txt`, `sitemap.xml` | SEO. Kanonische Domain ist **`https://okmedia.at/`** — alle absoluten URLs (Canonical, og:url, JSON-LD, Sitemap, robots.txt) zeigen dorthin, nie auf `oskar-knapp.github.io`. |
 | `.github/workflows/static.yml` | Deploy (s. u.). |
 
 ## main.js – Abschnitte (Funktion → Zweck)
@@ -70,7 +70,7 @@ Alle `setup*()` werden am Dateiende aufgerufen; `initMotion()` nur bei erwünsch
   - Sichtbare Footer-Version: `<span>SCHNITT: ENDE / VN</span>` (Deploy-Marker für den Betreiber).
   Bei **jeder** Änderung, die live geht, `N` in **allen drei** HTML-Dateien (`index.html`,
   `impressum/`, `datenschutz/`) um 1 erhöhen — auch bei reinen HTML-Änderungen, damit der sichtbare
-  Marker mitwandert und Betreiber + Claude denselben Stand ablesen. **Aktuell `N=14` (V14 / `v=14`).**
+  Marker mitwandert und Betreiber + Claude denselben Stand ablesen. **Aktuell `N=15` (V15 / `v=15`).**
 - Kommentare & Commit-/PR-Sprache: **Deutsch** (wie im bestehenden Code).
 - Neue Videos: echte 11-stellige YouTube-ID in `data-yt` eintragen, `DEINE_YOUTUBE_ID` ersetzen.
 
@@ -178,10 +178,10 @@ Wieder in den `@graph` des JSON-LD in `index.html` einfügen (nach dem `Person`-
 ```json
 {
   "@type": "Service",
-  "@id": "https://oskar-knapp.github.io/Personal-Brand/#leistungen",
+  "@id": "https://okmedia.at/#leistungen",
   "serviceType": "Videoproduktion",
-  "provider": { "@id": "https://oskar-knapp.github.io/Personal-Brand/#oskar" },
-  "url": "https://oskar-knapp.github.io/Personal-Brand/",
+  "provider": { "@id": "https://okmedia.at/#oskar" },
+  "url": "https://okmedia.at/",
   "areaServed": [
     { "@type": "AdministrativeArea", "name": "Mostviertel" },
     { "@type": "AdministrativeArea", "name": "Niederösterreich" }
@@ -198,7 +198,7 @@ Wieder in den `@graph` des JSON-LD in `index.html` einfügen (nach dem `Person`-
 },
 {
   "@type": "FAQPage",
-  "@id": "https://oskar-knapp.github.io/Personal-Brand/#faq",
+  "@id": "https://okmedia.at/#faq",
   "mainEntity": [
     {
       "@type": "Question",
