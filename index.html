@@ -28,7 +28,11 @@
   <meta name="theme-color" content="#E8E6E1">
 
   <!-- ================= STRUKTURIERTE DATEN (Schema.org) =================
-       Macht die Person für Google und KI-Suchen eindeutig verständlich. -->
+       Macht die Person für Google und KI-Suchen eindeutig verständlich.
+       TODO (2 Min): Bei beiden VideoObject-Blöcken "uploadDate" ergänzen,
+       Format "JJJJ-MM-TT" (Datum steht in YouTube Studio). Google braucht das
+       Feld für Video-Rich-Results. Außerdem nach echtem Portrait: "image" mit
+       absoluter URL im Person-Block ergänzen. -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -51,6 +55,17 @@
           "https://www.instagram.com/oskarknapp.at/",
           "https://www.tiktok.com/@oskarknapp.at"
         ],
+        "alumniOf": {
+          "@type": "EducationalOrganization",
+          "name": "IT-HTL Ybbs",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Ybbs an der Donau",
+            "addressRegion": "Niederösterreich",
+            "addressCountry": "AT"
+          }
+        },
+        "award": "Sonderpreis der Jury, Kategorie Clip, Postcard-Challenge 2025/26 (Diözese St. Pölten)",
         "knowsAbout": ["Videoproduktion", "Filmemachen", "Videoschnitt", "Color Grading"]
       },
       {
@@ -60,6 +75,28 @@
         "name": "Oskar Knapp",
         "inLanguage": "de-AT",
         "about": { "@id": "https://okmedia.at/#oskar" }
+      },
+      {
+        "@type": "VideoObject",
+        "@id": "https://okmedia.at/#video-was-kommt-danach",
+        "name": "Was kommt danach?",
+        "description": "Kurzfilm, Teamprojekt am SZ Ybbs für die Postcard-Challenge 2025/26. Sonderpreis der Jury in der Kategorie Clip, vergeben von der Diözese St. Pölten im Mai 2026.",
+        "thumbnailUrl": "https://okmedia.at/assets/thumbnails/was-kommt-danach.jpg",
+        "contentUrl": "https://www.youtube.com/watch?v=5XbbUtZ45v0",
+        "embedUrl": "https://www.youtube-nocookie.com/embed/5XbbUtZ45v0",
+        "inLanguage": "de",
+        "creator": { "@id": "https://okmedia.at/#oskar" }
+      },
+      {
+        "@type": "VideoObject",
+        "@id": "https://okmedia.at/#video-allein",
+        "name": "ALLEIN",
+        "description": "Kurzfilm-Drama über Mobbing. Drehbuch, Regie, Kamera und Schnitt: Oskar Knapp.",
+        "thumbnailUrl": "https://okmedia.at/assets/thumbnails/thumbnail_allein.jpg",
+        "contentUrl": "https://www.youtube.com/watch?v=QDq6b3w08eM",
+        "embedUrl": "https://www.youtube-nocookie.com/embed/QDq6b3w08eM",
+        "inLanguage": "de",
+        "creator": { "@id": "https://okmedia.at/#oskar" }
       }
     ]
   }
@@ -77,9 +114,9 @@
 
   <!-- ?v Cache-Buster: bei Änderungen an CSS/JS hochzählen, damit Browser
        (auch iPhone) sicher die neue Version laden statt der gecachten. -->
-  <link rel="stylesheet" href="style.css?v=15">
+  <link rel="stylesheet" href="style.css?v=16">
   <!-- main.js lädt anime.js dynamisch. Fällt das CDN aus, bleibt die Seite voll lesbar. -->
-  <script type="module" src="main.js?v=15"></script>
+  <script type="module" src="main.js?v=16"></script>
 </head>
 <body>
 
@@ -120,10 +157,16 @@
         <span class="hero-line hero-line--offset" data-split>KNAPP</span>
       </h1>
 
-      <!-- PLATZHALTER: Showreel-Still oder Hintergrund-Video im 16:9-Format -->
+      <!-- PLATZHALTER: Showreel-Still oder Hintergrund-Video im 16:9-Format.
+           Das Bild ist das LCP-Element der Seite (fetchpriority="high" zieht
+           es im Ladevorgang vor). Sobald ein echtes, selbst gehostetes Still
+           da ist: src auf assets/... umstellen UND im <head> zusätzlich
+           <link rel="preload" as="image" href="assets/DEIN-STILL.jpg" fetchpriority="high">
+           eintragen, damit der Browser es noch vor dem CSS lädt. -->
       <figure class="hero-frame">
         <img src="https://placehold.co/1920x1080/181714/E8E6E1?text=SHOWREEL+STILL+%2F+16%3A9+%2F+PLATZHALTER"
              alt="Platzhalter für ein Showreel-Still im 16:9-Format"
+             fetchpriority="high" decoding="async"
              width="1920" height="1080">
       </figure>
 
@@ -197,46 +240,94 @@
       <p class="journey-intro" data-animate>Meine liebsten Aufnahmen, unterwegs und auf Reisen entstanden. Keine Auftragsdrehs, einfach Momente die mir gefallen.</p>
 
       <!-- Foto-Galerie (siehe .gallery-grid in style.css). Fotos werden NICHT
-           zugeschnitten. NEUES FOTO HINZUFÜGEN: Bild nach assets/ legen und einen
-           Block wie unten einfügen. Wichtig nur: width und height auf die echten
-           Bildmaße setzen, das Seitenverhältnis ergibt sich daraus automatisch.
+           zugeschnitten. Jedes Foto liegt als WebP in mehreren Breiten (Handys
+           laden die kleine Variante) plus JPEG-Fallback für alte Browser.
+           NEUES FOTO HINZUFÜGEN: JPEG nach assets/ legen (beschreibender
+           Dateiname!), WebP-Varianten in 480/960/voller Breite erzeugen und
+           einen Block wie unten einfügen. Wichtig: width und height auf die
+           echten Bildmaße setzen, das Seitenverhältnis ergibt sich automatisch.
 
              <figure class="gallery-item" data-animate>
-               <img src="assets/DEIN-FOTO.jpg" alt="Kurze Beschreibung"
-                    loading="lazy" width="BREITE" height="HÖHE">
+               <picture>
+                 <source type="image/webp"
+                         srcset="assets/DEIN-FOTO-480.webp 480w, assets/DEIN-FOTO-960.webp 960w, assets/DEIN-FOTO-1500.webp 1500w"
+                         sizes="(max-width: 600px) 50vw, (max-width: 1000px) 40vw, 400px">
+                 <img src="assets/DEIN-FOTO.jpg" alt="Kurze Beschreibung"
+                      loading="lazy" width="BREITE" height="HÖHE">
+               </picture>
              </figure> -->
       <div class="gallery-grid">
         <figure class="gallery-item" data-animate>
-          <img src="assets/DSC02220.jpg" alt="Ort am See in der Abenddämmerung"
-               loading="lazy" width="1500" height="1000">
+          <picture>
+            <source type="image/webp"
+                    srcset="assets/see-abenddaemmerung-480.webp 480w, assets/see-abenddaemmerung-960.webp 960w, assets/see-abenddaemmerung-1500.webp 1500w"
+                    sizes="(max-width: 600px) 50vw, (max-width: 1000px) 40vw, 400px">
+            <img src="assets/see-abenddaemmerung.jpg" alt="Ort am See in der Abenddämmerung"
+                 loading="lazy" width="1500" height="1000">
+          </picture>
         </figure>
         <figure class="gallery-item" data-animate>
-          <img src="assets/DSC02292.jpg" alt="Affe im Wald"
-               loading="lazy" width="1500" height="1125">
+          <picture>
+            <source type="image/webp"
+                    srcset="assets/affe-im-wald-480.webp 480w, assets/affe-im-wald-960.webp 960w, assets/affe-im-wald-1500.webp 1500w"
+                    sizes="(max-width: 600px) 50vw, (max-width: 1000px) 40vw, 400px">
+            <img src="assets/affe-im-wald.jpg" alt="Affe im Wald"
+                 loading="lazy" width="1500" height="1125">
+          </picture>
         </figure>
         <figure class="gallery-item" data-animate>
-          <img src="assets/DSC02961.jpg" alt="Sportflugzeug über dem Wald"
-               loading="lazy" width="1500" height="1000">
+          <picture>
+            <source type="image/webp"
+                    srcset="assets/sportflugzeug-ueber-wald-480.webp 480w, assets/sportflugzeug-ueber-wald-960.webp 960w, assets/sportflugzeug-ueber-wald-1500.webp 1500w"
+                    sizes="(max-width: 600px) 50vw, (max-width: 1000px) 40vw, 400px">
+            <img src="assets/sportflugzeug-ueber-wald.jpg" alt="Sportflugzeug über dem Wald"
+                 loading="lazy" width="1500" height="1000">
+          </picture>
         </figure>
         <figure class="gallery-item" data-animate>
-          <img src="assets/DSC02104.jpg" alt="Storchennest im Abendlicht"
-               loading="lazy" width="1000" height="1500">
+          <picture>
+            <source type="image/webp"
+                    srcset="assets/storchennest-abendlicht-480.webp 480w, assets/storchennest-abendlicht-1000.webp 1000w"
+                    sizes="(max-width: 600px) 50vw, (max-width: 1000px) 40vw, 400px">
+            <img src="assets/storchennest-abendlicht.jpg" alt="Storchennest im Abendlicht"
+                 loading="lazy" width="1000" height="1500">
+          </picture>
         </figure>
         <figure class="gallery-item" data-animate>
-          <img src="assets/DSC02730.jpg" alt="Historisches Gebäude an einem Stadtplatz"
-               loading="lazy" width="1125" height="1500">
+          <picture>
+            <source type="image/webp"
+                    srcset="assets/historisches-gebaeude-stadtplatz-480.webp 480w, assets/historisches-gebaeude-stadtplatz-1125.webp 1125w"
+                    sizes="(max-width: 600px) 50vw, (max-width: 1000px) 40vw, 400px">
+            <img src="assets/historisches-gebaeude-stadtplatz.jpg" alt="Historisches Gebäude an einem Stadtplatz"
+                 loading="lazy" width="1125" height="1500">
+          </picture>
         </figure>
         <figure class="gallery-item" data-animate>
-          <img src="assets/DSC03603.jpg" alt="Biene auf einer Blüte"
-               loading="lazy" width="1500" height="1000">
+          <picture>
+            <source type="image/webp"
+                    srcset="assets/biene-auf-bluete-480.webp 480w, assets/biene-auf-bluete-960.webp 960w, assets/biene-auf-bluete-1500.webp 1500w"
+                    sizes="(max-width: 600px) 50vw, (max-width: 1000px) 40vw, 400px">
+            <img src="assets/biene-auf-bluete.jpg" alt="Biene auf einer Blüte"
+                 loading="lazy" width="1500" height="1000">
+          </picture>
         </figure>
         <figure class="gallery-item" data-animate>
-          <img src="assets/IMG_1269.jpg" alt="Zwei Smaragdeidechsen auf Holz"
-               loading="lazy" width="1500" height="1072">
+          <picture>
+            <source type="image/webp"
+                    srcset="assets/smaragdeidechsen-auf-holz-480.webp 480w, assets/smaragdeidechsen-auf-holz-960.webp 960w, assets/smaragdeidechsen-auf-holz-1500.webp 1500w"
+                    sizes="(max-width: 600px) 50vw, (max-width: 1000px) 40vw, 400px">
+            <img src="assets/smaragdeidechsen-auf-holz.jpg" alt="Zwei Smaragdeidechsen auf Holz"
+                 loading="lazy" width="1500" height="1072">
+          </picture>
         </figure>
         <figure class="gallery-item" data-animate>
-          <img src="assets/IMG_1286.jpg" alt="Moderne Architektur, im Wasser gespiegelt"
-               loading="lazy" width="1500" height="750">
+          <picture>
+            <source type="image/webp"
+                    srcset="assets/architektur-wasserspiegelung-480.webp 480w, assets/architektur-wasserspiegelung-960.webp 960w, assets/architektur-wasserspiegelung-1500.webp 1500w"
+                    sizes="(max-width: 600px) 50vw, (max-width: 1000px) 40vw, 400px">
+            <img src="assets/architektur-wasserspiegelung.jpg" alt="Moderne Architektur, im Wasser gespiegelt"
+                 loading="lazy" width="1500" height="750">
+          </picture>
         </figure>
       </div>
     </section>
@@ -385,7 +476,7 @@
       <a href="impressum/">IMPRESSUM</a>
       <a href="datenschutz/">DATENSCHUTZ</a>
     </span>
-    <span>SCHNITT: ENDE / V15</span>
+    <span>SCHNITT: ENDE / V16</span>
   </footer>
 
 </body>
