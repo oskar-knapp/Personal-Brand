@@ -462,6 +462,10 @@ body.menu-open { overflow: hidden; }
   line-height: 0;
 }
 
+/* <picture> (WebP + JPEG-Fallback) darf keine eigene Box erzeugen,
+   sonst rechnet das justierte Reihen-Layout gegen das falsche Element. */
+.gallery-item picture { display: contents; }
+
 .gallery-item img {
   width: 100%;
   height: auto;             /* volles Bild, kein Zuschnitt */
