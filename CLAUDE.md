@@ -2,6 +2,10 @@
 
 Orientierung für Claude Code. Ziel: Struktur kennen, ohne alle Dateien neu zu scannen.
 
+> **Zuerst lesen:** Aktueller Stand, offene Punkte und was schon erledigt ist stehen
+> unten im Abschnitt **„Arbeitsprotokoll"**. Das spart erneutes Durchscannen des Repos.
+> **Pflicht:** Diesen Abschnitt nach jeder erledigten Aufgabe aktualisieren.
+
 ## Was das ist
 Statische **Ein-Seiten-Portfolio-Website** (Oskar Knapp, Videograf). Live: `okmedia.at`.
 Kein Framework, kein Build-Step, kein `package.json`. Reines HTML/CSS/Vanilla-JS.
@@ -84,6 +88,52 @@ GitHub Pages via `.github/workflows/static.yml`: Push auf **`main`** deployt das
 - Für JS-Verhalten (z. B. Embeds) eignet sich Playwright mit dem vorinstallierten Chromium
   (`/opt/pw-browsers/chromium-1194/chrome-linux/chrome`); externe Hosts wie youtube.com sind in der
   Sandbox nicht erreichbar → im Test mocken (`page.route`).
+
+---
+
+## Arbeitsprotokoll
+
+**Zweck:** Gedächtnis über Sessions hinweg. Künftige Aufgaben zuerst hier abgleichen, statt das
+Repo neu zu indizieren. **Nach jeder erledigten Aufgabe pflegen:** „Aktueller Stand" anpassen,
+Erledigtes aus „Offene Punkte" streichen, neuen Eintrag in „Historie" (oben = neu) ergänzen.
+Reine Doku-Änderungen an dieser Datei brauchen **keinen** Versions-Bump (der Footer-Marker betrifft
+nur die sichtbare Seite).
+
+### Aktueller Stand (Stand 2026-07-17)
+- **Live-Version:** V16 (`v=16`). Auf `main` gemergt (PR #17, Squash-Commit `935a956`), Deploy läuft
+  automatisch. Footer-Marker der Live-Seite muss `SCHNITT: ENDE / V16` zeigen.
+- **Galerie:** 8 Fotos als WebP in 480/960/voller Breite + JPEG-Fallback via `<picture>` (`srcset`/
+  `sizes`). Beschreibende Dateinamen (z. B. `see-abenddaemmerung.jpg`), keine `DSC*`/`IMG_*` mehr.
+  CSS-Absicherung: `.gallery-item picture { display: contents }`.
+- **`llms.txt`** liegt im Repo-Root (Entitäts-Zusammenfassung, ohne kommerzielle Angebote).
+- **Schema.org** (`index.html`): Person hat `alumniOf` (IT-HTL Ybbs) + `award`; zwei `VideoObject`
+  (ALLEIN = `QDq6b3w08eM`, „Was kommt danach?" = `5XbbUtZ45v0`).
+- **Hero-Bild:** `fetchpriority="high"` + `decoding="async"`; Preload-Anleitung als Kommentar.
+
+### Offene Punkte (TODO)
+- **Placeholder** (Betreiber liefert Medien selbst): Hero-Showreel-Still, About-Portrait, `og:image`,
+  3× Journey-Videos (`data-yt="DEINE_YOUTUBE_ID"` + `placehold.co`-Thumbnails). Solange offen, keine
+  Panik – sind bewusst so. **Sobald Portrait da:** Person-Schema um `image` (absolute URL) ergänzen.
+- **VideoObject `uploadDate`:** Bei beiden Filmen fehlt das Feld (aus Sandbox nicht verifizierbar,
+  YouTube dort gesperrt). Datum aus YouTube Studio nachtragen, Format `JJJJ-MM-TT`. TODO-Kommentar
+  steht über dem JSON-LD-Block.
+- **DNS (nicht im Repo, Betreiber-Seite):** Doppelter `www`-CNAME. Behalten: `www` → `oskar-knapp.github.io.`
+  Löschen: `www` → `okmedia.at.` (zwei CNAMEs auf einem Host = ungültig).
+- **Backlog:** optional AAAA-/IPv6-Records; Journey-Serie zu echtem Content-Hub ausbauen
+  (pro Folge Seite/Anchor + VideoObject + Textzusammenfassung).
+
+### Sandbox-Wissen (spart nächstes Mal Zeit)
+- **okmedia.at selbst ist aus der Sandbox nicht erreichbar** (Proxy blockt → `curl` gibt `000`).
+  Live-Verifikation daher nur durch den Betreiber oder externe Tools (PageSpeed, Rich-Results-Test).
+- **Pillow mit WebP** installierbar via `pip3 install --break-system-packages Pillow` (WebP-Support ist da).
+- **Bild-Varianten-Konvention:** `assets/<name>-<breite>.webp` (480/960/voll), Original `assets/<name>.jpg`.
+- Externe Hosts (`youtube.com`, `placehold.co`, `jsdelivr`) im Playwright-Test mit `page.route(...).abort()` mocken.
+
+### Historie (neueste oben)
+- **2026-07-17 — SEO-Audit umgesetzt (V16, PR #17):** WebP-Galerie + `srcset`, beschreibende
+  Dateinamen, `llms.txt`, Schema-Anreicherung (Person `alumniOf`/`award`, 2× VideoObject),
+  Hero-LCP (`fetchpriority`), `sitemap.xml` `lastmod`. Placeholder-Punkte bewusst ausgelassen
+  (Medien folgen vom Betreiber). Basis-Audit: SEO Health Score 76/100.
 
 ---
 
