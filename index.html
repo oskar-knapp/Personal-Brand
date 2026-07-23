@@ -114,9 +114,9 @@
 
   <!-- ?v Cache-Buster: bei Änderungen an CSS/JS hochzählen, damit Browser
        (auch iPhone) sicher die neue Version laden statt der gecachten. -->
-  <link rel="stylesheet" href="style.css?v=16">
+  <link rel="stylesheet" href="style.css?v=17">
   <!-- main.js lädt anime.js dynamisch. Fällt das CDN aus, bleibt die Seite voll lesbar. -->
-  <script type="module" src="main.js?v=16"></script>
+  <script type="module" src="main.js?v=17"></script>
 </head>
 <body>
 
@@ -157,17 +157,22 @@
         <span class="hero-line hero-line--offset" data-split>KNAPP</span>
       </h1>
 
-      <!-- PLATZHALTER: Showreel-Still oder Hintergrund-Video im 16:9-Format.
-           Das Bild ist das LCP-Element der Seite (fetchpriority="high" zieht
-           es im Ladevorgang vor). Sobald ein echtes, selbst gehostetes Still
-           da ist: src auf assets/... umstellen UND im <head> zusätzlich
-           <link rel="preload" as="image" href="assets/DEIN-STILL.jpg" fetchpriority="high">
-           eintragen, damit der Browser es noch vor dem CSS lädt. -->
+      <!-- Showreel als Hintergrund-Video im 16:9-Frame: läuft stumm,
+           automatisch und in Endlosschleife (autoplay + muted + loop +
+           playsinline). Ganz ohne JS spielt das Video nativ. Bei
+           prefers-reduced-motion stoppt main.js (setupHeroVideo) die
+           Wiedergabe und lässt den ersten Frame als Standbild stehen.
+           Selbst gehostet → kein externer Request, DSGVO-konform.
+           Kein poster gesetzt (erster Frame dient als Standbild); ein
+           leichtes Still könnte hier später als poster="assets/…"
+           den ersten Eindruck und den reduced-motion-Fall verbessern. -->
       <figure class="hero-frame">
-        <img src="https://placehold.co/1920x1080/181714/E8E6E1?text=SHOWREEL+STILL+%2F+16%3A9+%2F+PLATZHALTER"
-             alt="Platzhalter für ein Showreel-Still im 16:9-Format"
-             fetchpriority="high" decoding="async"
-             width="1920" height="1080">
+        <video class="hero-video" autoplay muted loop playsinline preload="auto"
+               width="1920" height="1080"
+               aria-label="Showreel von Oskar Knapp, stummer Zusammenschnitt seiner Arbeiten">
+          <source src="assets/show_reel.mp4" type="video/mp4">
+          Dein Browser kann dieses Video nicht abspielen.
+        </video>
       </figure>
 
       <!-- Statement-Zeile: schlägt per Animation wie eine Filmklappe ein.
@@ -476,7 +481,7 @@
       <a href="impressum/">IMPRESSUM</a>
       <a href="datenschutz/">DATENSCHUTZ</a>
     </span>
-    <span>SCHNITT: ENDE / V16</span>
+    <span>SCHNITT: ENDE / V17</span>
   </footer>
 
 </body>

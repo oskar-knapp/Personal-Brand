@@ -461,6 +461,28 @@ function initMotion({ animate, createTimeline, onScroll, stagger, utils }) {
 }
 
 /* -------------------------------------------------------------
+   Showreel im Hero: stumm, automatisch, in Endlosschleife.
+   Das Abspielen steckt schon in den HTML-Attributen (autoplay/
+   muted/loop/playsinline), läuft also auch ganz ohne JS. Hier wird
+   nur zweierlei nachgeschärft:
+   - Bewegung reduziert (prefers-reduced-motion): nicht abspielen,
+     erster Frame bleibt als Standbild stehen.
+   - sonst: Autoplay sanft anstoßen, falls der Browser es verzögert.
+   ------------------------------------------------------------- */
+function setupHeroVideo() {
+  const video = $(".hero-video");
+  if (!video) return;
+
+  if (reducedMotion) {
+    video.removeAttribute("autoplay");
+    video.pause();
+    return;
+  }
+
+  video.play().catch(() => {});
+}
+
+/* -------------------------------------------------------------
    Start
    ------------------------------------------------------------- */
 setupAge();
@@ -469,6 +491,7 @@ setupBurger();
 setupEmbeds();
 setupGallery();
 setupForm();
+setupHeroVideo();
 
 /* anime.js nur laden, wenn Bewegung erwünscht ist.
    Dynamischer Import: schlägt er fehl, läuft der Rest trotzdem. */
