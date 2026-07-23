@@ -223,6 +223,20 @@ body.menu-open { overflow: hidden; }
 /* Buchstaben-Spans aus dem JS-Split */
 .char { display: inline-block; }
 
+/* Visuell versteckt, aber für Screenreader lesbar. Trägt den ungeteilten
+   Text hinter data-split, während die Einzel-.char aria-hidden sind. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* Kleine Mono-Labels (Bildunterschriften, Folgen-Titel) */
 .mono-label {
   font-family: var(--mono);

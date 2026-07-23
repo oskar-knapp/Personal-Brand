@@ -372,8 +372,16 @@ function initMotion({ animate, createTimeline, onScroll, stagger, utils }) {
   /* Text-Split: Headlines in einzelne Buchstaben zerlegen */
   $$("[data-split]").forEach((el) => {
     const text = el.textContent.trim();
-    el.setAttribute("aria-label", text);
+    // Barrierefrei: Der lesbare Text kommt aus einem visuell versteckten
+    // .sr-only-Span, NICHT aus aria-label. Grund: aria-label ist auf
+    // generischen Elementen wie <span class="hero-line"> unzulässig
+    // (Lighthouse: „prohibited ARIA attributes"). Die Einzelbuchstaben
+    // bleiben aria-hidden, damit Screenreader nur den ganzen Text lesen.
+    const sr = document.createElement("span");
+    sr.className = "sr-only";
+    sr.textContent = text;
     el.replaceChildren(
+      sr,
       ...[...text].map((ch) => {
         const span = document.createElement("span");
         span.className = "char";

@@ -74,7 +74,7 @@ Alle `setup*()` werden am Dateiende aufgerufen; `initMotion()` nur bei erwünsch
   - Sichtbare Footer-Version: `<span>SCHNITT: ENDE / VN</span>` (Deploy-Marker für den Betreiber).
   Bei **jeder** Änderung, die live geht, `N` in **allen drei** HTML-Dateien (`index.html`,
   `impressum/`, `datenschutz/`) um 1 erhöhen — auch bei reinen HTML-Änderungen, damit der sichtbare
-  Marker mitwandert und Betreiber + Claude denselben Stand ablesen. **Aktuell `N=19` (V19 / `v=19`).**
+  Marker mitwandert und Betreiber + Claude denselben Stand ablesen. **Aktuell `N=20` (V20 / `v=20`).**
 - Kommentare & Commit-/PR-Sprache: **Deutsch** (wie im bestehenden Code).
 - Neue Videos: echte 11-stellige YouTube-ID in `data-yt` eintragen, `DEINE_YOUTUBE_ID` ersetzen.
 
@@ -100,9 +100,16 @@ Reine Doku-Änderungen an dieser Datei brauchen **keinen** Versions-Bump (der Fo
 nur die sichtbare Seite).
 
 ### Aktueller Stand (Stand 2026-07-23)
-- **Live-Version:** V18 (1:1) war kurz live; V19 (`v=19`, dieser Stand) stellt den Frame auf das
-  **originale 16:9-Format zurück** und geht mit dem nächsten Merge live. (Ablauf: V17=16:9 →
-  V18=1:1 auf Betreiberwunsch → V19 zurück auf 16:9, weil das Original gewünscht ist.)
+- **Live-Version:** V19 stellte den Hero-Frame auf 16:9 zurück; **V20** (`v=20`, dieser Stand)
+  behebt einen ARIA-Fehler aus dem Lighthouse-Report und geht mit dem nächsten Merge live.
+  (Ablauf: V17=16:9 → V18=1:1 → V19 zurück auf 16:9 → V20 = ARIA-Fix.)
+- **Lighthouse (23.07.26, Moto G Power / Slow 4G):** Performance 94, Accessibility 92,
+  Best Practices 100, SEO 100, Agentic Browsing 2/3 → **nach V20-ARIA-Fix 3/3 erwartet**.
+  Bewusst offen gelassen: **Kontrast** (Signalrot `#E63321` auf Papier = 3,46:1, unter AA 4,5:1
+  für kleinen Text bei `.tc`/`.scroll-hint`/`.journey-cta`) — Betreiber will das helle Brand-Rot
+  behalten, Accessibility bleibt daher bei 92. **Performance-Hebel liegen beim Betreiber:**
+  Hero-`show_reel.mp4` ist 3,8 MB (LCP-Element, LCP 3,1 s) → Kompression + `poster`-Still nötig
+  (in Sandbox mangels ffmpeg nicht machbar); Cache-TTL/CSP/HSTS sind GitHub-Pages-Serverconfig.
 - **Hero-Showreel:** `assets/show_reel.mp4` (6,66 MB, Datei ist 1280×720/16:9, quadratische Pixel)
   läuft als `<video autoplay muted loop playsinline>` — stumm, automatisch, Endlosschleife, selbst
   gehostet (kein externer Request, DSGVO-konform). `main.js`/`setupHeroVideo()` stoppt die
@@ -150,6 +157,16 @@ nur die sichtbare Seite).
   Playwright (kein `lavfi`, kein H.264-Decode/libvpx-Encode) → für Kompression/WebM/Poster **unbrauchbar**.
 
 ### Historie (neueste oben)
+- **2026-07-23 — Lighthouse-ARIA-Fix (V20):** Der Text-Split in `initMotion()` (`main.js`) setzte
+  `aria-label` auf **jedes** `[data-split]`-Element — bei den generischen `<span class="hero-line">`
+  ist das laut ARIA-Spec unzulässig („prohibited ARIA attributes", von Lighthouse in Accessibility
+  **und** Agentic Browsing moniert). Neu: Der ungeteilte Text steckt in einem visuell versteckten
+  `.sr-only`-Span (neue CSS-Utility), die Einzel-`.char` bleiben `aria-hidden`. Keine optische
+  Änderung. Hebt Agentic Browsing 2/3 → 3/3 (erwartet). **Kontrast bewusst nicht angefasst**
+  (Betreiber behält helles Rot, s. „Aktueller Stand"). Auf Branch `claude/hero-section-italic-style-9nyla2`.
+- **2026-07-23 — Hero-Kursiv verworfen:** Idee, den Hero-Namen kursiv zu setzen, verworfen — die
+  selbst gehostete `archivo-variable.woff2` hat keine Italic-Achse (→ nur Faux-Italic), und der
+  aufrechte Bruch ist bewusst. Keine Code-Änderung.
 - **2026-07-23 — Showreel-Frame zurück auf 16:9 / Originalformat (V19):** Betreiber wollte das
   Video doch im originalen 16:9-Format (kein Zuschnitt), nicht 1:1. CSS `.hero-frame video` wieder
   `aspect-ratio: 16/9` (mit img zusammengeführt); `<video>`-Attribute auf `1280×720`. `height: auto`
