@@ -80,7 +80,7 @@ Alle `setup*()` werden am Dateiende aufgerufen; `initMotion()` nur bei erwünsch
   - Sichtbare Footer-Version: `<span>SCHNITT: ENDE / VN</span>` (Deploy-Marker für den Betreiber).
   Bei **jeder** Änderung, die live geht, `N` in **allen drei** HTML-Dateien (`index.html`,
   `impressum/`, `datenschutz/`) um 1 erhöhen — auch bei reinen HTML-Änderungen, damit der sichtbare
-  Marker mitwandert und Betreiber + Claude denselben Stand ablesen. **Aktuell `N=20` (V20 / `v=20`).**
+  Marker mitwandert und Betreiber + Claude denselben Stand ablesen. **Aktuell `N=21` (V21 / `v=21`).**
 - Kommentare & Commit-/PR-Sprache: **Deutsch** (wie im bestehenden Code).
 - Neue Videos: echte 11-stellige YouTube-ID in `data-yt` eintragen, `DEINE_YOUTUBE_ID` ersetzen.
 
@@ -130,11 +130,11 @@ Reine Doku-Änderungen an dieser Datei brauchen **keinen** Versions-Bump (der Fo
 nur die sichtbare Seite).
 
 ### Aktueller Stand (Stand 2026-07-23)
-- **Live-Version:** V19 stellte den Hero-Frame auf 16:9 zurück; **V20** (`v=20`, dieser Stand)
-  bündelt den Lighthouse-ARIA-Fix **und** die komplette Entfernung aller Code-Kommentare; geht mit
-  dem nächsten Merge live. (Ablauf: V17=16:9 → V18=1:1 → V19 zurück auf 16:9 → V20 = ARIA-Fix +
-  kommentarfreier Quelltext.) V20 war noch nicht live, daher kein erneuter Bump für die
-  Kommentar-Entfernung — sie ist Teil desselben V20-Deploys.
+- **Live-Version:** V19 stellte den Hero-Frame auf 16:9 zurück; **V20** bündelte den
+  Lighthouse-ARIA-Fix + Entfernung aller Code-Kommentare; **V21** (`v=21`, dieser Stand) ergänzt die
+  beiden Search-Console-Fixes (VideoObject `uploadDate` gesetzt, Redirect-Analyse). Geht mit dem
+  nächsten Merge live. (Ablauf: V17=16:9 → V18=1:1 → V19 zurück auf 16:9 → V20 = ARIA-Fix +
+  kommentarfreier Quelltext → V21 = `uploadDate` + Search-Console.)
 - **Lighthouse (23.07.26, Moto G Power / Slow 4G):** Performance 94, Accessibility 92,
   Best Practices 100, SEO 100, Agentic Browsing 2/3 → **nach V20-ARIA-Fix 3/3 erwartet**.
   Bewusst offen gelassen: **Kontrast** (Signalrot `#E63321` auf Papier = 3,46:1, unter AA 4,5:1
@@ -155,7 +155,8 @@ nur die sichtbare Seite).
   CSS-Absicherung: `.gallery-item picture { display: contents }`.
 - **`llms.txt`** liegt im Repo-Root (Entitäts-Zusammenfassung, ohne kommerzielle Angebote).
 - **Schema.org** (`index.html`): Person hat `alumniOf` (IT-HTL Ybbs) + `award`; zwei `VideoObject`
-  (ALLEIN = `QDq6b3w08eM`, „Was kommt danach?" = `5XbbUtZ45v0`).
+  (ALLEIN = `QDq6b3w08eM`, „Was kommt danach?" = `5XbbUtZ45v0`) — **beide seit V21 mit `uploadDate`**
+  (monatsgenau, s. „Offene Punkte").
 - **Hero-Bild → -Video:** Der Platzhalter im Hero ist seit V17 durch das Showreel-Video ersetzt
   (s. o.). Das frühere `<img fetchpriority="high">` gibt es dort nicht mehr.
 
@@ -165,11 +166,17 @@ nur die sichtbare Seite).
   bewusst so. **Sobald Portrait da:** Person-Schema um `image` (absolute URL) ergänzen.
   (Hero-Showreel-Still nicht mehr offen: Der Hero zeigt jetzt das Video. Optional könnte später ein
   leichtes `poster="assets/…"`-Still für ersten Eindruck & reduced-motion nachgezogen werden.)
-- **VideoObject `uploadDate`:** Bei beiden Filmen fehlt das Feld (aus Sandbox nicht verifizierbar,
-  YouTube dort gesperrt). Datum aus YouTube Studio nachtragen, Format `JJJJ-MM-TT`. TODO-Kommentar
-  steht über dem JSON-LD-Block.
-- **DNS (nicht im Repo, Betreiber-Seite):** Doppelter `www`-CNAME. Behalten: `www` → `oskar-knapp.github.io.`
-  Löschen: `www` → `okmedia.at.` (zwei CNAMEs auf einem Host = ungültig).
+- **VideoObject `uploadDate` — Tag verfeinern (optional):** Feld ist seit V21 gesetzt, aber nur
+  **monatsgenau** (Betreiber bestätigt: „Was kommt danach?" Mai 2026 → `2026-05-01`, „ALLEIN"
+  Februar 2026 → `2026-02-01`). Tag `01` ist Konvention. Bei Gelegenheit den echten Tag aus
+  YouTube Studio („Veröffentlicht am …") eintragen, Format `JJJJ-MM-TT`. Kein Blocker mehr — die
+  kritische Search-Console-Meldung ist behoben.
+- **DNS (nicht im Repo, Betreiber-Seite) — Ursache der „Seite mit Weiterleitung"-Meldung:** Doppelter
+  `www`-CNAME. Behalten: `www` → `oskar-knapp.github.io.` Löschen: `www` → `okmedia.at.` (zwei CNAMEs
+  auf einem Host = ungültig). Der Repo-Inhalt erzeugt keine Weiterleitung (Canonical/Sitemap/interne
+  Links alle auf `https://okmedia.at/` mit Trailing-Slash); die Search-Console-Meldung betrifft die
+  DNS-Ebene bzw. den normalen, erwarteten Redirect nicht-kanonischer Varianten (www→apex, http→https,
+  github.io→okmedia.at) und ist meist rein informativ.
 - **Backlog:** optional AAAA-/IPv6-Records; Journey-Serie zu echtem Content-Hub ausbauen
   (pro Folge Seite/Anchor + VideoObject + Textzusammenfassung).
 
@@ -189,6 +196,22 @@ nur die sichtbare Seite).
   Playwright (kein `lavfi`, kein H.264-Decode/libvpx-Encode) → für Kompression/WebM/Poster **unbrauchbar**.
 
 ### Historie (neueste oben)
+- **2026-07-23 — Search-Console-Fixes: VideoObject `uploadDate` + Redirect-Analyse (V21):**
+  Zwei Search-Console-Meldungen abgearbeitet. **(1) „Videos für strukturierte Daten / Feld
+  `uploadDate` fehlt" (kritisch):** Beide `VideoObject` in `index.html` haben jetzt `uploadDate`
+  — „Was kommt danach?" = `2026-05-01`, „ALLEIN" = `2026-02-01`. **Betreiber hat nur den Monat
+  bestätigt** (Mai 2026 bzw. Februar 2026, YouTube in Sandbox mit 403 gesperrt), der **Tag `01`
+  ist Konvention/Platzhalter** — bei Bedarf mit dem echten Tag aus YouTube Studio verfeinern (Format
+  `JJJJ-MM-TT`). Damit ist die kritische Meldung behoben und die Filme wieder rich-result-fähig.
+  **(2) „Seite mit Weiterleitung" (nicht indexiert):** Kein ausgelieferter Repo-Inhalt erzeugt die
+  Weiterleitung — alle internen Links nutzen Trailing-Slash, Canonical/`og:url`/Sitemap zeigen
+  einheitlich auf `https://okmedia.at/`, kein `github.io`/`www.`/`http://` im Quelltext (per grep
+  geprüft). Ursache liegt **DNS-/Hosting-seitig** (bekannter doppelter `www`-CNAME, s. „Offene
+  Punkte" → DNS) bzw. ist der normale, erwartete Redirect nicht-kanonischer Varianten (www→apex,
+  http→https, github.io→okmedia.at), den Google korrekt auf die kanonische URL auflöst — meist
+  informativ, kein echter Fehler. `sitemap.xml`-`lastmod` der Startseite auf `2026-07-23` gesetzt.
+  Version 20→21 (Cache-Buster + Footer-Marker in allen drei HTML-Dateien). Branch
+  `claude/search-console-indexing-issues-xpklmc`.
 - **2026-07-23 — Quelltext komplett kommentarfrei (Teil von V20):** Auf Betreiberwunsch alle
   Kommentare aus `index.html`, `impressum/`, `datenschutz/`, `main.js`, `style.css` entfernt
   (`<!-- -->`, `/* */`, `//`). String-bewusst gestrippt, damit URLs (`https://`), das SVG-Data-URI
