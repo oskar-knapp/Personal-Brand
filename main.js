@@ -1,25 +1,11 @@
-/* =============================================================
-   OSKAR KNAPP / PORTFOLIO
-   Vanilla JS. Einzige Library: anime.js v4 via CDN.
-   Alles ist Progressive Enhancement: Fällt JS oder das CDN aus,
-   bleibt die Seite komplett lesbar und das Formular sendet
-   klassisch per POST.
-   ============================================================= */
-
 const $ = (selector, context = document) => context.querySelector(selector);
 const $$ = (selector, context = document) => [...context.querySelectorAll(selector)];
 
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-/* -------------------------------------------------------------
-   1. Alter automatisch berechnen.
-   Geburtstag: 27. August 2010. Alle Elemente mit data-age zeigen
-   immer das aktuelle Alter, ohne dass jemand die Seite anfassen
-   muss. Der Wert im HTML ist nur der Fallback ohne JS.
-   ------------------------------------------------------------- */
 function setupAge() {
   const BIRTH_YEAR = 2010;
-  const BIRTH_MONTH = 8; // August
+  const BIRTH_MONTH = 8;
   const BIRTH_DAY = 27;
 
   const now = new Date();
@@ -34,10 +20,6 @@ function setupAge() {
   });
 }
 
-/* -------------------------------------------------------------
-   2. Scroll-Progress: roter Balken oben, wie eine Timeline.
-   Läuft ohne Library, rAF-gedrosselt.
-   ------------------------------------------------------------- */
 function setupProgress() {
   const fill = $(".progress-fill");
   if (!fill) return;
@@ -61,14 +43,6 @@ function setupProgress() {
   update();
 }
 
-/* -------------------------------------------------------------
-   2b. Burger-Menü auf Mobile. Der Balken oben bleibt immer stehen
-   (Name links, Burger rechts), das Menü öffnet als Vollbild-Overlay
-   im Papier-Look. Schließen: Burger (X), Tippen auf die freie Fläche,
-   Linkwahl oder Escape. Ohne JS bleibt die normale Linkzeile sichtbar,
-   der Burger-Knopf bleibt hidden (Progressive Enhancement). Desktop
-   ist unberührt, dort greift das Burger-CSS gar nicht.
-   ------------------------------------------------------------- */
 function setupBurger() {
   const nav = $(".site-nav");
   const menu = $("#site-menu");
@@ -89,12 +63,10 @@ function setupBurger() {
 
   burger.addEventListener("click", () => setOpen(!isOpen()));
 
-  // Tippen auf die freie Fläche (nicht auf einen Link) schließt
   menu.addEventListener("click", (event) => {
     if (event.target === menu) setOpen(false);
   });
 
-  // Link gewählt: Menü zu, danach scrollt der Anker
   $$("a", menu).forEach((link) => {
     link.addEventListener("click", () => setOpen(false));
   });
@@ -103,23 +75,11 @@ function setupBurger() {
     if (event.key === "Escape" && isOpen()) setOpen(false);
   });
 
-  // Dreht jemand aufs Desktop-Layout, geht das Menü sauber zu
   window.matchMedia("(min-width: 801px)").addEventListener("change", (event) => {
     if (event.matches) setOpen(false);
   });
 }
 
-/* -------------------------------------------------------------
-   3. YouTube-Embeds: DSGVO-freundlich.
-   Erst der Klick lädt YouTube, und zwar via youtube-nocookie.
-   Statt eines rohen iframe wird die YouTube-IFrame-Player-API
-   genutzt: So kann direkt playVideo() ausgelöst werden, sodass
-   das Video mit demselben Klick sofort startet – ohne den sonst
-   nötigen zweiten Klick auf den YouTube-eigenen Play-Button.
-   ------------------------------------------------------------- */
-
-/* Lädt das IFrame-API-Script genau einmal (erst nach dem Klick,
-   also weiterhin DSGVO-konform) und liefert ein Promise auf window.YT. */
 let ytApiPromise = null;
 function loadYouTubeApi() {
   if (ytApiPromise) return ytApiPromise;
@@ -130,7 +90,6 @@ function loadYouTubeApi() {
       return;
     }
 
-    // YouTube ruft diese globale Funktion auf, sobald die API bereit ist.
     const previous = window.onYouTubeIframeAPIReady;
     window.onYouTubeIframeAPIReady = () => {
       if (typeof previous === "function") previous();
@@ -153,8 +112,6 @@ function setupEmbeds() {
     button.addEventListener("click", () => {
       const id = embed.dataset.yt || "";
 
-      // Platzhalter-ID: freundlich melden statt kaputtes Video laden.
-      // Das Icon (SVG) wird gesichert und danach wiederhergestellt.
       if (!id || id.startsWith("DEINE_")) {
         const original = button.innerHTML;
         button.classList.add("embed-play--msg");
@@ -168,13 +125,9 @@ function setupEmbeds() {
         return;
       }
 
-      // Doppelklicks während des Ladens ignorieren.
       if (embed.dataset.loading === "1") return;
       embed.dataset.loading = "1";
 
-      // Ladezustand: Thumbnail bleibt sichtbar, der Button zeigt
-      // "LÄDT …" statt einer schwarzen Fläche. Das iframe wird erst
-      // eingeblendet, wenn der Player wirklich bereit ist.
       const thumb = $(".embed-thumb", embed);
       const originalIcon = button.innerHTML;
       button.classList.add("embed-play--msg");
@@ -182,12 +135,9 @@ function setupEmbeds() {
       button.disabled = true;
       embed.classList.add("embed--loading");
 
-      // Mount-Punkt: Die API ersetzt diesen <div> durch das iframe.
       const mount = document.createElement("div");
       embed.appendChild(mount);
 
-      // Falls YouTube nicht erreichbar ist (Blocker, Netz weg):
-      // nach 10 s zurück zum Ausgangszustand statt ewig "LÄDT …".
       let settled = false;
       const fail = () => {
         if (settled) return;
@@ -213,11 +163,6 @@ function setupEmbeds() {
             rel: 0,
           },
           events: {
-            // Sobald der Player bereit ist, sofort abspielen.
-            // Chrome/Firefox/Edge starten damit direkt mit Ton.
-            // Safari blockiert nachgeladenes Autoplay grundsätzlich;
-            // dort zeigt der Player seinen Play-Button, und der Klick
-            // darauf (im iframe) startet mit Ton.
             onReady: (event) => {
               if (settled) return;
               settled = true;
@@ -234,20 +179,12 @@ function setupEmbeds() {
   });
 }
 
-/* -------------------------------------------------------------
-   3b. Foto-Galerie: justiertes Reihen-Layout.
-   Jede Reihe wird gleich hoch skaliert und füllt die volle Breite,
-   die Fotos behalten ihr Seitenverhältnis und werden NICHT
-   zugeschnitten. Ohne JS bleibt das Spalten-Masonry aus dem CSS
-   (ebenfalls ohne Zuschnitt).
-   ------------------------------------------------------------- */
 function setupGallery() {
   const grid = $(".gallery-grid");
   if (!grid) return;
   const items = $$(".gallery-item", grid);
   if (!items.length) return;
 
-  // Seitenverhältnis aus width/height der Bilder ableiten
   items.forEach((item) => {
     const img = $("img", item);
     const w = parseFloat(img?.getAttribute("width"));
@@ -264,7 +201,7 @@ function setupGallery() {
     const flush = (row, arSum, isLast) => {
       const avail = containerW - gap * (row.length - 1);
       let h = avail / arSum;
-      // letzte, nicht volle Reihe nicht überdehnen
+
       if (isLast && h > target * 1.3) h = target;
       h = Math.floor(h);
       row.forEach((item) => {
@@ -298,9 +235,6 @@ function setupGallery() {
   }, { passive: true });
 }
 
-/* -------------------------------------------------------------
-   4. Kontaktformular: Web3Forms per fetch, ohne Reload.
-   ------------------------------------------------------------- */
 function setupForm() {
   const form = $(".contact-form");
   if (!form) return;
@@ -312,7 +246,6 @@ function setupForm() {
     event.preventDefault();
     delete status.dataset.state;
 
-    // Noch kein Access Key eingetragen: klarer Hinweis statt Fehlversuch
     if (!form.access_key.value || form.access_key.value === "DEIN_ACCESS_KEY") {
       status.dataset.state = "error";
       status.textContent = "FEHLER / Formular noch nicht aktiv. Access Key von web3forms.com eintragen.";
@@ -342,9 +275,6 @@ function setupForm() {
   });
 }
 
-/* -------------------------------------------------------------
-   5. Timecode-Werkzeuge: 24 Bilder pro Sekunde, Format HH:MM:SS:FF
-   ------------------------------------------------------------- */
 const FPS = 24;
 
 function tcToFrames(tc) {
@@ -363,17 +293,15 @@ function framesToTc(total) {
   return `${pad(h)}:${pad(m)}:${pad(s)}:${pad(f)}`;
 }
 
-/* -------------------------------------------------------------
-   6. Animationen mit anime.js v4.
-   Startzustände werden erst HIER gesetzt (utils.set). Ohne JS
-   ist also nichts versteckt. Alle Animationen max. 600ms.
-   ------------------------------------------------------------- */
 function initMotion({ animate, createTimeline, onScroll, stagger, utils }) {
-  /* Text-Split: Headlines in einzelne Buchstaben zerlegen */
   $$("[data-split]").forEach((el) => {
     const text = el.textContent.trim();
-    el.setAttribute("aria-label", text);
+
+    const sr = document.createElement("span");
+    sr.className = "sr-only";
+    sr.textContent = text;
     el.replaceChildren(
+      sr,
       ...[...text].map((ch) => {
         const span = document.createElement("span");
         span.className = "char";
@@ -384,7 +312,6 @@ function initMotion({ animate, createTimeline, onScroll, stagger, utils }) {
     );
   });
 
-  /* ----- Hero: Name buchstabenweise, Statement als Klappe ----- */
   const heroChars = $$(".hero-name .char");
   const heroRest = [".hero-sub", ".scroll-hint"];
 
@@ -402,7 +329,7 @@ function initMotion({ animate, createTimeline, onScroll, stagger, utils }) {
       duration: 500,
       delay: stagger(28),
     }, "-=200")
-    /* Die Klappe schlägt ein: kurze Drehung mit Überschwinger */
+
     .add(".hero-statement", {
       opacity: 1,
       rotate: 0,
@@ -411,7 +338,6 @@ function initMotion({ animate, createTimeline, onScroll, stagger, utils }) {
     }, "-=250")
     .add(heroRest, { opacity: 1, duration: 400 }, "-=200");
 
-  /* ----- Szenen-Titel: Buchstaben laufen beim Scrollen hoch ----- */
   $$(".scene-title").forEach((title) => {
     const chars = $$(".char", title);
     if (!chars.length) return;
@@ -422,16 +348,14 @@ function initMotion({ animate, createTimeline, onScroll, stagger, utils }) {
       duration: 450,
       delay: stagger(20),
       ease: "outQuad",
-      /* sync "play": einmal ausgelöst, läuft die Animation immer zu Ende,
-         auch wenn schnell weitergescrollt wird */
+
       autoplay: onScroll({ target: title, enter: "bottom-=10% top", sync: "play" }),
     });
   });
 
-  /* ----- Timecodes zählen hoch, sobald die Szene erreicht ist ----- */
   $$(".tc[data-tc]").forEach((tcEl) => {
     const totalFrames = tcToFrames(tcEl.dataset.tc);
-    if (!totalFrames) return; // Hero bleibt bei 00:00:00:00
+    if (!totalFrames) return;
 
     const counter = { f: 0 };
     tcEl.textContent = "TC 00:00:00:00";
@@ -446,8 +370,6 @@ function initMotion({ animate, createTimeline, onScroll, stagger, utils }) {
     });
   });
 
-  /* ----- Generische Reveals: alles mit data-animate schiebt sich
-     versetzt ins Bild (translateY + Opacity) ----- */
   $$("[data-animate]").forEach((el) => {
     utils.set(el, { opacity: 0, translateY: 32 });
     animate(el, {
@@ -460,15 +382,6 @@ function initMotion({ animate, createTimeline, onScroll, stagger, utils }) {
   });
 }
 
-/* -------------------------------------------------------------
-   Showreel im Hero: stumm, automatisch, in Endlosschleife.
-   Das Abspielen steckt schon in den HTML-Attributen (autoplay/
-   muted/loop/playsinline), läuft also auch ganz ohne JS. Hier wird
-   nur zweierlei nachgeschärft:
-   - Bewegung reduziert (prefers-reduced-motion): nicht abspielen,
-     erster Frame bleibt als Standbild stehen.
-   - sonst: Autoplay sanft anstoßen, falls der Browser es verzögert.
-   ------------------------------------------------------------- */
 function setupHeroVideo() {
   const video = $(".hero-video");
   if (!video) return;
@@ -482,9 +395,6 @@ function setupHeroVideo() {
   video.play().catch(() => {});
 }
 
-/* -------------------------------------------------------------
-   Start
-   ------------------------------------------------------------- */
 setupAge();
 setupProgress();
 setupBurger();
@@ -493,8 +403,6 @@ setupGallery();
 setupForm();
 setupHeroVideo();
 
-/* anime.js nur laden, wenn Bewegung erwünscht ist.
-   Dynamischer Import: schlägt er fehl, läuft der Rest trotzdem. */
 if (!reducedMotion) {
   try {
     const anime = await import("https://cdn.jsdelivr.net/npm/animejs@4.0.2/+esm");

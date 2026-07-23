@@ -1,17 +1,8 @@
-/* =============================================================
-   OSKAR KNAPP / PORTFOLIO
-   Farbwelt: warmes Papier-Grau, Anthrazit, Signalrot #E63321
-   Typo: Archivo (Display, Expanded) + IBM Plex Mono (Labels)
-   Layout: 12-Spalten-Raster, bewusste Brüche und Überlappungen
-   ============================================================= */
-
-/* ---------- Schriften: selbst gehostet (kein externer Request,
-   damit keine Nutzerdaten an Google Fonts gehen) ---------- */
 @font-face {
   font-family: "Archivo";
   font-style: normal;
   font-weight: 100 900;
-  font-stretch: 62.5% 125%; /* variable Breite bis Expanded */
+  font-stretch: 62.5% 125%;
   font-display: swap;
   src: url("assets/fonts/archivo-variable.woff2") format("woff2");
 }
@@ -37,25 +28,21 @@
   src: url("assets/fonts/ibm-plex-mono-600.woff2") format("woff2");
 }
 
-/* ---------- Variablen ---------- */
 :root {
-  --paper: #E8E6E1;      /* warmer Grund */
-  --ink: #1C1B19;        /* fast schwarzes Anthrazit */
-  --red: #E63321;        /* Signalrot, EINZIGE Akzentfarbe */
+  --paper: #E8E6E1;
+  --ink: #1C1B19;
+  --red: #E63321;
   --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
   --display: "Archivo", "Helvetica Neue", Arial, sans-serif;
-  --gutter: clamp(1rem, 4vw, 4rem);   /* Seitenränder */
+  --gutter: clamp(1rem, 4vw, 4rem);
 }
 
-/* ---------- Basis ---------- */
 *, *::before, *::after { box-sizing: border-box; }
 
 html {
-  /* Canvas-Farbe explizit setzen: iOS füllt damit den Streifen hinter
-     der Statusleiste (ohne viewport-fit=cover) und den Overscroll-Bereich. */
   background: var(--paper);
   scroll-behavior: smooth;
-  scroll-padding-top: 5rem; /* Anker landen nicht unter der fixen Nav */
+  scroll-padding-top: 5rem;
 }
 
 body {
@@ -67,10 +54,9 @@ body {
   font-size: 1.0625rem;
   line-height: 1.6;
   caret-color: var(--red);
-  overflow-x: hidden; /* Überlappungen dürfen nie horizontal scrollen */
+  overflow-x: hidden;
 }
 
-/* Markierter Text in der Akzentfarbe */
 ::selection { background: var(--red); color: var(--paper); }
 
 img { max-width: 100%; height: auto; display: block; }
@@ -81,7 +67,6 @@ a { color: inherit; }
 
 :focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
 
-/* ---------- Filmkorn-Overlay (SVG-Noise, kein Bild-Download) ---------- */
 body::after {
   content: "";
   position: fixed;
@@ -93,17 +78,15 @@ body::after {
   mix-blend-mode: multiply;
 }
 
-/* ---------- Scroll-Progress: schlichter roter Fortschrittsbalken ---------- */
 .progress {
   position: fixed;
   top: env(safe-area-inset-top, 0px); left: 0;
   width: 100%; height: 4px;
   z-index: 9999;
   overflow: hidden;
-  background: transparent; /* kein Track, keine Kontur */
+  background: transparent;
 }
 
-/* Flacher roter Fortschritt, ohne Glanz und Schatten */
 .progress-fill {
   display: block;
   height: 100%;
@@ -112,13 +95,7 @@ body::after {
   transition: width 120ms linear;
 }
 
-/* ---------- Navigation ---------- */
 .site-nav {
-  /* STICKY statt fixed, wie auf okmedia.at (dort nachweislich sauber auf
-     iOS): Der Header ist Teil des Inhaltsflusses und klebt beim Scrollen
-     an der Oberkante. iOS clippt fixe Elemente an der Viewport-Kante und
-     malt scrollenden Inhalt in den Statusleisten-Streifen; mit sticky
-     plus Canvas-Hintergrund (html) passiert das nicht. */
   position: sticky;
   top: 0;
   display: flex;
@@ -130,16 +107,10 @@ body::after {
   font-size: 0.75rem;
   letter-spacing: 0.08em;
   z-index: 100;
-  /* Voll deckend, kein Glas: darunter durchlaufende Titel bleiben unsichtbar */
+
   background: var(--paper);
 }
 
-/* Deckt den Streifen ÜBER der Nav ab (iPhone-Statusleiste/Notch).
-   iOS Safari malt beim Scrollen Seiteninhalt in den Bereich oberhalb
-   des Viewports, ein fixes Element bei top:0 endet aber genau an der
-   Viewport-Kante, env(safe-area-inset-top) hin oder her. Dieses
-   Pseudo-Element malt einfach einen Bildschirm weit in Papierfarbe
-   nach oben weiter, damit dort nie wieder ein Titel durchblitzt. */
 .site-nav::before {
   content: "";
   position: absolute;
@@ -161,14 +132,10 @@ body::after {
 .nav-name { font-weight: 600; }
 .nav-name:hover { color: var(--red); }
 
-/* Burger-Knopf: nur auf Mobile sichtbar (siehe Media Query unten),
-   am Desktop und ohne JS bleibt er komplett weg. */
 .nav-burger { display: none; }
 
-/* Menü offen: Seite dahinter scrollt nicht mit */
 body.menu-open { overflow: hidden; }
 
-/* ---------- Szenen-Grundgerüst ---------- */
 .scene {
   position: relative;
   padding: clamp(1.25rem, 3.5vh, 2.5rem) var(--gutter);
@@ -176,10 +143,8 @@ body.menu-open { overflow: hidden; }
   margin: 0 auto;
 }
 
-/* Projekte schließen enger an den Hero an */
 .scene--projekte { padding-top: clamp(2rem, 5vh, 3.5rem); }
 
-/* Szenen-Kopf: Drehbuch-Slug links, Timecode rechts, wie ein Schnittmarker */
 .scene-head {
   display: flex;
   justify-content: space-between;
@@ -202,7 +167,6 @@ body.menu-open { overflow: hidden; }
   white-space: nowrap;
 }
 
-/* Szenen-Titel: groß, eng, expanded */
 .scene-title {
   font-weight: 900;
   font-stretch: 125%;
@@ -213,17 +177,25 @@ body.menu-open { overflow: hidden; }
   margin-bottom: clamp(2.5rem, 6vh, 5rem);
 }
 
-/* Lange Wörter (ZUSAMMENARBEIT) brechen sauber mit Bindestrich statt
-   mitten im Wort. Fällt der Umbruch weg, bleibt es einzeilig. */
 .scene-title--wrap {
   hyphens: manual;
   overflow-wrap: break-word;
 }
 
-/* Buchstaben-Spans aus dem JS-Split */
 .char { display: inline-block; }
 
-/* Kleine Mono-Labels (Bildunterschriften, Folgen-Titel) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .mono-label {
   font-family: var(--mono);
   font-size: 0.72rem;
@@ -231,12 +203,7 @@ body.menu-open { overflow: hidden; }
   margin: 0.6rem 0 0;
 }
 
-/* =============================================================
-   SZENE 01 / HERO
-   ============================================================= */
 .scene--hero {
-  /* Nav ist sticky und damit Teil des Flusses: sie schiebt den Hero schon
-     um ihre eigene Höhe nach unten, daher hier weniger Eigenabstand */
   padding-top: clamp(3rem, 9vh, 6rem);
   min-height: 100svh;
   display: flex;
@@ -253,13 +220,12 @@ body.menu-open { overflow: hidden; }
   text-transform: uppercase;
   position: relative;
   z-index: 2;
-  margin-bottom: 0.15em; /* KNAPP steht klar über dem Bild, kein Hineinragen */
+  margin-bottom: 0.15em;
   pointer-events: none;
 }
 
 .hero-line { display: block; }
 
-/* Zweite Zeile: nur Kontur, versetzt. Der bewusste Layout-Bruch. */
 .hero-line--offset {
   margin-left: clamp(2rem, 12vw, 12rem);
   color: transparent;
@@ -275,13 +241,12 @@ body.menu-open { overflow: hidden; }
 .hero-frame video {
   display: block;
   width: 100%;
-  height: auto; /* überschreibt den height-Attribut-Hint, damit aspect-ratio greift */
-  aspect-ratio: 16 / 9; /* Showreel im originalen 16:9-Format, kein Zuschnitt */
+  height: auto;
+  aspect-ratio: 16 / 9;
   object-fit: cover;
-  background: #181714; /* dunkler Grund, bis das Video den ersten Frame zeigt */
+  background: #181714;
 }
 
-/* Statement wie eine Filmklappe: dunkler Balken, überlappt die Bildkante */
 .hero-statement {
   position: relative;
   z-index: 2;
@@ -295,7 +260,7 @@ body.menu-open { overflow: hidden; }
   font-weight: 700;
   font-size: clamp(1.05rem, 2.6vw, 1.9rem);
   line-height: 1.3;
-  transform-origin: 0% 100%; /* Drehpunkt unten links, wie eine Klappe */
+  transform-origin: 0% 100%;
   max-width: 34ch;
 }
 
@@ -320,10 +285,6 @@ body.menu-open { overflow: hidden; }
 
 .scroll-hint:hover { text-decoration: underline; }
 
-/* =============================================================
-   SZENE 02 / PROJEKTE: asymmetrisches Raster mit Überlappungen
-   ============================================================= */
-/* Gleichmäßiges Raster: alle Projekte gleich groß, sauber ausgerichtet */
 .projects {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -332,10 +293,6 @@ body.menu-open { overflow: hidden; }
 
 .project { position: relative; }
 
-/* Award-Label in Signalrot, Monospace, kein Icon.
-   z-index 4: muss ÜBER dem Play-Button (z-index 3) liegen, sonst deckt
-   dessen dunkles "LÄDT …"-Overlay das Label ab. pointer-events: none,
-   damit Klicks auf das Label trotzdem den Play-Button treffen. */
 .award {
   position: absolute;
   top: -0.9rem;
@@ -351,7 +308,6 @@ body.menu-open { overflow: hidden; }
   padding: 0.4em 0.8em;
 }
 
-/* ---------- Embeds: Klick lädt das Video (DSGVO) ---------- */
 .embed {
   position: relative;
   overflow: hidden;
@@ -366,12 +322,9 @@ body.menu-open { overflow: hidden; }
   transition: transform 400ms ease-out;
 }
 
-/* Hover: Bild minimal skalieren (nur der Zoom, keine Texteinblendung) */
 .project:hover .embed-thumb,
 .journey-item:hover .embed-thumb { transform: scale(1.03); }
 
-/* Play-Button: deckt das ganze Bild ab (überall klickbar),
-   das YouTube-Dreieck sitzt zentriert. */
 .embed-play {
   position: absolute;
   inset: 0;
@@ -401,7 +354,6 @@ body.menu-open { overflow: hidden; }
 .embed-play:hover svg,
 .embed-play:focus-visible svg { transform: scale(1.08); }
 
-/* Hinweis-Overlay, falls ein Video noch fehlt */
 .embed-play--msg {
   background: color-mix(in srgb, var(--ink) 72%, transparent);
   color: var(--paper);
@@ -419,8 +371,6 @@ body.menu-open { overflow: hidden; }
   border: 0;
 }
 
-/* Während der Player lädt, bleibt das Thumbnail sichtbar –
-   das iframe wird erst mit onReady eingeblendet (kein schwarzes Loch). */
 .embed--loading iframe { visibility: hidden; }
 
 .project-info { margin-top: 1.1rem; }
@@ -447,12 +397,6 @@ body.menu-open { overflow: hidden; }
   font-size: 0.95rem;
 }
 
-/* =============================================================
-   FOTOGRAFIE: Foto-Galerie ohne Zuschnitt.
-   Fallback ohne JS: Spalten-Masonry, Fotos in voller Höhe.
-   Mit JS (main.js, setupGallery): justierte Reihen, gleich hoch
-   und volle Breite, aber ebenfalls OHNE Zuschnitt.
-   ============================================================= */
 .gallery-grid {
   columns: clamp(220px, 24vw, 300px);
   column-gap: clamp(0.4rem, 1vw, 0.7rem);
@@ -466,21 +410,17 @@ body.menu-open { overflow: hidden; }
   line-height: 0;
 }
 
-/* <picture> (WebP + JPEG-Fallback) darf keine eigene Box erzeugen,
-   sonst rechnet das justierte Reihen-Layout gegen das falsche Element. */
 .gallery-item picture { display: contents; }
 
 .gallery-item img {
   width: 100%;
-  height: auto;             /* volles Bild, kein Zuschnitt */
+  height: auto;
   display: block;
   transition: transform 400ms ease-out;
 }
 
 .gallery-item:hover img { transform: scale(1.04); }
 
-/* Mit JS: justierte Reihen. JS setzt Breite und Höhe je Foto passend
-   zum Seitenverhältnis, daher füllt das Bild die Kachel ohne Zuschnitt. */
 .gallery-grid.is-justified {
   columns: auto;
   display: flex;
@@ -497,9 +437,6 @@ body.menu-open { overflow: hidden; }
   height: 100%;
 }
 
-/* =============================================================
-   SZENE 04 / ABOUT
-   ============================================================= */
 .about-grid {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
@@ -510,7 +447,7 @@ body.menu-open { overflow: hidden; }
 .about-portrait {
   grid-column: 1 / 6;
   margin: 0;
-  /* Abstand Titel -> Portrait genauso groß wie Titel -> Projekt-Cards */
+
   position: relative;
   z-index: 2;
 }
@@ -529,7 +466,6 @@ body.menu-open { overflow: hidden; }
   margin: 0 0 1.2em;
 }
 
-/* Riesige 17 am rechten Rand, nur Kontur */
 .about-number {
   position: absolute;
   right: -0.06em;
@@ -544,9 +480,6 @@ body.menu-open { overflow: hidden; }
   z-index: 1;
 }
 
-/* =============================================================
-   SZENE 04 / JOURNEY
-   ============================================================= */
 .journey-intro {
   font-size: clamp(1.05rem, 2vw, 1.35rem);
   max-width: 52ch;
@@ -579,9 +512,6 @@ body.menu-open { overflow: hidden; }
 
 .journey-cta:hover { background: var(--ink); }
 
-/* =============================================================
-   SZENE 05 / ZUSAMMENARBEIT
-   ============================================================= */
 .work-intro { max-width: 48ch; margin: 0 0 2.5rem; }
 
 .work-list {
@@ -620,7 +550,6 @@ body.menu-open { overflow: hidden; }
   max-width: 52ch;
 }
 
-/* Kompakte FAQ im Schnitt-Stil: Frage im Mono-Label, Antwort im Fließtext */
 .faq {
   margin-top: clamp(2.5rem, 6vh, 4rem);
   max-width: 60ch;
@@ -652,9 +581,6 @@ body.menu-open { overflow: hidden; }
   max-width: 54ch;
 }
 
-/* =============================================================
-   SZENE 06 / KONTAKT
-   ============================================================= */
 .contact-grid {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
@@ -669,7 +595,6 @@ body.menu-open { overflow: hidden; }
 
 .contact-form { grid-column: 5 / 12; }
 
-/* Honeypot unsichtbar für Menschen */
 .botcheck { display: none; }
 
 .field { margin-bottom: 1.4rem; }
@@ -690,7 +615,7 @@ body.menu-open { overflow: hidden; }
   border-radius: 0;
   padding: 0.8em;
   font-family: var(--mono);
-  font-size: 1rem; /* mind. 16px, sonst zoomt iOS beim Fokus in die Seite */
+  font-size: 1rem;
   color: var(--ink);
 }
 
@@ -755,14 +680,11 @@ body.menu-open { overflow: hidden; }
   width: 1.15em;
   height: 1.15em;
   flex: none;
-  color: var(--red); /* Icons in der Akzentfarbe */
+  color: var(--red);
 }
 
 .contact-links a:hover .contact-icon { color: var(--ink); }
 
-/* =============================================================
-   FOOTER / ABSPANN
-   ============================================================= */
 .site-footer {
   display: flex;
   justify-content: space-between;
@@ -778,16 +700,10 @@ body.menu-open { overflow: hidden; }
 .site-footer a { text-decoration: none; }
 .site-footer a:hover { color: var(--red); }
 
-/* Rechtslinks als Gruppe in der Mitte des Footers */
 .footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
 
-/* =============================================================
-   IMPRESSUM
-   ============================================================= */
 .scene--legal { padding-top: clamp(3rem, 9vh, 6rem); }
 
-/* Ein-Wort-Titel wie DATENSCHUTZ dürfen nicht überlaufen: kleinerer
-   Rahmen und Notbruch, falls es auf schmalen Screens eng wird */
 .scene--legal .scene-title {
   font-size: clamp(1.8rem, 8vw, 5rem);
   overflow-wrap: break-word;
@@ -816,12 +732,7 @@ body.menu-open { overflow: hidden; }
 
 .legal-text a:hover { color: var(--red); }
 
-/* =============================================================
-   MOBILE: einspaltig, gleiche Formensprache
-   ============================================================= */
 @media (max-width: 800px) {
-  /* Nav in zwei ruhigen Zeilen: Name oben, Links darunter
-     gleichmäßig verteilt, statt unkontrolliertem Umbruch */
   .site-nav {
     flex-direction: column;
     align-items: flex-start;
@@ -830,7 +741,6 @@ body.menu-open { overflow: hidden; }
     font-size: 0.66rem;
   }
 
-  /* Fünf Links passen auch auf schmale Handys ohne Gedränge */
   .site-nav nav {
     width: 100%;
     justify-content: space-between;
@@ -839,11 +749,8 @@ body.menu-open { overflow: hidden; }
     letter-spacing: 0.04em;
   }
 
-  .site-nav a { padding: 0.15em 0; } /* größere Tap-Flächen */
+  .site-nav a { padding: 0.15em 0; }
 
-  /* ----- Burger-Menü (nur mit JS, setupBurger setzt .has-burger) -----
-     Nav-Balken wird eine ruhige Zeile: Name links, Burger rechts.
-     Ohne JS bleibt die zweizeilige Linkliste oben erhalten. */
   .site-nav.has-burger {
     flex-direction: row;
     align-items: center;
@@ -851,7 +758,6 @@ body.menu-open { overflow: hidden; }
     gap: 1rem;
   }
 
-  /* Name und Burger liegen über dem Overlay (eigene Ebene im Header) */
   .site-nav.has-burger .nav-name { position: relative; z-index: 2; }
 
   .nav-burger {
@@ -859,7 +765,7 @@ body.menu-open { overflow: hidden; }
     position: relative;
     z-index: 2;
     padding: 12px;
-    margin: -12px -12px -12px 0; /* große Tap-Fläche ohne Layout-Versatz */
+    margin: -12px -12px -12px 0;
     background: none;
     border: 0;
     cursor: pointer;
@@ -876,22 +782,14 @@ body.menu-open { overflow: hidden; }
 
   .nav-burger span + span { margin-top: 5px; }
 
-  /* Offen: Burger wird zum X */
   .site-nav.is-open .nav-burger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
   .site-nav.is-open .nav-burger span:nth-child(2) { opacity: 0; }
   .site-nav.is-open .nav-burger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-  /* Vollbild-Overlay: deckt alles ab, Papier-Grund, Links mittig.
-     Tippen auf die freie Fläche schließt (setupBurger in main.js).
-     Die Höhe (svh) bestimmt nur, wo die Links sitzen: im IMMER sichtbaren
-     Bereich, also nie hinter der Nav oben oder der iOS-Leiste unten.
-     Der deckende Papier-Grund kommt vom ::before (siehe unten) und reicht
-     bewusst über den Bildschirmrand hinaus – damit unten NIE Inhalt
-     durchscheint, egal wie iOS die Viewport-Höhe gerade misst. */
   .site-nav.has-burger nav {
     position: fixed;
     inset: 0;
-    height: 100vh;   /* Fallback für Browser ohne svh */
+    height: 100vh;
     height: 100svh;
     z-index: 1;
     display: none;
@@ -906,10 +804,6 @@ body.menu-open { overflow: hidden; }
     counter-reset: navi;
   }
 
-  /* Deckender Papier-Grund, entkoppelt vom Inhalt. top:0 + bottom:-25vh
-     zieht die Fläche klar unter den physischen Bildschirmrand (hinter die
-     schwebende iOS-Safari-Leiste), sodass dort garantiert kein Seiteninhalt
-     mehr durchscheint. z-index:-1 hält ihn hinter den Menü-Links. */
   .site-nav.has-burger nav::before {
     content: "";
     position: fixed;
@@ -930,7 +824,6 @@ body.menu-open { overflow: hidden; }
     padding: 0.5em 1em;
   }
 
-  /* Szenen-Nummern vor den Links, in Rot, wie die Timecode-Marker */
   .site-nav.has-burger nav a::before {
     counter-increment: navi;
     content: "0" counter(navi) " / ";
@@ -938,18 +831,15 @@ body.menu-open { overflow: hidden; }
     font-weight: 500;
   }
 
-  /* KONTAKT als gerahmter Abschluss, wie ein Call-to-Action */
   .site-nav.has-burger nav a:last-child {
     border: 1px solid var(--red);
     margin-top: 0.5rem;
   }
 
-  html { scroll-padding-top: 6.5rem; } /* Anker unter der höheren Nav */
+  html { scroll-padding-top: 6.5rem; }
 
-  /* KNAPP steht auch mobil klar über dem Bild, keine Kontur im Dunkeln */
   .hero-name { margin-bottom: 0.15em; }
 
-  /* Projekte einspaltig */
   .projects { grid-template-columns: 1fr; }
 
   .about-portrait {
@@ -977,9 +867,6 @@ body.menu-open { overflow: hidden; }
   .hero-sub { margin-left: 0; }
 }
 
-/* =============================================================
-   REDUZIERTE BEWEGUNG: alles aus
-   ============================================================= */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 

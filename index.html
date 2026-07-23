@@ -2,37 +2,25 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <!-- KEIN viewport-fit=cover: Ohne cover malt iOS den Streifen hinter der
-       Statusleiste automatisch mit der Seiten-Hintergrundfarbe (Papier) und
-       lässt dort NIE Inhalt durchscheinen. Mit cover rendert iOS 26 dort
-       scrollenden Inhalt, an dem auch eine fixe, deckende Nav nicht vorbeikommt.
-       (Gleiche Lösung wie auf okmedia.at, dort nachweislich sauber.) -->
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- ================= META / SEO ================= -->
   <title>Oskar Knapp / Videograf & Filmemacher Mostviertel</title>
   <meta name="description" content="Oskar Knapp, junger Filmemacher und Videograf aus dem Mostviertel. Kurzfilme, Fotografie und eigene Projekte, alles selbst gedreht und geschnitten.">
   <link rel="canonical" href="https://okmedia.at/">
   <meta name="author" content="Oskar Knapp">
 
-  <!-- Open Graph / Social -->
   <meta property="og:title" content="Oskar Knapp / Videograf & Filmemacher aus dem Mostviertel">
   <meta property="og:description" content="Junger Filmemacher aus dem Mostviertel. Kurzfilme und Fotografie, alles selbst gedreht und geschnitten.">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="de_AT">
   <meta property="og:url" content="https://okmedia.at/">
   <meta property="og:site_name" content="Oskar Knapp">
-  <!-- TODO: og:image mit echtem Still ersetzen, sobald Material da ist -->
+
   <meta property="og:image" content="https://placehold.co/1200x630/181714/E8E6E1?text=OSKAR+KNAPP+%2F+FILM">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#E8E6E1">
 
-  <!-- ================= STRUKTURIERTE DATEN (Schema.org) =================
-       Macht die Person für Google und KI-Suchen eindeutig verständlich.
-       TODO (2 Min): Bei beiden VideoObject-Blöcken "uploadDate" ergänzen,
-       Format "JJJJ-MM-TT" (Datum steht in YouTube Studio). Google braucht das
-       Feld für Video-Rich-Results. Außerdem nach echtem Portrait: "image" mit
-       absoluter URL im Person-Block ergänzen. -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -102,32 +90,21 @@
   }
   </script>
 
-  <!-- Favicon: rotes Quadrat mit OK, als Daten-URI, kein extra Request -->
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23E63321'/%3E%3Ctext x='32' y='42' font-family='monospace' font-size='28' fill='%23E8E6E1' text-anchor='middle'%3EOK%3C/text%3E%3C/svg%3E">
 
-  <!-- ================= SCHRIFTEN =================
-       Genau 2 Familien, selbst gehostet (siehe assets/fonts, @font-face
-       in style.css). Kein externer Request, keine Nutzerdaten an Google.
-       1. Archivo (variabel, Breite bis Expanded) für Headlines und Fließtext
-       2. IBM Plex Mono für Nav, Labels, Timecodes, Metadaten -->
   <link rel="preload" href="assets/fonts/archivo-variable.woff2" as="font" type="font/woff2" crossorigin>
 
-  <!-- ?v Cache-Buster: bei Änderungen an CSS/JS hochzählen, damit Browser
-       (auch iPhone) sicher die neue Version laden statt der gecachten. -->
-  <link rel="stylesheet" href="style.css?v=19">
-  <!-- main.js lädt anime.js dynamisch. Fällt das CDN aus, bleibt die Seite voll lesbar. -->
-  <script type="module" src="main.js?v=19"></script>
+  <link rel="stylesheet" href="style.css?v=20">
+
+  <script type="module" src="main.js?v=20"></script>
 </head>
 <body>
 
-  <!-- Scroll-Fortschritt wie eine Timeline: Glas-Track mit rotem Fortschritt -->
   <div class="progress" aria-hidden="true"><span class="progress-fill"></span></div>
 
-  <!-- ================= NAVIGATION: nur Textlinks ================= -->
   <header class="site-nav">
     <a class="nav-name" href="#start">OSKAR&nbsp;KNAPP</a>
-    <!-- Burger nur auf Mobile und nur mit JS (setupBurger blendet ihn ein).
-         Ohne JS bleibt die normale Linkzeile stehen, nichts ist versteckt. -->
+
     <button class="nav-burger" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Menü öffnen" hidden>
       <span></span>
       <span></span>
@@ -144,28 +121,17 @@
 
   <main>
 
-    <!-- ================= SZENE 01 / HERO ================= -->
     <section id="start" class="scene scene--hero">
       <div class="scene-head">
         <span class="slug">SZENE 01 / EXT. MOSTVIERTEL / TAG</span>
         <span class="tc" data-tc="00:00:00:00">TC&nbsp;00:00:00:00</span>
       </div>
 
-      <!-- Name riesig. JS teilt ihn in Buchstaben für den Stagger-Effekt. -->
       <h1 class="hero-name" aria-label="Oskar Knapp">
         <span class="hero-line" data-split>OSKAR</span>
         <span class="hero-line hero-line--offset" data-split>KNAPP</span>
       </h1>
 
-      <!-- Showreel als Hintergrund-Video im originalen 16:9-Frame: läuft stumm,
-           automatisch und in Endlosschleife (autoplay + muted + loop +
-           playsinline). Ganz ohne JS spielt das Video nativ. Bei
-           prefers-reduced-motion stoppt main.js (setupHeroVideo) die
-           Wiedergabe und lässt den ersten Frame als Standbild stehen.
-           Selbst gehostet → kein externer Request, DSGVO-konform.
-           Kein poster gesetzt (erster Frame dient als Standbild); ein
-           leichtes Still könnte hier später als poster="assets/…"
-           den ersten Eindruck und den reduced-motion-Fall verbessern. -->
       <figure class="hero-frame">
         <video class="hero-video" autoplay muted loop playsinline preload="auto"
                width="1280" height="720"
@@ -175,16 +141,12 @@
         </video>
       </figure>
 
-      <!-- Statement-Zeile: schlägt per Animation wie eine Filmklappe ein.
-           data-age wird per JS aus dem Geburtsdatum berechnet und
-           aktualisiert sich am Geburtstag automatisch. -->
       <p class="hero-statement statement">Ich bin Oskar. <span data-age>15</span>, Filmemacher.</p>
       <p class="hero-sub">Ich dokumentiere meinen Weg in die Filmbranche. Echte Projekte statt Theorie.</p>
 
       <a class="scroll-hint" href="#projekte">SCROLLEN <span aria-hidden="true">&darr;</span></a>
     </section>
 
-    <!-- ================= SZENE 02 / PROJEKTE ================= -->
     <section id="projekte" class="scene scene--projekte">
       <div class="scene-head" data-animate>
         <span class="slug">SZENE 02 / EXT. SET / TAG</span>
@@ -194,7 +156,6 @@
 
       <div class="projects">
 
-        <!-- Projekt 1: Postcard-Challenge, ausgezeichnet -->
         <article class="project" data-animate>
           <span class="award">SONDERPREIS DER JURY / POSTCARD-CHALLENGE 2025/26</span>
           <div class="embed" data-yt="5XbbUtZ45v0">
@@ -211,11 +172,9 @@
             <p class="project-desc">Teamprojekt am SZ Ybbs. Sonderpreis der Jury in der Kategorie Clip, vergeben von der Diözese St. Pölten im Mai 2026.</p>
           </div>
         </article>
-        
-        <!-- Projekt 2: Kurzfilm ALLEIN -->
+
         <article class="project" data-animate>
-          <!-- Klick lädt das Video erst nach Einwilligung (DSGVO: youtube-nocookie).
-               Thumbnail ist selbst gehostet, kein Kontakt zu YouTube vor dem Klick. -->
+
           <div class="embed" data-yt="QDq6b3w08eM">
             <img class="embed-thumb"
                  src="assets/thumbnails/thumbnail_allein.jpg"
@@ -230,11 +189,10 @@
             <p class="project-desc">Mein erster eigener Kurzfilm, ein Drama über Mobbing. Drehbuch, Regie, Kamera und Schnitt selbst gemacht.</p>
           </div>
         </article>
-        
+
       </div>
     </section>
 
-    <!-- ================= SZENE 03 / FOTOGRAFIE ================= -->
     <section id="fotos" class="scene scene--fotos">
       <div class="scene-head" data-animate>
         <span class="slug">SZENE 03 / EXT. AUF REISEN / TAG</span>
@@ -244,23 +202,6 @@
 
       <p class="journey-intro" data-animate>Meine liebsten Aufnahmen, unterwegs und auf Reisen entstanden. Keine Auftragsdrehs, einfach Momente die mir gefallen.</p>
 
-      <!-- Foto-Galerie (siehe .gallery-grid in style.css). Fotos werden NICHT
-           zugeschnitten. Jedes Foto liegt als WebP in mehreren Breiten (Handys
-           laden die kleine Variante) plus JPEG-Fallback für alte Browser.
-           NEUES FOTO HINZUFÜGEN: JPEG nach assets/ legen (beschreibender
-           Dateiname!), WebP-Varianten in 480/960/voller Breite erzeugen und
-           einen Block wie unten einfügen. Wichtig: width und height auf die
-           echten Bildmaße setzen, das Seitenverhältnis ergibt sich automatisch.
-
-             <figure class="gallery-item" data-animate>
-               <picture>
-                 <source type="image/webp"
-                         srcset="assets/DEIN-FOTO-480.webp 480w, assets/DEIN-FOTO-960.webp 960w, assets/DEIN-FOTO-1500.webp 1500w"
-                         sizes="(max-width: 600px) 50vw, (max-width: 1000px) 40vw, 400px">
-                 <img src="assets/DEIN-FOTO.jpg" alt="Kurze Beschreibung"
-                      loading="lazy" width="BREITE" height="HÖHE">
-               </picture>
-             </figure> -->
       <div class="gallery-grid">
         <figure class="gallery-item" data-animate>
           <picture>
@@ -337,7 +278,6 @@
       </div>
     </section>
 
-    <!-- ================= SZENE 04 / ABOUT ================= -->
     <section id="about" class="scene scene--about">
       <div class="scene-head" data-animate>
         <span class="slug">SZENE 04 / INT. SCHNITTPLATZ / NACHT</span>
@@ -346,9 +286,9 @@
       <h2 class="scene-title" data-split>ABOUT</h2>
 
       <div class="about-grid">
-        <!-- Portrait überlappt bewusst ins Textraster -->
+
         <figure class="about-portrait" data-animate>
-          <!-- PLATZHALTER: echtes Portrait-Foto einsetzen -->
+
           <img src="https://placehold.co/900x1200/23211E/E8E6E1?text=PORTRAIT+%2F+PLATZHALTER"
                alt="Platzhalter für ein Portrait von Oskar Knapp" loading="lazy" width="900" height="1200">
           <figcaption class="mono-label">OSKAR KNAPP / MOSTVIERTEL, NÖ</figcaption>
@@ -361,12 +301,10 @@
           <p>Kein Masterplan. Nur eine Regel: jedes Projekt besser als das letzte. Und der ganze Weg wird gezeigt, Fehler inklusive.</p>
         </div>
 
-        <!-- Alter als große Randzahl, per JS immer aktuell -->
         <span class="about-number" data-age aria-hidden="true">15</span>
       </div>
     </section>
 
-    <!-- ================= SZENE 05 / JOURNEY ================= -->
     <section id="journey" class="scene scene--journey">
       <div class="scene-head" data-animate>
         <span class="slug">SZENE 05 / EXT. UNTERWEGS / TAG</span>
@@ -377,7 +315,7 @@
       <p class="journey-intro" data-animate>Auf YouTube dokumentiere ich den ganzen Weg als fortlaufende Doku-Serie. Keine Tutorials, keine Tipps von oben herab. Nur was ich mache, was schiefgeht und was ich daraus lerne.</p>
 
       <div class="journey-grid">
-        <!-- TODO: echte Folgen-IDs eintragen -->
+
         <article class="journey-item" data-animate>
           <div class="embed" data-yt="DEINE_YOUTUBE_ID">
             <img class="embed-thumb" src="https://placehold.co/800x450/23211E/E8E6E1?text=DOKU+FOLGE+%2F+PLATZHALTER"
@@ -413,7 +351,6 @@
       <a class="journey-cta" href="https://www.youtube.com/@oskar_knapp?sub_confirmation=1" target="_blank" rel="noopener">KANAL ABONNIEREN / @oskar_knapp</a>
     </section>
 
-    <!-- ================= SZENE 07 / KONTAKT ================= -->
     <section id="kontakt" class="scene scene--contact">
       <div class="scene-head" data-animate>
         <span class="slug">SZENE 06 / INT. POSTFACH / NACHT</span>
@@ -424,14 +361,12 @@
       <div class="contact-grid">
         <p class="contact-intro" data-animate>Projekt, Frage oder einfach Hallo sagen. Schreib mir, ich antworte innerhalb von 24 Stunden</p>
 
-        <!-- Formular via Web3Forms: POST auf api.web3forms.com/submit.
-             Ohne JS sendet das Formular klassisch, mit JS per fetch ohne Reload. -->
         <form class="contact-form" action="https://api.web3forms.com/submit" method="POST" data-animate>
-          <!-- Web3Forms Access Key: öffentlicher Schlüssel, darf im Client stehen -->
+
           <input type="hidden" name="access_key" value="2bedd721-f9a0-4fb2-8b85-1e246366e8d5">
           <input type="hidden" name="subject" value="Neue Nachricht über die Portfolio-Seite">
           <input type="hidden" name="from_name" value="Portfolio Oskar Knapp">
-          <!-- Honeypot gegen Spam-Bots: bleibt unsichtbar und leer -->
+
           <input type="checkbox" name="botcheck" class="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">
 
           <div class="field">
@@ -474,14 +409,13 @@
 
   </main>
 
-  <!-- ================= FOOTER / ABSPANN ================= -->
   <footer class="site-footer">
     <span>&copy; 2026 OSKAR KNAPP / MOSTVIERTEL, NIEDERÖSTERREICH</span>
     <span class="footer-links">
       <a href="impressum/">IMPRESSUM</a>
       <a href="datenschutz/">DATENSCHUTZ</a>
     </span>
-    <span>SCHNITT: ENDE / V19</span>
+    <span>SCHNITT: ENDE / V20</span>
   </footer>
 
 </body>

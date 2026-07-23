@@ -20,6 +20,12 @@ Kein Framework, kein Build-Step, kein `package.json`. Reines HTML/CSS/Vanilla-JS
   keine externen Requests beim Seitenaufbau (Schriften & Icons sind selbst gehostet / Daten-URIs).
 - Schriften selbst gehostet in `assets/fonts/` (Archivo variable, IBM Plex Mono 400/500/600).
 - **Alle Animationen ≤ 600 ms.**
+- **⚠️ KEIN KOMMENTAR IM AUSGELIEFERTEN CODE (PFLICHT):** `index.html`, `impressum/index.html`,
+  `datenschutz/index.html`, `main.js`, `style.css` bleiben **komplett kommentarfrei** — kein
+  `<!-- … -->`, kein `/* … */`, kein `//`. **Jede** Erklärung, Begründung oder Notiz gehört in
+  **diese CLAUDE.md** (Abschnitt „Code-Notizen" für dauerhaftes Wissen, „Arbeitsprotokoll" für den
+  Verlauf), niemals in den Quelltext. Betrifft auch TODOs und Platzhalter-Hinweise → als „Offene
+  Punkte" hier führen, nicht als Kommentar im Code.
 - **⚠️ VERSION — BEI JEDEM DEPLOY PFLICHT (EINE Zahl `N`, überall gleich):** Bei **jeder**
   Änderung, die live geht, `N` um 1 erhöhen und **in allen drei** HTML-Dateien
   (`index.html`, `impressum/index.html`, `datenschutz/index.html`) an **beiden** Stellen setzen:
@@ -74,7 +80,7 @@ Alle `setup*()` werden am Dateiende aufgerufen; `initMotion()` nur bei erwünsch
   - Sichtbare Footer-Version: `<span>SCHNITT: ENDE / VN</span>` (Deploy-Marker für den Betreiber).
   Bei **jeder** Änderung, die live geht, `N` in **allen drei** HTML-Dateien (`index.html`,
   `impressum/`, `datenschutz/`) um 1 erhöhen — auch bei reinen HTML-Änderungen, damit der sichtbare
-  Marker mitwandert und Betreiber + Claude denselben Stand ablesen. **Aktuell `N=19` (V19 / `v=19`).**
+  Marker mitwandert und Betreiber + Claude denselben Stand ablesen. **Aktuell `N=20` (V20 / `v=20`).**
 - Kommentare & Commit-/PR-Sprache: **Deutsch** (wie im bestehenden Code).
 - Neue Videos: echte 11-stellige YouTube-ID in `data-yt` eintragen, `DEINE_YOUTUBE_ID` ersetzen.
 
@@ -91,6 +97,30 @@ GitHub Pages via `.github/workflows/static.yml`: Push auf **`main`** deployt das
 
 ---
 
+## Code-Notizen (nicht-offensichtliche Entscheidungen)
+
+Da der Quelltext **kommentarfrei** ist (s. „harte Regeln"), stehen die nicht-offensichtlichen
+Begründungen hier. Ergänzen, wenn eine Entscheidung sonst nur aus dem Code erschließbar wäre.
+
+- **Kein `viewport-fit=cover`** im `<meta viewport>`: bewusst weggelassen, sonst malt iOS Safari den
+  Statusleisten-/Notch-Streifen hinter die Nav. Der deckende Papier-Grund von `.site-nav`
+  (`::before` mit `height: 100vh`) und `.progress` deckt den Bereich oberhalb des Viewports ab.
+- **YouTube-Autoplay nach Klick** (`setupEmbeds` → `onReady → playVideo()`): Chrome/Firefox/Edge
+  starten direkt mit Ton. **Safari blockiert nachgeladenes Autoplay grundsätzlich** → dort zeigt der
+  Player seinen eigenen Play-Button, erst der Klick darauf startet mit Ton. Kein Bug. 10-s-Timeout
+  setzt den Embed zurück, falls die API nicht erreichbar ist (Blocker/Netz weg).
+- **Formular-Honeypot** (`setupForm`): verstecktes, leer erwartetes Feld gegen Spam-Bots. Der
+  Web3Forms-`access_key` ist ein **öffentlicher** Schlüssel und darf im Client-HTML stehen.
+- **Szenen-Titel-Reveal** nutzt anime.js `sync: "play"`: einmal ausgelöst, läuft die Animation
+  immer zu Ende, auch bei schnellem Weiterscrollen.
+- **`.hero-frame video`:** `height: auto` überschreibt den `width`/`height`-Attribut-Hint am
+  `<video>`, damit `aspect-ratio: 16/9` greift (sonst der 1:1-Bug aus V18, s. Historie).
+- **Text-Split (`data-split`)** injiziert den ungeteilten Text als `.sr-only`-Span (Screenreader)
+  und setzt die Einzelbuchstaben `aria-hidden` — **nicht** `aria-label` auf das Element (auf
+  generischen `<span>` laut ARIA unzulässig, s. Historie V20).
+
+---
+
 ## Arbeitsprotokoll
 
 **Zweck:** Gedächtnis über Sessions hinweg. Künftige Aufgaben zuerst hier abgleichen, statt das
@@ -100,9 +130,18 @@ Reine Doku-Änderungen an dieser Datei brauchen **keinen** Versions-Bump (der Fo
 nur die sichtbare Seite).
 
 ### Aktueller Stand (Stand 2026-07-23)
-- **Live-Version:** V18 (1:1) war kurz live; V19 (`v=19`, dieser Stand) stellt den Frame auf das
-  **originale 16:9-Format zurück** und geht mit dem nächsten Merge live. (Ablauf: V17=16:9 →
-  V18=1:1 auf Betreiberwunsch → V19 zurück auf 16:9, weil das Original gewünscht ist.)
+- **Live-Version:** V19 stellte den Hero-Frame auf 16:9 zurück; **V20** (`v=20`, dieser Stand)
+  bündelt den Lighthouse-ARIA-Fix **und** die komplette Entfernung aller Code-Kommentare; geht mit
+  dem nächsten Merge live. (Ablauf: V17=16:9 → V18=1:1 → V19 zurück auf 16:9 → V20 = ARIA-Fix +
+  kommentarfreier Quelltext.) V20 war noch nicht live, daher kein erneuter Bump für die
+  Kommentar-Entfernung — sie ist Teil desselben V20-Deploys.
+- **Lighthouse (23.07.26, Moto G Power / Slow 4G):** Performance 94, Accessibility 92,
+  Best Practices 100, SEO 100, Agentic Browsing 2/3 → **nach V20-ARIA-Fix 3/3 erwartet**.
+  Bewusst offen gelassen: **Kontrast** (Signalrot `#E63321` auf Papier = 3,46:1, unter AA 4,5:1
+  für kleinen Text bei `.tc`/`.scroll-hint`/`.journey-cta`) — Betreiber will das helle Brand-Rot
+  behalten, Accessibility bleibt daher bei 92. **Performance-Hebel liegen beim Betreiber:**
+  Hero-`show_reel.mp4` ist 3,8 MB (LCP-Element, LCP 3,1 s) → Kompression + `poster`-Still nötig
+  (in Sandbox mangels ffmpeg nicht machbar); Cache-TTL/CSP/HSTS sind GitHub-Pages-Serverconfig.
 - **Hero-Showreel:** `assets/show_reel.mp4` (6,66 MB, Datei ist 1280×720/16:9, quadratische Pixel)
   läuft als `<video autoplay muted loop playsinline>` — stumm, automatisch, Endlosschleife, selbst
   gehostet (kein externer Request, DSGVO-konform). `main.js`/`setupHeroVideo()` stoppt die
@@ -150,6 +189,23 @@ nur die sichtbare Seite).
   Playwright (kein `lavfi`, kein H.264-Decode/libvpx-Encode) → für Kompression/WebM/Poster **unbrauchbar**.
 
 ### Historie (neueste oben)
+- **2026-07-23 — Quelltext komplett kommentarfrei (Teil von V20):** Auf Betreiberwunsch alle
+  Kommentare aus `index.html`, `impressum/`, `datenschutz/`, `main.js`, `style.css` entfernt
+  (`<!-- -->`, `/* */`, `//`). String-bewusst gestrippt, damit URLs (`https://`), das SVG-Data-URI
+  und `content`-Strings unversehrt bleiben; `node --check` grün, JSON-LD parst, Tags balanciert.
+  Nicht-offensichtliche Begründungen nach **CLAUDE.md → „Code-Notizen"** migriert. Neue **harte
+  Regel** ergänzt: kein Kommentar im ausgelieferten Code, alles in diese Datei. Kein Versions-Bump
+  (V20 war noch nicht live). Branch `claude/hero-section-italic-style-9nyla2`.
+- **2026-07-23 — Lighthouse-ARIA-Fix (V20):** Der Text-Split in `initMotion()` (`main.js`) setzte
+  `aria-label` auf **jedes** `[data-split]`-Element — bei den generischen `<span class="hero-line">`
+  ist das laut ARIA-Spec unzulässig („prohibited ARIA attributes", von Lighthouse in Accessibility
+  **und** Agentic Browsing moniert). Neu: Der ungeteilte Text steckt in einem visuell versteckten
+  `.sr-only`-Span (neue CSS-Utility), die Einzel-`.char` bleiben `aria-hidden`. Keine optische
+  Änderung. Hebt Agentic Browsing 2/3 → 3/3 (erwartet). **Kontrast bewusst nicht angefasst**
+  (Betreiber behält helles Rot, s. „Aktueller Stand"). Auf Branch `claude/hero-section-italic-style-9nyla2`.
+- **2026-07-23 — Hero-Kursiv verworfen:** Idee, den Hero-Namen kursiv zu setzen, verworfen — die
+  selbst gehostete `archivo-variable.woff2` hat keine Italic-Achse (→ nur Faux-Italic), und der
+  aufrechte Bruch ist bewusst. Keine Code-Änderung.
 - **2026-07-23 — Showreel-Frame zurück auf 16:9 / Originalformat (V19):** Betreiber wollte das
   Video doch im originalen 16:9-Format (kein Zuschnitt), nicht 1:1. CSS `.hero-frame video` wieder
   `aspect-ratio: 16/9` (mit img zusammengeführt); `<video>`-Attribute auf `1280×720`. `height: auto`
