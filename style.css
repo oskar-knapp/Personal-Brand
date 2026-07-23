@@ -276,14 +276,10 @@ body.menu-open { overflow: hidden; }
   display: block;
   width: 100%;
   height: auto; /* überschreibt den height-Attribut-Hint, damit aspect-ratio greift */
+  aspect-ratio: 16 / 9; /* Showreel im originalen 16:9-Format, kein Zuschnitt */
   object-fit: cover;
   background: #181714; /* dunkler Grund, bis das Video den ersten Frame zeigt */
 }
-
-/* Der Showreel-Frame ist quadratisch (1:1) – das Video wird per object-fit
-   mittig in dieses Verhältnis eingepasst. Der img-Fallback bleibt 16:9. */
-.hero-frame img { aspect-ratio: 16 / 9; }
-.hero-frame video { aspect-ratio: 1 / 1; }
 
 /* Statement wie eine Filmklappe: dunkler Balken, überlappt die Bildkante */
 .hero-statement {
