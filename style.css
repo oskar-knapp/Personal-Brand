@@ -271,10 +271,13 @@ body.menu-open { overflow: hidden; }
   position: relative;
 }
 
-.hero-frame img {
+.hero-frame img,
+.hero-frame video {
+  display: block;
   width: 100%;
   aspect-ratio: 16 / 9; /* Showreel im 16:9-Format */
   object-fit: cover;
+  background: #181714; /* dunkler Grund, bis das Video den ersten Frame zeigt */
 }
 
 /* Statement wie eine Filmklappe: dunkler Balken, überlappt die Bildkante */

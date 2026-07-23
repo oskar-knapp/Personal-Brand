@@ -74,7 +74,7 @@ Alle `setup*()` werden am Dateiende aufgerufen; `initMotion()` nur bei erwünsch
   - Sichtbare Footer-Version: `<span>SCHNITT: ENDE / VN</span>` (Deploy-Marker für den Betreiber).
   Bei **jeder** Änderung, die live geht, `N` in **allen drei** HTML-Dateien (`index.html`,
   `impressum/`, `datenschutz/`) um 1 erhöhen — auch bei reinen HTML-Änderungen, damit der sichtbare
-  Marker mitwandert und Betreiber + Claude denselben Stand ablesen. **Aktuell `N=16` (V16 / `v=16`).**
+  Marker mitwandert und Betreiber + Claude denselben Stand ablesen. **Aktuell `N=17` (V17 / `v=17`).**
 - Kommentare & Commit-/PR-Sprache: **Deutsch** (wie im bestehenden Code).
 - Neue Videos: echte 11-stellige YouTube-ID in `data-yt` eintragen, `DEINE_YOUTUBE_ID` ersetzen.
 
@@ -99,21 +99,30 @@ Erledigtes aus „Offene Punkte" streichen, neuen Eintrag in „Historie" (oben 
 Reine Doku-Änderungen an dieser Datei brauchen **keinen** Versions-Bump (der Footer-Marker betrifft
 nur die sichtbare Seite).
 
-### Aktueller Stand (Stand 2026-07-17)
-- **Live-Version:** V16 (`v=16`). Auf `main` gemergt (PR #17, Squash-Commit `935a956`), Deploy läuft
-  automatisch. Footer-Marker der Live-Seite muss `SCHNITT: ENDE / V16` zeigen.
+### Aktueller Stand (Stand 2026-07-23)
+- **Arbeitsstand:** V17 (`v=17`) auf Branch `claude/show-reel-local-playback-pyhk5j` — **noch nicht auf
+  `main`, also noch nicht live**. Live bleibt V16 bis zum Merge. Nach Merge muss der Footer-Marker
+  `SCHNITT: ENDE / V17` zeigen.
+- **Hero-Showreel (neu in V17):** `assets/show_reel.mp4` (6,66 MB) läuft im 16:9-Frame als
+  `<video autoplay muted loop playsinline>` — stumm, automatisch, Endlosschleife, selbst gehostet
+  (kein externer Request, DSGVO-konform). `main.js`/`setupHeroVideo()` stoppt die Wiedergabe bei
+  `prefers-reduced-motion` (erster Frame bleibt als Standbild). **Kein Poster** gesetzt. CSS:
+  `.hero-frame video` spiegelt `.hero-frame img` (16:9, `object-fit: cover`, dunkler Grund `#181714`).
 - **Galerie:** 8 Fotos als WebP in 480/960/voller Breite + JPEG-Fallback via `<picture>` (`srcset`/
   `sizes`). Beschreibende Dateinamen (z. B. `see-abenddaemmerung.jpg`), keine `DSC*`/`IMG_*` mehr.
   CSS-Absicherung: `.gallery-item picture { display: contents }`.
 - **`llms.txt`** liegt im Repo-Root (Entitäts-Zusammenfassung, ohne kommerzielle Angebote).
 - **Schema.org** (`index.html`): Person hat `alumniOf` (IT-HTL Ybbs) + `award`; zwei `VideoObject`
   (ALLEIN = `QDq6b3w08eM`, „Was kommt danach?" = `5XbbUtZ45v0`).
-- **Hero-Bild:** `fetchpriority="high"` + `decoding="async"`; Preload-Anleitung als Kommentar.
+- **Hero-Bild → -Video:** Der Platzhalter im Hero ist seit V17 durch das Showreel-Video ersetzt
+  (s. o.). Das frühere `<img fetchpriority="high">` gibt es dort nicht mehr.
 
 ### Offene Punkte (TODO)
-- **Placeholder** (Betreiber liefert Medien selbst): Hero-Showreel-Still, About-Portrait, `og:image`,
-  3× Journey-Videos (`data-yt="DEINE_YOUTUBE_ID"` + `placehold.co`-Thumbnails). Solange offen, keine
-  Panik – sind bewusst so. **Sobald Portrait da:** Person-Schema um `image` (absolute URL) ergänzen.
+- **Placeholder** (Betreiber liefert Medien selbst): About-Portrait, `og:image`, 3× Journey-Videos
+  (`data-yt="DEINE_YOUTUBE_ID"` + `placehold.co`-Thumbnails). Solange offen, keine Panik – sind
+  bewusst so. **Sobald Portrait da:** Person-Schema um `image` (absolute URL) ergänzen.
+  (Hero-Showreel-Still nicht mehr offen: Der Hero zeigt jetzt das Video. Optional könnte später ein
+  leichtes `poster="assets/…"`-Still für ersten Eindruck & reduced-motion nachgezogen werden.)
 - **VideoObject `uploadDate`:** Bei beiden Filmen fehlt das Feld (aus Sandbox nicht verifizierbar,
   YouTube dort gesperrt). Datum aus YouTube Studio nachtragen, Format `JJJJ-MM-TT`. TODO-Kommentar
   steht über dem JSON-LD-Block.
@@ -128,8 +137,23 @@ nur die sichtbare Seite).
 - **Pillow mit WebP** installierbar via `pip3 install --break-system-packages Pillow` (WebP-Support ist da).
 - **Bild-Varianten-Konvention:** `assets/<name>-<breite>.webp` (480/960/voll), Original `assets/<name>.jpg`.
 - Externe Hosts (`youtube.com`, `placehold.co`, `jsdelivr`) im Playwright-Test mit `page.route(...).abort()` mocken.
+- **H.264/MP4 spielt im Sandbox-Chromium NICHT** (Open-Source-Build ohne proprietären Codec:
+  `video.canPlayType('video/mp4; codecs="avc1"')` → `""`, `networkState=3`). Das Hero-`show_reel.mp4`
+  (avc1) lässt sich hier daher **nicht** end-to-end abspielen — echte Browser (Chrome/Safari/Firefox/
+  Edge) können es. Verkabelung/JS trotzdem prüfbar: HTML-Attribute, `setupHeroVideo()`-Logik via
+  `newContext({ reducedMotion })`. Playwright global unter `/opt/node22/lib/node_modules` (ESM:
+  `import pw from '/opt/node22/lib/node_modules/playwright/index.js'; const { chromium } = pw;`).
+- **Gebündeltes ffmpeg** (`/opt/pw-browsers/ffmpeg-1011/ffmpeg-linux`) ist ein Minimal-Build von
+  Playwright (kein `lavfi`, kein H.264-Decode/libvpx-Encode) → für Kompression/WebM/Poster **unbrauchbar**.
 
 ### Historie (neueste oben)
+- **2026-07-23 — Hero-Showreel als Hintergrund-Video (V17):** Platzhalter-`<img>` im Hero durch
+  `assets/show_reel.mp4` ersetzt — `<video autoplay muted loop playsinline>`, stumm/automatisch/
+  Endlosschleife, selbst gehostet. `setupHeroVideo()` in `main.js` respektiert
+  `prefers-reduced-motion` (kein Abspielen, erster Frame als Standbild). CSS `.hero-frame video`
+  analog zum Bild + dunkler Grund. Kein Poster (bewusst, erster Frame genügt). Auf Branch
+  `claude/show-reel-local-playback-pyhk5j`, noch nicht auf `main`. Ohne `ffmpeg` in der Sandbox
+  keine Kompression/kein Poster-Extrakt möglich.
 - **2026-07-17 — SEO-Audit umgesetzt (V16, PR #17):** WebP-Galerie + `srcset`, beschreibende
   Dateinamen, `llms.txt`, Schema-Anreicherung (Person `alumniOf`/`award`, 2× VideoObject),
   Hero-LCP (`fetchpriority`), `sitemap.xml` `lastmod`. Placeholder-Punkte bewusst ausgelassen
