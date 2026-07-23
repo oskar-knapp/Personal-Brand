@@ -114,9 +114,9 @@
 
   <!-- ?v Cache-Buster: bei Änderungen an CSS/JS hochzählen, damit Browser
        (auch iPhone) sicher die neue Version laden statt der gecachten. -->
-  <link rel="stylesheet" href="style.css?v=17">
+  <link rel="stylesheet" href="style.css?v=18">
   <!-- main.js lädt anime.js dynamisch. Fällt das CDN aus, bleibt die Seite voll lesbar. -->
-  <script type="module" src="main.js?v=17"></script>
+  <script type="module" src="main.js?v=18"></script>
 </head>
 <body>
 
@@ -157,7 +157,7 @@
         <span class="hero-line hero-line--offset" data-split>KNAPP</span>
       </h1>
 
-      <!-- Showreel als Hintergrund-Video im 16:9-Frame: läuft stumm,
+      <!-- Showreel als Hintergrund-Video im 1:1-Frame (quadratisch): läuft stumm,
            automatisch und in Endlosschleife (autoplay + muted + loop +
            playsinline). Ganz ohne JS spielt das Video nativ. Bei
            prefers-reduced-motion stoppt main.js (setupHeroVideo) die
@@ -168,7 +168,7 @@
            den ersten Eindruck und den reduced-motion-Fall verbessern. -->
       <figure class="hero-frame">
         <video class="hero-video" autoplay muted loop playsinline preload="auto"
-               width="1920" height="1080"
+               width="1080" height="1080"
                aria-label="Showreel von Oskar Knapp, stummer Zusammenschnitt seiner Arbeiten">
           <source src="assets/show_reel.mp4" type="video/mp4">
           Dein Browser kann dieses Video nicht abspielen.
@@ -481,7 +481,7 @@
       <a href="impressum/">IMPRESSUM</a>
       <a href="datenschutz/">DATENSCHUTZ</a>
     </span>
-    <span>SCHNITT: ENDE / V17</span>
+    <span>SCHNITT: ENDE / V18</span>
   </footer>
 
 </body>

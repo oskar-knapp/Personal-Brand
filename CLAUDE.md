@@ -74,7 +74,7 @@ Alle `setup*()` werden am Dateiende aufgerufen; `initMotion()` nur bei erwünsch
   - Sichtbare Footer-Version: `<span>SCHNITT: ENDE / VN</span>` (Deploy-Marker für den Betreiber).
   Bei **jeder** Änderung, die live geht, `N` in **allen drei** HTML-Dateien (`index.html`,
   `impressum/`, `datenschutz/`) um 1 erhöhen — auch bei reinen HTML-Änderungen, damit der sichtbare
-  Marker mitwandert und Betreiber + Claude denselben Stand ablesen. **Aktuell `N=17` (V17 / `v=17`).**
+  Marker mitwandert und Betreiber + Claude denselben Stand ablesen. **Aktuell `N=18` (V18 / `v=18`).**
 - Kommentare & Commit-/PR-Sprache: **Deutsch** (wie im bestehenden Code).
 - Neue Videos: echte 11-stellige YouTube-ID in `data-yt` eintragen, `DEINE_YOUTUBE_ID` ersetzen.
 
@@ -100,14 +100,16 @@ Reine Doku-Änderungen an dieser Datei brauchen **keinen** Versions-Bump (der Fo
 nur die sichtbare Seite).
 
 ### Aktueller Stand (Stand 2026-07-23)
-- **Arbeitsstand:** V17 (`v=17`) auf Branch `claude/show-reel-local-playback-pyhk5j` — **noch nicht auf
-  `main`, also noch nicht live**. Live bleibt V16 bis zum Merge. Nach Merge muss der Footer-Marker
-  `SCHNITT: ENDE / V17` zeigen.
-- **Hero-Showreel (neu in V17):** `assets/show_reel.mp4` (6,66 MB) läuft im 16:9-Frame als
-  `<video autoplay muted loop playsinline>` — stumm, automatisch, Endlosschleife, selbst gehostet
-  (kein externer Request, DSGVO-konform). `main.js`/`setupHeroVideo()` stoppt die Wiedergabe bei
-  `prefers-reduced-motion` (erster Frame bleibt als Standbild). **Kein Poster** gesetzt. CSS:
-  `.hero-frame video` spiegelt `.hero-frame img` (16:9, `object-fit: cover`, dunkler Grund `#181714`).
+- **Live-Version:** V17 wurde via PR #19 (Squash `5f32deb`) auf `main` gemergt und ist live. V18
+  (`v=18`, dieser Stand) korrigiert das Frame-Verhältnis und geht mit dem nächsten Merge live.
+- **Hero-Showreel (V17, Frame in V18 korrigiert):** `assets/show_reel.mp4` (6,66 MB, Datei ist
+  1280×720/16:9, quadratische Pixel) läuft als `<video autoplay muted loop playsinline>` — stumm,
+  automatisch, Endlosschleife, selbst gehostet (kein externer Request, DSGVO-konform).
+  `main.js`/`setupHeroVideo()` stoppt die Wiedergabe bei `prefers-reduced-motion` (erster Frame
+  als Standbild). **Kein Poster.** Frame-Verhältnis: **1:1 (quadratisch)** — Betreiber wollte
+  quadratisch, nicht 16:9. CSS: `.hero-frame video { aspect-ratio: 1/1; object-fit: cover }`
+  (schneidet die 16:9-Quelle mittig auf 1:1); `.hero-frame img`-Fallback bleibt 16:9. Grund
+  `#181714`.
 - **Galerie:** 8 Fotos als WebP in 480/960/voller Breite + JPEG-Fallback via `<picture>` (`srcset`/
   `sizes`). Beschreibende Dateinamen (z. B. `see-abenddaemmerung.jpg`), keine `DSC*`/`IMG_*` mehr.
   CSS-Absicherung: `.gallery-item picture { display: contents }`.
@@ -147,6 +149,10 @@ nur die sichtbare Seite).
   Playwright (kein `lavfi`, kein H.264-Decode/libvpx-Encode) → für Kompression/WebM/Poster **unbrauchbar**.
 
 ### Historie (neueste oben)
+- **2026-07-23 — Showreel-Frame auf 1:1 korrigiert (V18):** Betreiber wollte den Hero-Frame
+  quadratisch, nicht 16:9. CSS: `.hero-frame video` auf `aspect-ratio: 1/1` (statt 16:9),
+  `object-fit: cover` schneidet die 16:9-Quelle mittig auf 1:1. Kommentar/Doku angepasst.
+  Branch nach dem Merge von PR #19 sauber auf `main` neu aufgesetzt.
 - **2026-07-23 — Hero-Showreel als Hintergrund-Video (V17):** Platzhalter-`<img>` im Hero durch
   `assets/show_reel.mp4` ersetzt — `<video autoplay muted loop playsinline>`, stumm/automatisch/
   Endlosschleife, selbst gehostet. `setupHeroVideo()` in `main.js` respektiert
