@@ -88,6 +88,13 @@ Alle `setup*()` werden am Dateiende aufgerufen; `initMotion()` nur bei erwünsch
 GitHub Pages via `.github/workflows/static.yml`: Push auf **`main`** deployt das **gesamte Repo**
 (kein Build). Andere Branches deployen nicht – erst nach Merge in `main` ist etwas live.
 
+- **⚠️ IMMER GLEICH MERGEN (Betreiber-Regel, 2026-07-24):** Nach einer fertigen, verifizierten
+  Änderung **nicht** nachfragen, ob gemergt werden soll — Arbeit auf den Feature-Branch committen +
+  pushen, **PR öffnen und sofort selbst mergen** (Squash in `main`), damit es live geht. Der
+  Betreiber will nicht jedes Mal einzeln zustimmen. Danach kurz den Deploy-Workflow auf `main`
+  prüfen (`success`) und den Live-Stand melden. Ausnahme: nur bei echten Unklarheiten/riskanten
+  Änderungen vorher fragen.
+
 ## Verifizieren (kein Test-Framework vorhanden)
 - Syntax: `node --check main.js`
 - Lokal ansehen: beliebiger Static-Server im Repo-Root (z. B. `python3 -m http.server`), dann Browser.
