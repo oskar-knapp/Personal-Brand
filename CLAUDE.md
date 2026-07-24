@@ -80,7 +80,7 @@ Alle `setup*()` werden am Dateiende aufgerufen; `initMotion()` nur bei erwünsch
   - Sichtbare Footer-Version: `<span>SCHNITT: ENDE / VN</span>` (Deploy-Marker für den Betreiber).
   Bei **jeder** Änderung, die live geht, `N` in **allen drei** HTML-Dateien (`index.html`,
   `impressum/`, `datenschutz/`) um 1 erhöhen — auch bei reinen HTML-Änderungen, damit der sichtbare
-  Marker mitwandert und Betreiber + Claude denselben Stand ablesen. **Aktuell `N=21` (V21 / `v=21`).**
+  Marker mitwandert und Betreiber + Claude denselben Stand ablesen. **Aktuell `N=22` (V22 / `v=22`).**
 - Kommentare & Commit-/PR-Sprache: **Deutsch** (wie im bestehenden Code).
 - Neue Videos: echte 11-stellige YouTube-ID in `data-yt` eintragen, `DEINE_YOUTUBE_ID` ersetzen.
 
@@ -129,12 +129,12 @@ Erledigtes aus „Offene Punkte" streichen, neuen Eintrag in „Historie" (oben 
 Reine Doku-Änderungen an dieser Datei brauchen **keinen** Versions-Bump (der Footer-Marker betrifft
 nur die sichtbare Seite).
 
-### Aktueller Stand (Stand 2026-07-23)
-- **Live-Version:** V19 stellte den Hero-Frame auf 16:9 zurück; **V20** bündelte den
-  Lighthouse-ARIA-Fix + Entfernung aller Code-Kommentare; **V21** (`v=21`, dieser Stand) ergänzt die
-  beiden Search-Console-Fixes (VideoObject `uploadDate` gesetzt, Redirect-Analyse). Geht mit dem
-  nächsten Merge live. (Ablauf: V17=16:9 → V18=1:1 → V19 zurück auf 16:9 → V20 = ARIA-Fix +
-  kommentarfreier Quelltext → V21 = `uploadDate` + Search-Console.)
+### Aktueller Stand (Stand 2026-07-24)
+- **Live-Version:** V21 ist live (Search-Console-Fixes gemergt in `main`, Deploy `success`); **V22**
+  (`v=22`, dieser Stand) ersetzt den About-Portrait-Platzhalter durch das echte Foto
+  `assets/oskar-knapp-portrait.jpg` und ergänzt `image` im Person-Schema. Geht mit dem nächsten Merge
+  live. (Ablauf: … → V20 = ARIA-Fix + kommentarfrei → V21 = `uploadDate` + Search-Console →
+  V22 = About-Portrait.)
 - **Lighthouse (23.07.26, Moto G Power / Slow 4G):** Performance 94, Accessibility 92,
   Best Practices 100, SEO 100, Agentic Browsing 2/3 → **nach V20-ARIA-Fix 3/3 erwartet**.
   Bewusst offen gelassen: **Kontrast** (Signalrot `#E63321` auf Papier = 3,46:1, unter AA 4,5:1
@@ -154,18 +154,27 @@ nur die sichtbare Seite).
   `sizes`). Beschreibende Dateinamen (z. B. `see-abenddaemmerung.jpg`), keine `DSC*`/`IMG_*` mehr.
   CSS-Absicherung: `.gallery-item picture { display: contents }`.
 - **`llms.txt`** liegt im Repo-Root (Entitäts-Zusammenfassung, ohne kommerzielle Angebote).
-- **Schema.org** (`index.html`): Person hat `alumniOf` (IT-HTL Ybbs) + `award`; zwei `VideoObject`
+- **Schema.org** (`index.html`): Person hat `alumniOf` (IT-HTL Ybbs), `award` **und `image`**
+  (seit V22, `https://okmedia.at/assets/oskar-knapp-portrait.jpg`); zwei `VideoObject`
   (ALLEIN = `QDq6b3w08eM`, „Was kommt danach?" = `5XbbUtZ45v0`) — **beide seit V21 mit `uploadDate`**
   (monatsgenau, s. „Offene Punkte").
+- **About-Portrait:** Echtes Foto `assets/oskar-knapp-portrait.jpg` (900×1200, 3:4, ~140 KB JPEG,
+  EXIF entfernt) im `.about-portrait`-`<figure>`; CSS erzwingt `aspect-ratio: 3/4; object-fit: cover`.
+  Betreiber lud das Original als `DSC05657.jpg` (3497×4663, 455 KB) auf `main`; in V22 auf 900×1200
+  verkleinert, umbenannt, Original entfernt.
 - **Hero-Bild → -Video:** Der Platzhalter im Hero ist seit V17 durch das Showreel-Video ersetzt
   (s. o.). Das frühere `<img fetchpriority="high">` gibt es dort nicht mehr.
 
 ### Offene Punkte (TODO)
-- **Placeholder** (Betreiber liefert Medien selbst): About-Portrait, `og:image`, 3× Journey-Videos
+- **Placeholder** (Betreiber liefert Medien selbst): `og:image`, 3× Journey-Videos
   (`data-yt="DEINE_YOUTUBE_ID"` + `placehold.co`-Thumbnails). Solange offen, keine Panik – sind
-  bewusst so. **Sobald Portrait da:** Person-Schema um `image` (absolute URL) ergänzen.
-  (Hero-Showreel-Still nicht mehr offen: Der Hero zeigt jetzt das Video. Optional könnte später ein
-  leichtes `poster="assets/…"`-Still für ersten Eindruck & reduced-motion nachgezogen werden.)
+  bewusst so. (Hero-Showreel-Still nicht mehr offen: Der Hero zeigt jetzt das Video. Optional könnte
+  später ein leichtes `poster="assets/…"`-Still für ersten Eindruck & reduced-motion nachgezogen
+  werden.)
+- **About-Portrait — erledigt (V22):** Echtes Foto `assets/oskar-knapp-portrait.jpg` (900×1200, 3:4,
+  ~140 KB JPEG) ersetzt den Platzhalter; Person-Schema um `image` (absolute URL) ergänzt. Optional:
+  `og:image` (1200×630 Querformat, aktuell noch `placehold.co`) auf ein echtes Bild umstellen — ein
+  3:4-Portrait eignet sich dafür schlecht, daher separat offen gelassen.
 - **VideoObject `uploadDate` — Tag verfeinern (optional):** Feld ist seit V21 gesetzt, aber nur
   **monatsgenau** (Betreiber bestätigt: „Was kommt danach?" Mai 2026 → `2026-05-01`, „ALLEIN"
   Februar 2026 → `2026-02-01`). Tag `01` ist Konvention. Bei Gelegenheit den echten Tag aus
@@ -196,6 +205,17 @@ nur die sichtbare Seite).
   Playwright (kein `lavfi`, kein H.264-Decode/libvpx-Encode) → für Kompression/WebM/Poster **unbrauchbar**.
 
 ### Historie (neueste oben)
+- **2026-07-24 — About-Portrait eingebaut (V22):** Betreiber lud sein Portrait als
+  `assets/DSC05657.jpg` (3497×4663, 455 KB) direkt auf `main`. In der Sandbox mit Pillow auf
+  **900×1200** (3:4, passend zum CSS `aspect-ratio: 3/4`) verkleinert, progressive JPEG q=84 →
+  **~140 KB** (Ziel „max. 150 KB"), EXIF entfernt, als `assets/oskar-knapp-portrait.jpg` gespeichert
+  (beschreibender Name gemäß Galerie-Konvention), Original `DSC05657.jpg` entfernt. Platzhalter
+  `placehold.co` im `.about-portrait`-`<img>` (`index.html`) durch das echte Bild ersetzt, `alt`
+  entplatzhaltert. Person-Schema um `"image"` (absolute URL) ergänzt — der dokumentierte „Sobald
+  Portrait da"-Folgeschritt. `og:image` bleibt bewusst Platzhalter (Querformat 1200×630, ein
+  3:4-Portrait passt dort schlecht). Version 21→22 (Cache-Buster + Footer-Marker in allen drei
+  HTML-Dateien). Branch `claude/search-console-indexing-issues-xpklmc` (frisch auf `main` aufgesetzt,
+  da V21-PR #23 gemergt).
 - **2026-07-23 — Search-Console-Fixes: VideoObject `uploadDate` + Redirect-Analyse (V21):**
   Zwei Search-Console-Meldungen abgearbeitet. **(1) „Videos für strukturierte Daten / Feld
   `uploadDate` fehlt" (kritisch):** Beide `VideoObject` in `index.html` haben jetzt `uploadDate`
